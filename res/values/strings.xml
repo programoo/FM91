@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SActionbarSherlock</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="news_tabbar">ข่าว</string>
+	<string name="news_btn_text">ข่าวใหม่</string>
+    <string name="event_btn_text">เหตุการณ์สถานที่</string>
+    <string name="news_headline_text">head line ja</string>
+    <string name="camera_tabbar">กล้อง</string>
+	<string name="camera_textview1">camera textview1</string>
+	<string name="cctv_btn_text">CCTV</string>
+    <string name="position_btn_text">POSITION</string>
+    <string name="search_hint">ค้นหาที่นี่</string>
+    
+	
+    
+</resources>
