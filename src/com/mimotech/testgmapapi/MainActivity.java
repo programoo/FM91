@@ -10,16 +10,22 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends SherlockFragmentActivity {
 	String tag = getClass().getSimpleName();
 	private ViewPager mViewPager;
 	private TabHost mTabHost;
 	private int badgeCount = 0;
+	private GoogleMap mMap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_main);
 		Log.d(tag, "onCreate");
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -54,11 +60,11 @@ public class MainActivity extends SherlockFragmentActivity {
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_home"), getResources()
 				.getDrawable(R.drawable.ic_launcher), NewsFragment.class,
 				tabArgs, getString(R.string.hello_world));
-
+		
 	}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		TextView v = (TextView) mTabHost.getTabWidget().getChildAt(0)
 				.findViewById(R.id.badge_count);
@@ -66,9 +72,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		return super.onKeyDown(keyCode, event);
 
 	}
-	
-	
-	
+
 	public void newsBtnOnClick(View view) {
 		Log.d(tag, "newsBtnOnClick");
 	}
@@ -79,13 +83,14 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	public void positionBtnOnClick(View view) {
 		Log.d(tag, "positionBtnOnClick");
-		Intent mapActivity = new Intent(MainActivity.this,BasicMapActivity.class);
+		Intent mapActivity = new Intent(MainActivity.this,
+				BasicMapActivity.class);
 		startActivity(mapActivity);
-		
+
 	}
-	
+
 	public void cctvBtnOnClick(View view) {
 		Log.d(tag, "positionBtnOnClick");
 	}
-	
+
 }
