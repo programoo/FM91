@@ -18,7 +18,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class CameraFragment extends SherlockFragment {
 	Activity mainActivity;
 	View viewMainFragment;
-	final static protected String LOG_TAG = "CallBack";
 
 	View numberContainer;
 
