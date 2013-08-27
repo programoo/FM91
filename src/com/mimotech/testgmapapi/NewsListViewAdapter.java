@@ -5,22 +5,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NewsListViewAdapter extends ArrayAdapter<String> {
+public class NewsListViewAdapter extends BaseAdapter {
 	String tag = getClass().getSimpleName();
-	private final Context context;
-	private final String[] Ids;
-	private final int rowResourceId;
+	private Context context;
+	String newsId[];
 
-	public NewsListViewAdapter(Context context, int resource, String[] objects) {
-		super(context, resource, objects);
+	public NewsListViewAdapter(Context context) {
+		super();
 		// TODO Auto-generated constructor stub
 		this.context = context;
-		this.Ids = objects;
-		this.rowResourceId = resource;
+		newsId = new String[Info.newsList.keySet().size()];
+		int index = 0;
+		for (String key : Info.newsList.keySet()) {
+
+			newsId[index] = key;
+			++index;
+		}
+
 	}
 
 	@Override
@@ -29,15 +34,37 @@ public class NewsListViewAdapter extends ArrayAdapter<String> {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		View rowView = inflater.inflate(rowResourceId, parent, false);
+		View rowView = inflater.inflate(R.layout.news_fragment_listview,
+				parent, false);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.newsLogo);
-		TextView textView = (TextView) rowView.findViewById(R.id.newsText);
+		TextView description = (TextView) rowView.findViewById(R.id.newsText);
+		TextView reporter = (TextView) rowView.findViewById(R.id.reporter);
 
 		imageView.setImageResource(R.drawable.ic_launcher);
-		textView.setText(Ids[position]);
-
+		description.setText(Info.newsList.get(newsId[position]).description);
+		reporter.setText("by: "
+				+ Info.newsList.get(newsId[position]).secondarySource + "("
+				+ Info.newsList.get(newsId[position]).primarySource + ")");
 		return rowView;
 
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return Info.newsList.keySet().size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
 	}
 
 }

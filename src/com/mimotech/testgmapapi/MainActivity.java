@@ -10,14 +10,12 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.google.android.gms.maps.GoogleMap;
 
 public class MainActivity extends SherlockFragmentActivity {
 	String tag = getClass().getSimpleName();
 	private ViewPager mViewPager;
 	private TabHost mTabHost;
 	private int badgeCount = 0;
-	private GoogleMap mMap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +23,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		setContentView(R.layout.activity_main);
 		Log.d(tag, "onCreate");
+		//asyn request for listView data
+		
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 
 		mViewPager.setId(1);

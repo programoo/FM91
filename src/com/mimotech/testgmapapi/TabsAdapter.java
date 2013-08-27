@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -119,6 +120,13 @@ public class TabsAdapter extends FragmentPagerAdapter implements
 		mViewPager.setCurrentItem(position);
 		notifyDataSetChanged();
 		Log.d(tag, "ontabChanged: " + tabId);
+		
+		FragmentTransaction transaction = ((FragmentActivity) mContext).getSupportFragmentManager()
+				.beginTransaction();
+		transaction.addToBackStack(null);
+		transaction.commit();
+		
+		
 	}
 
 	public void onPageScrolled(int position, float positionOffset,

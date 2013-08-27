@@ -366,13 +366,13 @@ int id newsText 0x7f05004c
 int id newsTextDetail 0x7f050047
 int id newsTime 0x7f05004e
 int id news_headline_text 0x7f050048
-int id newspaperman 0x7f05004d
 int id none 0x7f050000
 int id normal 0x7f050001
 int id normal_icon 0x7f05004f
 int id normal_title 0x7f050050
 int id pager 0x7f050037
 int id positionBtn 0x7f05003f
+int id reporter 0x7f05004d
 int id satellite 0x7f050002
 int id searchEditText 0x7f050040
 int id showCustom 0x7f05000c

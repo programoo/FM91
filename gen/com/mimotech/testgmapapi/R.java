@@ -1145,13 +1145,13 @@ containing a value of this type.
         public static final int newsTextDetail=0x7f050047;
         public static final int newsTime=0x7f05004e;
         public static final int news_headline_text=0x7f050048;
-        public static final int newspaperman=0x7f05004d;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
         public static final int normal_icon=0x7f05004f;
         public static final int normal_title=0x7f050050;
         public static final int pager=0x7f050037;
         public static final int positionBtn=0x7f05003f;
+        public static final int reporter=0x7f05004d;
         public static final int satellite=0x7f050002;
         public static final int searchEditText=0x7f050040;
         public static final int showCustom=0x7f05000c;
