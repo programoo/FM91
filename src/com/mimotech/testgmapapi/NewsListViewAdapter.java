@@ -64,7 +64,9 @@ public class NewsListViewAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
-		return position;
+		String newsIdStr = Info.newsList.get(newsId[position]).id;
+		int newsId = Integer.parseInt( newsIdStr  );
+		return newsId;
 	}
 
 }

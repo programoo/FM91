@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.ais.sand.helper.AisTextView;
 
@@ -74,17 +75,23 @@ public class TabsAdapter extends FragmentPagerAdapter implements
 		TabInfo info = new TabInfo(tag, clss, args);
 		Log.d(tag, "label name is: " + label);
 		View tabIndicator = null;
-		if (label.equalsIgnoreCase("ข่าว")) {
+		if (label.equalsIgnoreCase( mContext.getString(R.string.news_tabbar) )) {
 			tabIndicator = LayoutInflater.from(mContext).inflate(
 					R.layout.badge_tabbar_view, mTabHost.getTabWidget(), false);
 			ImageView icon = (ImageView) tabIndicator
 					.findViewById(R.id.badge_icon);
 			icon.setImageDrawable(drawableId);
+			
+			TextView badgeCounter = (TextView) tabIndicator
+					.findViewById(R.id.badge_count);
+			badgeCounter.setVisibility(View.INVISIBLE);
 
 			AisTextView tabLabel = (AisTextView) tabIndicator
 					.findViewById(R.id.badge_title);
 			tabLabel.setText(label);
 
+			
+			
 		} else {
 			tabIndicator = LayoutInflater.from(mContext)
 					.inflate(R.layout.normal_tabbar_view,

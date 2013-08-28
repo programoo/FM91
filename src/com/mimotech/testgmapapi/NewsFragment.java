@@ -26,6 +26,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,6 +64,25 @@ public class NewsFragment extends SherlockFragment implements
 				.execute("http://api.traffy.in.th/apis/getKey.php?appid=abcb6710");
 
 		Log.d(tag, "onCreateView");
+
+		// handle item click event
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				Log.d(tag, "item click: " + position + "," + id);
+				Intent mapActivity = new Intent(getActivity(),
+						NewsDetailsActivity.class);
+				
+				mapActivity.putExtra("newsId",id+"");
+				
+				startActivity(mapActivity);
+
+			}
+
+		});
+
 		return viewMainFragment;
 	}
 
@@ -84,14 +104,15 @@ public class NewsFragment extends SherlockFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 			long id) {
-		Log.d(tag, "item click: " + position + "," + id);
-		String asset[] = { "book", "ruler", "rubber", "meter" };
-		ListView lv = (ListView) viewMainFragment
-				.findViewById(R.id.list1Fragment);
-		NewsListViewAdapterDetails ardap = new NewsListViewAdapterDetails(
-				context, R.layout.news_fragment_detail, asset);
 
-		lv.setAdapter(ardap);
+		/*
+		 * String asset[] = { "book", "ruler", "rubber", "meter" }; ListView lv
+		 * = (ListView) viewMainFragment .findViewById(R.id.list1Fragment);
+		 * NewsListViewAdapterDetails ardap = new NewsListViewAdapterDetails(
+		 * context, R.layout.news_fragment_detail, asset);
+		 * 
+		 * lv.setAdapter(ardap);
+		 */
 
 	}
 
@@ -155,8 +176,9 @@ public class NewsFragment extends SherlockFragment implements
 			} else if (requestType.equalsIgnoreCase("getData")) {
 				// this mean we get real data from traffy already
 				this.traffyNewsXmlParser(result);
-				
-				NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity());
+
+				NewsListViewAdapter ardap = new NewsListViewAdapter(
+						getActivity());
 				lv.setAdapter(ardap);
 
 			}

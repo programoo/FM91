@@ -1,6 +1,5 @@
 package com.mimotech.testgmapapi;
 
-import java.util.HashMap;
 
 public class News {
 	private String tag = getClass().getSimpleName();
@@ -20,7 +19,7 @@ public class News {
 	String startPointLat, startPointLong;
 	String endPoint;
 	String endPointLat, endPointLong;
-
+	boolean isRead = false;
 	public News(String id, String type, String primarySource,
 			String secondarySource, String startTime, String endTime,
 			String mediaType, String path, String title, String description,

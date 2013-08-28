@@ -804,10 +804,14 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f04000f;
         public static final int abs__bright_foreground_holo_dark=0x7f04000c;
         public static final int abs__bright_foreground_holo_light=0x7f04000d;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f040010;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f040011;
-        public static final int abs__primary_text_holo_dark=0x7f040012;
-        public static final int abs__primary_text_holo_light=0x7f040013;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f04003c;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f04003d;
+        public static final int abs__primary_text_holo_dark=0x7f04003e;
+        public static final int abs__primary_text_holo_light=0x7f04003f;
+        /**  tab 
+         */
+        public static final int activetab_background=0x7f040012;
+        public static final int activetab_text=0x7f040016;
         public static final int common_action_bar_splitter=0x7f040009;
         /**  Sign-in Button Colors 
          */
@@ -820,8 +824,68 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f040006;
         public static final int common_signin_btn_light_text_focused=0x7f040007;
         public static final int common_signin_btn_light_text_pressed=0x7f040005;
-        public static final int common_signin_btn_text_dark=0x7f040014;
-        public static final int common_signin_btn_text_light=0x7f040015;
+        public static final int common_signin_btn_text_dark=0x7f040040;
+        public static final int common_signin_btn_text_light=0x7f040041;
+        public static final int context_button_text=0x7f040033;
+        /**  context menu 
+         */
+        public static final int context_menu_bg=0x7f040030;
+        public static final int context_menu_border=0x7f040031;
+        public static final int context_menu_header_text=0x7f040034;
+        public static final int context_menu_text=0x7f040032;
+        public static final int custom_theme_color=0x7f040035;
+        /**  contact detail 
+         */
+        public static final int detail_bg=0x7f040027;
+        public static final int detail_header_bg=0x7f040028;
+        public static final int detail_name_text=0x7f040029;
+        public static final int detail_phone_text=0x7f04002b;
+        public static final int detail_section_bg=0x7f04002d;
+        public static final int detail_section_text=0x7f04002e;
+        public static final int detail_time_text=0x7f04002c;
+        public static final int detail_type_text=0x7f04002a;
+        public static final int dialbox=0x7f04001a;
+        public static final int dialbox_border=0x7f04001c;
+        public static final int dialbox_text=0x7f04001b;
+        public static final int dialfont=0x7f040019;
+        /**  dial fragment 
+         */
+        public static final int dialfont_active=0x7f040018;
+        public static final int dialog_loading_center=0x7f040039;
+        public static final int dialog_loading_end=0x7f04003b;
+        public static final int dialog_loading_start=0x7f04003a;
+        public static final int dialpad_border=0x7f04001d;
+        public static final int infoTheme_bg=0x7f040037;
+        public static final int line_color=0x7f040038;
+        public static final int list_bg=0x7f040021;
+        public static final int list_line_divider=0x7f040020;
+        /**  all 
+         */
+        public static final int myTheme_bg=0x7f040036;
+        /**  all list 
+         */
+        public static final int name=0x7f04001f;
+        public static final int news_badge=0x7f040010;
+        /**  call log list 
+         */
+        public static final int phone=0x7f040023;
+        public static final int pressedtab_background=0x7f040014;
+        public static final int pressedtab_text=0x7f040017;
+        /**  contact list 
+         */
+        public static final int section_bg=0x7f040025;
+        public static final int section_text_color=0x7f040026;
+        /**  list selector 
+         */
+        public static final int selected=0x7f040022;
+        public static final int tab_background=0x7f040013;
+        public static final int tab_text=0x7f040015;
+        public static final int time=0x7f040024;
+        /**  title view 
+         */
+        public static final int title_bar_text=0x7f04002f;
+        public static final int transparent=0x7f040011;
+        public static final int warm_grey=0x7f04001e;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -926,13 +990,16 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f08000f;
-        public static final int activity_vertical_margin=0x7f080010;
-        public static final int tab_height=0x7f080012;
-        public static final int tab_icon_size=0x7f080013;
+        public static final int activity_horizontal_margin=0x7f080010;
+        public static final int activity_vertical_margin=0x7f080011;
+        /**  news tab 
+         */
+        public static final int is_read_icon=0x7f08000f;
+        public static final int tab_height=0x7f080013;
+        public static final int tab_icon_size=0x7f080014;
         /**  tab 
          */
-        public static final int tab_text_size=0x7f080011;
+        public static final int tab_text_size=0x7f080012;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
@@ -1118,7 +1185,7 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050017;
         public static final int abs__title=0x7f05001f;
         public static final int abs__up=0x7f05000f;
-        public static final int action_settings=0x7f050051;
+        public static final int action_settings=0x7f050053;
         public static final int activityRoot=0x7f050036;
         public static final int badge_count=0x7f05003a;
         public static final int badge_icon=0x7f050038;
@@ -1134,24 +1201,26 @@ containing a value of this type.
         public static final int homeAsUp=0x7f05000a;
         public static final int hybrid=0x7f050004;
         public static final int icon=0x7f05003b;
-        public static final int isRead=0x7f05004a;
+        public static final int isRead=0x7f050050;
         public static final int list1Fragment=0x7f050046;
         public static final int listMode=0x7f050006;
         public static final int map=0x7f05003d;
         public static final int newsBtn=0x7f050044;
-        public static final int newsLogo=0x7f05004b;
+        public static final int newsFeedDetails=0x7f05004a;
+        public static final int newsLogo=0x7f05004c;
         public static final int newsLogoDetail=0x7f050049;
-        public static final int newsText=0x7f05004c;
+        public static final int newsText=0x7f05004d;
         public static final int newsTextDetail=0x7f050047;
-        public static final int newsTime=0x7f05004e;
+        public static final int newsTime=0x7f05004f;
+        public static final int newsTimeIsRead=0x7f05004b;
         public static final int news_headline_text=0x7f050048;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int normal_icon=0x7f05004f;
-        public static final int normal_title=0x7f050050;
+        public static final int normal_icon=0x7f050051;
+        public static final int normal_title=0x7f050052;
         public static final int pager=0x7f050037;
         public static final int positionBtn=0x7f05003f;
-        public static final int reporter=0x7f05004d;
+        public static final int reporter=0x7f05004e;
         public static final int satellite=0x7f050002;
         public static final int searchEditText=0x7f050040;
         public static final int showCustom=0x7f05000c;

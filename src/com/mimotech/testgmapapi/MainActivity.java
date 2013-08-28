@@ -23,8 +23,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		setContentView(R.layout.activity_main);
 		Log.d(tag, "onCreate");
-		//asyn request for listView data
-		
+		// asyn request for listView data
+
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 
 		mViewPager.setId(1);
@@ -57,7 +57,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_home"), getResources()
 				.getDrawable(R.drawable.ic_launcher), NewsFragment.class,
 				tabArgs, getString(R.string.hello_world));
-		
+
 	}
 
 	@Override
