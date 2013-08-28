@@ -6,6 +6,9 @@ import java.io.StringReader;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -72,11 +76,13 @@ public class NewsFragment extends SherlockFragment implements
 					int position, long id) {
 				// TODO Auto-generated method stub
 				Log.d(tag, "item click: " + position + "," + id);
+				// mark as read
+				Info.getNews(id + "").isRead = true;
+
 				Intent mapActivity = new Intent(getActivity(),
 						NewsDetailsActivity.class);
-				
-				mapActivity.putExtra("newsId",id+"");
-				
+				mapActivity.putExtra("newsId", id + "");
+
 				startActivity(mapActivity);
 
 			}
@@ -87,18 +93,30 @@ public class NewsFragment extends SherlockFragment implements
 	}
 
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		Log.i(tag, "onViewCreated");
+		Log.d(tag, "onViewCreated");
 		super.onViewCreated(view, savedInstanceState);
 	}
 
 	public void onStart() {
 		super.onStart();
 		// after view start complete re-create new view
+		Log.d(tag, "onStart");
+		// update already read list
+		lv = (ListView) viewMainFragment.findViewById(R.id.list1Fragment);
+		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity());
+		lv.setAdapter(ardap);
+
+		// update badge count unRead
+		TextView tvBadgeCount = (TextView) getActivity().findViewById(
+				R.id.badge_count);
+		tvBadgeCount.setText(Info.unReadNumber() + "");
 
 	}
 
 	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		Log.d(tag, "onActivityCreated");
+
 	}
 
 	@Override
@@ -113,6 +131,19 @@ public class NewsFragment extends SherlockFragment implements
 		 * 
 		 * lv.setAdapter(ardap);
 		 */
+
+	}
+
+	public void reloadViewAfterRequestTaskComplete() {
+		Log.d(tag, "reloadViewAfterRequestTaskComplete");
+
+		NewsListViewAdapter ardap = new NewsListViewAdapter(
+				getActivity());
+		lv.setAdapter(ardap);
+		
+		TextView tvBadgeCount = (TextView) getActivity().findViewById(
+				R.id.badge_count);
+		tvBadgeCount.setText(Info.unReadNumber() + "");
 
 	}
 
@@ -169,17 +200,32 @@ public class NewsFragment extends SherlockFragment implements
 				} catch (NoSuchAlgorithmException e) {
 					e.printStackTrace();
 				}
+				/*
+				 * 
+				 * http://api.traffy.in.th/apis/apitraffy.php?api=getIncident&key
+				 * =(คีย์ที่ได้รับจากการลงทะเบียน)&appid=(id
+				 * ที่ได้รับจากการลงทะเบียน
+				 * )&format=XML&limit=10&offset=5&type=all&from=2011-11-05
+				 * 17:41:13&to=2011-11-05 17:45:20
+				 */
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date date = new Date();
+				String dateStart = dateFormat.format(date) + "%2000:00:01";
+				String dateEnd = dateFormat.format(date) + "%2023:59:59";
+
+				System.out.println(dateStart);
+
+				System.out.println(dateEnd);
 
 				String traffy_request_url = "http://api.traffy.in.th/apis/apitraffy.php?api=getIncident&key="
-						+ passKey + "&format=XML";
+						+ passKey
+						+ "&format=XML&limit=10&offset=5&type=all&from="
+						+ dateStart + "&to=" + dateEnd;
 				new RequestTask("getData").execute(traffy_request_url);
 			} else if (requestType.equalsIgnoreCase("getData")) {
 				// this mean we get real data from traffy already
 				this.traffyNewsXmlParser(result);
-
-				NewsListViewAdapter ardap = new NewsListViewAdapter(
-						getActivity());
-				lv.setAdapter(ardap);
+				reloadViewAfterRequestTaskComplete();
 
 			}
 
@@ -295,7 +341,7 @@ public class NewsFragment extends SherlockFragment implements
 							startPointName, startPointLat, startPointLong,
 							endPointName, endPointLat, endPointLong);
 
-					Info.newsList.put(id, n);
+					Info.newsList.add(n);
 					// Log.i(tag, n.toString());
 				}
 			}

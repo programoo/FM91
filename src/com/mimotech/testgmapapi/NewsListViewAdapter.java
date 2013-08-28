@@ -18,12 +18,9 @@ public class NewsListViewAdapter extends BaseAdapter {
 		super();
 		// TODO Auto-generated constructor stub
 		this.context = context;
-		newsId = new String[Info.newsList.keySet().size()];
-		int index = 0;
-		for (String key : Info.newsList.keySet()) {
-
-			newsId[index] = key;
-			++index;
+		newsId = new String[Info.newsList.size()];
+		for(int i=0;i<Info.newsList.size();i++){
+			newsId[i]=Info.newsList.get(i).id;
 		}
 
 	}
@@ -34,25 +31,44 @@ public class NewsListViewAdapter extends BaseAdapter {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		View rowView = inflater.inflate(R.layout.news_fragment_listview,
-				parent, false);
-		ImageView imageView = (ImageView) rowView.findViewById(R.id.newsLogo);
-		TextView description = (TextView) rowView.findViewById(R.id.newsText);
-		TextView reporter = (TextView) rowView.findViewById(R.id.reporter);
+		if (convertView == null) {
+			convertView = inflater.inflate(R.layout.news_fragment_listview,
+					parent, false);
+		}
+		
+		ImageView imageView = (ImageView) convertView
+				.findViewById(R.id.newsLogo);
+		TextView description = (TextView) convertView
+				.findViewById(R.id.newsText);
+		TextView reporter = (TextView) convertView.findViewById(R.id.reporter);
 
+		TextView endTime = (TextView) convertView.findViewById(R.id.newsTime);
+
+		
+		
 		imageView.setImageResource(R.drawable.ic_launcher);
-		description.setText(Info.newsList.get(newsId[position]).description);
+		description.setText(Info.getNews(newsId[position]).description);
 		reporter.setText("by: "
-				+ Info.newsList.get(newsId[position]).secondarySource + "("
-				+ Info.newsList.get(newsId[position]).primarySource + ")");
-		return rowView;
+				+ Info.getNews(newsId[position]).secondarySource + "("
+				+ Info.getNews(newsId[position]).primarySource + ")");
+		endTime.setText(Info.getNews(newsId[position]).startTime);
+		
+		// hidden isRead marker if already read and
+		if (Info.getNews(newsId[position]).isRead) {
+			ImageView isReadImg = (ImageView) convertView
+					.findViewById(R.id.isRead);
+			isReadImg.setVisibility(View.INVISIBLE);
+		}
+
+
+		return convertView;
 
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return Info.newsList.keySet().size();
+		return Info.newsList.size();
 	}
 
 	@Override
@@ -64,8 +80,8 @@ public class NewsListViewAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
-		String newsIdStr = Info.newsList.get(newsId[position]).id;
-		int newsId = Integer.parseInt( newsIdStr  );
+		String newsIdStr = Info.getNews(newsId[position]).id;
+		int newsId = Integer.parseInt(newsIdStr);
 		return newsId;
 	}
 

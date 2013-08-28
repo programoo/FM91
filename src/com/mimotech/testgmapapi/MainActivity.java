@@ -6,10 +6,12 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Window;
 
 public class MainActivity extends SherlockFragmentActivity {
 	String tag = getClass().getSimpleName();
@@ -20,14 +22,16 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.activity_main);
 		Log.d(tag, "onCreate");
-		// asyn request for listView data
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 
-		mViewPager.setId(1);
+		//mViewPager.setId(1);
 
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
@@ -86,6 +90,10 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	}
 
+	public void emergencyBtnOnClick(View view){
+		Log.d(tag, "emergencyBtnOnClick");
+
+	}
 	public void cctvBtnOnClick(View view) {
 		Log.d(tag, "positionBtnOnClick");
 	}

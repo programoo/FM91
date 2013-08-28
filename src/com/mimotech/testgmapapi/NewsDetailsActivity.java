@@ -22,7 +22,7 @@ public class NewsDetailsActivity extends FragmentActivity {
 		//set text
 		TextView tv = (TextView) findViewById(R.id.newsTextDetail);
 		Log.d(tag,"id :"+id);
-		tv.setText(Info.newsList.get(id).description);
+		tv.setText(Info.getNews(id).description);
 		
 	}
 

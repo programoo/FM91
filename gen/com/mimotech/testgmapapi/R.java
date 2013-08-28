@@ -992,6 +992,7 @@ containing a value of this type.
          */
         public static final int activity_horizontal_margin=0x7f080010;
         public static final int activity_vertical_margin=0x7f080011;
+        public static final int fm_banner_size=0x7f080015;
         /**  news tab 
          */
         public static final int is_read_icon=0x7f08000f;
@@ -1185,44 +1186,48 @@ containing a value of this type.
         public static final int abs__textButton=0x7f050017;
         public static final int abs__title=0x7f05001f;
         public static final int abs__up=0x7f05000f;
-        public static final int action_settings=0x7f050053;
+        public static final int action_settings=0x7f050057;
         public static final int activityRoot=0x7f050036;
-        public static final int badge_count=0x7f05003a;
-        public static final int badge_icon=0x7f050038;
-        public static final int badge_title=0x7f050039;
-        public static final int cameraGridView=0x7f050041;
-        public static final int cameraImageView1=0x7f050043;
-        public static final int cameraTextView1=0x7f050042;
-        public static final int cctvBtn=0x7f05003e;
-        public static final int detailFragment=0x7f05003c;
+        public static final int badge_count=0x7f05003e;
+        public static final int badge_icon=0x7f05003c;
+        public static final int badge_title=0x7f05003d;
+        public static final int cameraGridView=0x7f050045;
+        public static final int cameraImageView1=0x7f050047;
+        public static final int cameraTextView1=0x7f050046;
+        public static final int cctvBtn=0x7f050042;
+        public static final int detailFragment=0x7f050040;
         public static final int disableHome=0x7f05000d;
         public static final int edit_query=0x7f05002a;
-        public static final int eventBtn=0x7f050045;
+        public static final int emergency_btn=0x7f050039;
+        public static final int eventBtn=0x7f050049;
+        public static final int fm91_header=0x7f050038;
+        public static final int fm_banner=0x7f050037;
+        public static final int fm_body=0x7f05003a;
         public static final int homeAsUp=0x7f05000a;
         public static final int hybrid=0x7f050004;
-        public static final int icon=0x7f05003b;
-        public static final int isRead=0x7f050050;
-        public static final int list1Fragment=0x7f050046;
+        public static final int icon=0x7f05003f;
+        public static final int isRead=0x7f050054;
+        public static final int list1Fragment=0x7f05004a;
         public static final int listMode=0x7f050006;
-        public static final int map=0x7f05003d;
-        public static final int newsBtn=0x7f050044;
-        public static final int newsFeedDetails=0x7f05004a;
-        public static final int newsLogo=0x7f05004c;
-        public static final int newsLogoDetail=0x7f050049;
-        public static final int newsText=0x7f05004d;
-        public static final int newsTextDetail=0x7f050047;
-        public static final int newsTime=0x7f05004f;
-        public static final int newsTimeIsRead=0x7f05004b;
-        public static final int news_headline_text=0x7f050048;
+        public static final int map=0x7f050041;
+        public static final int newsBtn=0x7f050048;
+        public static final int newsFeedDetails=0x7f05004e;
+        public static final int newsLogo=0x7f050050;
+        public static final int newsLogoDetail=0x7f05004d;
+        public static final int newsText=0x7f050051;
+        public static final int newsTextDetail=0x7f05004b;
+        public static final int newsTime=0x7f050053;
+        public static final int newsTimeIsRead=0x7f05004f;
+        public static final int news_headline_text=0x7f05004c;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int normal_icon=0x7f050051;
-        public static final int normal_title=0x7f050052;
-        public static final int pager=0x7f050037;
-        public static final int positionBtn=0x7f05003f;
-        public static final int reporter=0x7f05004e;
+        public static final int normal_icon=0x7f050055;
+        public static final int normal_title=0x7f050056;
+        public static final int pager=0x7f05003b;
+        public static final int positionBtn=0x7f050043;
+        public static final int reporter=0x7f050052;
         public static final int satellite=0x7f050002;
-        public static final int searchEditText=0x7f050040;
+        public static final int searchEditText=0x7f050044;
         public static final int showCustom=0x7f05000c;
         public static final int showHome=0x7f050009;
         public static final int showTitle=0x7f05000b;
@@ -1337,9 +1342,9 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f06000f;
-        public static final int camera_tabbar=0x7f060029;
-        public static final int camera_textview1=0x7f06002a;
-        public static final int cctv_btn_text=0x7f06002b;
+        public static final int camera_tabbar=0x7f06002a;
+        public static final int camera_textview1=0x7f06002b;
+        public static final int cctv_btn_text=0x7f06002c;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -1395,13 +1400,17 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f06000e;
-        public static final int event_btn_text=0x7f060027;
+        public static final int emergency_btn_text=0x7f060025;
+        public static final int event_btn_text=0x7f060028;
+        public static final int fm_banner_text=0x7f06002f;
         public static final int hello_world=0x7f060024;
-        public static final int news_btn_text=0x7f060026;
-        public static final int news_headline_text=0x7f060028;
-        public static final int news_tabbar=0x7f060025;
-        public static final int position_btn_text=0x7f06002c;
-        public static final int search_hint=0x7f06002d;
+        public static final int news_btn_text=0x7f060027;
+        public static final int news_headline_text=0x7f060029;
+        public static final int news_reporter_text=0x7f060031;
+        public static final int news_tabbar=0x7f060026;
+        public static final int news_times_text=0x7f060030;
+        public static final int position_btn_text=0x7f06002d;
+        public static final int search_hint=0x7f06002e;
     }
     public static final class style {
         /** 

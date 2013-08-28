@@ -84,7 +84,7 @@ public class TabsAdapter extends FragmentPagerAdapter implements
 			
 			TextView badgeCounter = (TextView) tabIndicator
 					.findViewById(R.id.badge_count);
-			badgeCounter.setVisibility(View.INVISIBLE);
+			//badgeCounter.setVisibility(View.INVISIBLE);
 
 			AisTextView tabLabel = (AisTextView) tabIndicator
 					.findViewById(R.id.badge_title);
@@ -128,10 +128,6 @@ public class TabsAdapter extends FragmentPagerAdapter implements
 		notifyDataSetChanged();
 		Log.d(tag, "ontabChanged: " + tabId);
 		
-		FragmentTransaction transaction = ((FragmentActivity) mContext).getSupportFragmentManager()
-				.beginTransaction();
-		transaction.addToBackStack(null);
-		transaction.commit();
 		
 		
 	}

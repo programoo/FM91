@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
     <RelativeLayout
         android:id="@+id/newsFeedDetails"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/newsText"
             android:layout_toRightOf="@+id/newsLogo"
-            android:text="By longdo(twitter)" />
+            android:text="@string/news_reporter_text" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -50,15 +50,17 @@
             android:paddingLeft="5dp"
             android:paddingRight="15dp"
             android:paddingTop="2dp"
-            android:text="10 นาที" />
+            android:text="@string/news_times_text" />
 
         <ImageView
             android:id="@+id/isRead"
+            android:contentDescription="@string/hello_world"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
+            android:visibility="visible"
             android:maxHeight="@dimen/is_read_icon"
             android:maxWidth="@dimen/is_read_icon"
             android:scaleType="fitCenter"
