@@ -22,15 +22,15 @@ public class MainActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.activity_main);
 		Log.d(tag, "onCreate");
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 
-		//mViewPager.setId(1);
+		// mViewPager.setId(1);
 
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
@@ -83,16 +83,18 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	public void positionBtnOnClick(View view) {
 		Log.d(tag, "positionBtnOnClick");
-		/*Intent mapActivity = new Intent(MainActivity.this,
-				BasicMapActivity.class);
-		startActivity(mapActivity); */
+		/*
+		 * Intent mapActivity = new Intent(MainActivity.this,
+		 * BasicMapActivity.class); startActivity(mapActivity);
+		 */
 
 	}
 
-	public void emergencyBtnOnClick(View view){
+	public void emergencyBtnOnClick(View view) {
 		Log.d(tag, "emergencyBtnOnClick");
 
 	}
+
 	public void cctvBtnOnClick(View view) {
 		Log.d(tag, "positionBtnOnClick");
 	}
