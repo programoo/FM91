@@ -2,20 +2,58 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/newsTextDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@+id/news_headline_text" />
+    <RelativeLayout
+        android:id="@+id/fm_news_detail_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <ImageView
-        android:id="@+id/newsLogoDetail"
-        android:layout_width="wrap_content"
+        <com.ais.sand.helper.AisTextView
+            android:id="@+id/fm91_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/fm_banner_text"
+            android:textSize="@dimen/fm_banner_size"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/emergency_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:onClick="emergencyBtnOnClick"
+            android:text="@string/emergency_btn_text" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fm_news_detail_body"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/newsTextDetail"
-        android:layout_margin="0dp"
-        android:src="@drawable/ic_launcher" />
+        android:layout_below="@+id/fm_news_detail_banner" >
+
+        <TextView
+            android:id="@+id/newsTextDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@+id/news_headline_text" />
+
+        <ImageView
+            android:id="@+id/newsLogoDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/newsTextDetail"
+            android:layout_margin="0dp"
+            android:src="@drawable/ic_launcher" />
+
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/newsLogoDetail"
+            class="com.google.android.gms.maps.SupportMapFragment" />
+    </RelativeLayout>
 
 </RelativeLayout>

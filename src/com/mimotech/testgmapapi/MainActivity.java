@@ -1,6 +1,5 @@
 package com.mimotech.testgmapapi;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -84,9 +83,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	public void positionBtnOnClick(View view) {
 		Log.d(tag, "positionBtnOnClick");
-		Intent mapActivity = new Intent(MainActivity.this,
+		/*Intent mapActivity = new Intent(MainActivity.this,
 				BasicMapActivity.class);
-		startActivity(mapActivity);
+		startActivity(mapActivity); */
 
 	}
 

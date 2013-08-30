@@ -19,9 +19,10 @@ public class NewsListViewAdapter extends BaseAdapter {
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		newsId = new String[Info.newsList.size()];
-		for(int i=0;i<Info.newsList.size();i++){
-			newsId[i]=Info.newsList.get(i).id;
+		for (int i = 0; i < Info.newsList.size(); i++) {
+			newsId[i] = Info.newsList.get(i).id;
 		}
+		Log.d(tag,"NewsListViewAdapter");
 
 	}
 
@@ -31,11 +32,9 @@ public class NewsListViewAdapter extends BaseAdapter {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.news_fragment_listview,
-					parent, false);
-		}
-		
+		convertView = inflater.inflate(R.layout.news_fragment_listview, parent,
+				false);
+
 		ImageView imageView = (ImageView) convertView
 				.findViewById(R.id.newsLogo);
 		TextView description = (TextView) convertView
@@ -44,22 +43,19 @@ public class NewsListViewAdapter extends BaseAdapter {
 
 		TextView endTime = (TextView) convertView.findViewById(R.id.newsTime);
 
-		
-		
 		imageView.setImageResource(R.drawable.ic_launcher);
 		description.setText(Info.getNews(newsId[position]).description);
 		reporter.setText("by: "
 				+ Info.getNews(newsId[position]).secondarySource + "("
 				+ Info.getNews(newsId[position]).primarySource + ")");
 		endTime.setText(Info.getNews(newsId[position]).startTime);
-		
+
 		// hidden isRead marker if already read and
 		if (Info.getNews(newsId[position]).isRead) {
 			ImageView isReadImg = (ImageView) convertView
 					.findViewById(R.id.isRead);
 			isReadImg.setVisibility(View.INVISIBLE);
 		}
-
 
 		return convertView;
 

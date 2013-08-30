@@ -341,8 +341,8 @@ public class NewsFragment extends SherlockFragment implements
 							startPointName, startPointLat, startPointLong,
 							endPointName, endPointLat, endPointLong);
 
-					Info.newsList.add(n);
-					// Log.i(tag, n.toString());
+					Info.uniqueAdd(n);
+
 				}
 			}
 
