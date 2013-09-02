@@ -44,7 +44,11 @@ public class NewsListViewAdapter extends BaseAdapter {
 		TextView endTime = (TextView) convertView.findViewById(R.id.newsTime);
 
 		imageView.setImageResource(R.drawable.ic_launcher);
+		
+		
 		description.setText(Info.getNews(newsId[position]).description);
+		
+		
 		reporter.setText("by: "
 				+ Info.getNews(newsId[position]).secondarySource + "("
 				+ Info.getNews(newsId[position]).primarySource + ")");

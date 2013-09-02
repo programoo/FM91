@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -38,7 +41,37 @@ public class CameraFragment extends SherlockFragment {
 		CameraCCTVAdapter ardap = new CameraCCTVAdapter(context,asset);
 
 		gv.setAdapter(ardap);
+		final RelativeLayout cctvLayout = (RelativeLayout) viewMainFragment.findViewById(R.id.cctvLayout);
+		final RelativeLayout positionLayout = (RelativeLayout) viewMainFragment.findViewById(R.id.positionLayout);
+		
+		//handle click event
+		Button positionBtn = (Button) viewMainFragment.findViewById(R.id.positionBtn);
+		positionBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Log.d(tag,"setOnClickListener ja");
+				positionLayout.setVisibility(View.VISIBLE);
+				cctvLayout.setVisibility(View.GONE);
+				
+			}
+		});
+		
+		Button cctvBtn = (Button) viewMainFragment.findViewById(R.id.cctvBtn);
+		cctvBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Log.d(tag,"cctvOnClickListener ja");
 
+				positionLayout.setVisibility(View.GONE);
+				cctvLayout.setVisibility(View.VISIBLE);
+				
+			}
+		});
+		
 		Log.i(tag, "onCreateView");
 		return viewMainFragment;
 	}
@@ -57,6 +90,15 @@ public class CameraFragment extends SherlockFragment {
 
 	}
 
+	public void positionBtnOnClick(View view) {
+		Log.d(tag, "positionBtnOnClick");
+		/*
+		 * Intent mapActivity = new Intent(MainActivity.this,
+		 * BasicMapActivity.class); startActivity(mapActivity);
+		 */
+
+	}
+	
 	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 	}

@@ -81,22 +81,9 @@ public class MainActivity extends SherlockFragmentActivity {
 		Log.d(tag, "eventBtnOnClick");
 	}
 
-	public void positionBtnOnClick(View view) {
-		Log.d(tag, "positionBtnOnClick");
-		/*
-		 * Intent mapActivity = new Intent(MainActivity.this,
-		 * BasicMapActivity.class); startActivity(mapActivity);
-		 */
-
-	}
-
 	public void emergencyBtnOnClick(View view) {
 		Log.d(tag, "emergencyBtnOnClick");
 
-	}
-
-	public void cctvBtnOnClick(View view) {
-		Log.d(tag, "positionBtnOnClick");
 	}
 
 }
