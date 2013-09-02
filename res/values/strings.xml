@@ -19,5 +19,6 @@
     <string name="news_times_text">10 นาที</string>
 	<string name="news_reporter_text">longdoo (twitter)</string>
     
-    
+    <!-- Image description -->
+    <string name="img_describer">img_describer</string>
 </resources>

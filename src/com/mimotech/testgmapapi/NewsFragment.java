@@ -78,12 +78,13 @@ public class NewsFragment extends SherlockFragment implements
 				Log.d(tag, "item click: " + position + "," + id);
 				// mark as read
 				Info.getNews(id + "").isRead = true;
-
+				
 				Intent mapActivity = new Intent(getActivity(),
 						NewsDetailsActivity.class);
-				mapActivity.putExtra("newsId", id + "");
+				mapActivity.putExtra("index", position + "");
 
 				startActivity(mapActivity);
+				
 
 			}
 
