@@ -1,5 +1,7 @@
 package com.mimotech.testgmapapi;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,17 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class NewsListViewAdapter extends BaseAdapter {
-	String tag = getClass().getSimpleName();
+	private String tag = getClass().getSimpleName();
 	private Context context;
-	String newsId[];
-
-	public NewsListViewAdapter(Context context) {
+	private String newsId[];
+	private ArrayList<News> newsList;
+	public NewsListViewAdapter(Context context,ArrayList<News> newsList) {
 		super();
 		// TODO Auto-generated constructor stub
 		this.context = context;
-		newsId = new String[Info.newsList.size()];
-		for (int i = 0; i < Info.newsList.size(); i++) {
-			newsId[i] = Info.newsList.get(i).id;
+		this.newsList = newsList;
+		newsId = new String[newsList.size()];
+		for (int i = 0; i < newsList.size(); i++) {
+			newsId[i] = newsList.get(i).id;
 		}
 		Log.d(tag,"NewsListViewAdapter");
 
@@ -46,16 +49,16 @@ public class NewsListViewAdapter extends BaseAdapter {
 		imageView.setImageResource(R.drawable.ic_launcher);
 		
 		
-		description.setText(Info.getNews(newsId[position]).description);
+		description.setText(newsList.get(position).description);
 		
 		
 		reporter.setText("by: "
-				+ Info.getNews(newsId[position]).secondarySource + "("
-				+ Info.getNews(newsId[position]).primarySource + ")");
-		endTime.setText(Info.getNews(newsId[position]).startTime);
+				+ newsList.get(position).secondarySource + "("
+				+ newsList.get(position).primarySource + ")");
+		endTime.setText(newsList.get(position).startTime);
 
 		// hidden isRead marker if already read and
-		if (Info.getNews(newsId[position]).isRead) {
+		if (newsList.get(position).isRead) {
 			ImageView isReadImg = (ImageView) convertView
 					.findViewById(R.id.isRead);
 			isReadImg.setVisibility(View.INVISIBLE);
@@ -68,7 +71,7 @@ public class NewsListViewAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return Info.newsList.size();
+		return newsList.size();
 	}
 
 	@Override
@@ -80,7 +83,7 @@ public class NewsListViewAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
-		String newsIdStr = Info.getNews(newsId[position]).id;
+		String newsIdStr = newsList.get(position).id;
 		int newsId = Integer.parseInt(newsIdStr);
 		return newsId;
 	}

@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -28,7 +29,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,25 +42,33 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class NewsFragment extends SherlockFragment implements
-		OnItemClickListener {
-	View viewMainFragment;
-	View numberContainer;
-	ListView lv;
-	private Context context;
-	String tag = this.getClass().getSimpleName();
+public class NewsFragment extends SherlockFragment {
+	private String tag = this.getClass().getSimpleName();
+	private View viewMainFragment;
+	private ListView lv;
+	private ArrayList<News> newsList;
+	private News currentNews;
+	private LatLng accidentLatLng;
+	private GoogleMap mMap;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		newsList = new ArrayList<News>();
 
-		this.context = getActivity().getApplicationContext();
 		this.viewMainFragment = inflater.inflate(R.layout.news_fragment,
 				container, false);
 
 		lv = (ListView) viewMainFragment.findViewById(R.id.list1Fragment);
 
-		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity());
+		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity(),
+				newsList);
 
 		lv.setAdapter(ardap);
 
@@ -69,22 +77,27 @@ public class NewsFragment extends SherlockFragment implements
 
 		Log.d(tag, "onCreateView");
 
-		// handle item click event
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				Log.d(tag, "item click: " + position + "," + id);
 				// mark as read
-				Info.getNews(id + "").isRead = true;
-				
+				News n = getNews(id + "");
+				n.isRead = true;
+
 				Intent mapActivity = new Intent(getActivity(),
 						NewsDetailsActivity.class);
-				mapActivity.putExtra("index", position + "");
+
+				mapActivity.putExtra("description", n.description
+						+ n.startPointLat + "," + n.startPointLong);
+				mapActivity.putExtra("startPointLong",n.startPointLong);
+				mapActivity.putExtra("startPointLat",n.startPointLat);
+				mapActivity.putExtra("title",n.title);
+
+				//myMarker(n);
 
 				startActivity(mapActivity);
-				
 
 			}
 
@@ -100,17 +113,17 @@ public class NewsFragment extends SherlockFragment implements
 
 	public void onStart() {
 		super.onStart();
-		// after view start complete re-create new view
 		Log.d(tag, "onStart");
 		// update already read list
 		lv = (ListView) viewMainFragment.findViewById(R.id.list1Fragment);
-		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity());
+		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity(),
+				newsList);
 		lv.setAdapter(ardap);
 
 		// update badge count unRead
 		TextView tvBadgeCount = (TextView) getActivity().findViewById(
 				R.id.badge_count);
-		tvBadgeCount.setText(Info.unReadNumber() + "");
+		tvBadgeCount.setText(this.unReadNumber() + "");
 
 	}
 
@@ -120,33 +133,39 @@ public class NewsFragment extends SherlockFragment implements
 
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-			long id) {
-
-		/*
-		 * String asset[] = { "book", "ruler", "rubber", "meter" }; ListView lv
-		 * = (ListView) viewMainFragment .findViewById(R.id.list1Fragment);
-		 * NewsListViewAdapterDetails ardap = new NewsListViewAdapterDetails(
-		 * context, R.layout.news_fragment_detail, asset);
-		 * 
-		 * lv.setAdapter(ardap);
-		 */
-
-	}
-
 	public void reloadViewAfterRequestTaskComplete() {
 		Log.d(tag, "reloadViewAfterRequestTaskComplete");
 
-		NewsListViewAdapter ardap = new NewsListViewAdapter(
-				getActivity());
+		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity(),
+				newsList);
 		lv.setAdapter(ardap);
-		
+
 		TextView tvBadgeCount = (TextView) getActivity().findViewById(
 				R.id.badge_count);
-		tvBadgeCount.setText(Info.unReadNumber() + "");
+		tvBadgeCount.setText(this.unReadNumber() + "");
 
 	}
+
+	public int unReadNumber() {
+		int count = newsList.size();
+		for (int i = 0; i < newsList.size(); i++) {
+			if (newsList.get(i).isRead == true) {
+				--count;
+			}
+		}
+		return count;
+	}
+
+	public News getNews(String newsId) {
+		for (int i = 0; i < newsList.size(); i++) {
+			if (newsList.get(i).id.equalsIgnoreCase(newsId)) {
+				return newsList.get(i);
+			}
+		}
+		return null;
+	}
+
+
 
 	private class RequestTask extends AsyncTask<String, String, String> {
 		private String tag = getClass().getSimpleName();
@@ -342,12 +361,22 @@ public class NewsFragment extends SherlockFragment implements
 							startPointName, startPointLat, startPointLong,
 							endPointName, endPointLat, endPointLong);
 
-					Info.uniqueAdd(n);
+					this.uniqueAdd(n);
 
 				}
 			}
 
 		}// end xml parser
+
+		public void uniqueAdd(News news) {
+
+			for (int i = 0; i < newsList.size(); i++) {
+				if (news.id.equalsIgnoreCase(newsList.get(i).id)) {
+					return;
+				}
+			}
+			newsList.add(news);
+		}
 
 		public String getStringValueFromExistElement(Element eElement,
 				String elementName, String attributeName) {
