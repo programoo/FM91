@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -7,6 +7,7 @@
         android:id="@+id/cameraImageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:contentDescription="@string/img_describer"
         android:src="@drawable/ic_launcher" />
 
@@ -14,7 +15,7 @@
         android:id="@+id/cameraTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cameraTextView1"
+		android:layout_gravity="bottom" 
         android:text="@string/camera_textview1" />
 
-</RelativeLayout>
+</FrameLayout>

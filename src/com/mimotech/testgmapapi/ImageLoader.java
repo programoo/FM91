@@ -2,6 +2,7 @@ package com.mimotech.testgmapapi;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,14 +22,26 @@ public class ImageLoader {
 		BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
 		task.execute(url);
 	}
+
+	public void downloadBitmapToList(String url, ArrayList<Bitmap> arr) {
+		BitmapDownloaderTask task = new BitmapDownloaderTask(arr);
+		task.execute(url);
+	}
 }
 
 class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 	private String url;
 	private final WeakReference<ImageView> imageViewReference;
+	private ArrayList<Bitmap> arr;
 
 	public BitmapDownloaderTask(ImageView imageView) {
 		imageViewReference = new WeakReference<ImageView>(imageView);
+	}
+
+	public BitmapDownloaderTask(ArrayList<Bitmap> arr) {
+		imageViewReference = new WeakReference<ImageView>(null);
+		this.arr = arr;
+
 	}
 
 	@Override
@@ -51,45 +64,53 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 				imageView.setImageBitmap(bitmap);
 			}
 		}
+		// no image view pass just keep this bitmap to list
+		else {
+			arr.add(bitmap);
+		}
 	}
-	
-	static Bitmap downloadBitmap(String url) {
-	    final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
-	    final HttpGet getRequest = new HttpGet(url);
 
-	    try {
-	        HttpResponse response = client.execute(getRequest);
-	        final int statusCode = response.getStatusLine().getStatusCode();
-	        if (statusCode != HttpStatus.SC_OK) { 
-	            Log.w("ImageDownloader", "Error " + statusCode + " while retrieving bitmap from " + url); 
-	            return null;
-	        }
-	        
-	        final HttpEntity entity = response.getEntity();
-	        if (entity != null) {
-	            InputStream inputStream = null;
-	            try {
-	                inputStream = entity.getContent(); 
-	                final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-	                return bitmap;
-	            } finally {
-	                if (inputStream != null) {
-	                    inputStream.close();  
-	                }
-	                entity.consumeContent();
-	            }
-	        }
-	    } catch (Exception e) {
-	        // Could provide a more explicit error message for IOException or IllegalStateException
-	        getRequest.abort();
-	        e.printStackTrace();
-	       // Log.w("ImageDownloader", "Error while retrieving bitmap from " + url, e.toString());
-	    } finally {
-	        if (client != null) {
-	            client.close();
-	        }
-	    }
-	    return null;
+	static Bitmap downloadBitmap(String url) {
+		final AndroidHttpClient client = AndroidHttpClient
+				.newInstance("Android");
+		final HttpGet getRequest = new HttpGet(url);
+
+		try {
+			HttpResponse response = client.execute(getRequest);
+			final int statusCode = response.getStatusLine().getStatusCode();
+			if (statusCode != HttpStatus.SC_OK) {
+				Log.w("ImageDownloader", "Error " + statusCode
+						+ " while retrieving bitmap from " + url);
+				return null;
+			}
+
+			final HttpEntity entity = response.getEntity();
+			if (entity != null) {
+				InputStream inputStream = null;
+				try {
+					inputStream = entity.getContent();
+					final Bitmap bitmap = BitmapFactory
+							.decodeStream(inputStream);
+					return bitmap;
+				} finally {
+					if (inputStream != null) {
+						inputStream.close();
+					}
+					entity.consumeContent();
+				}
+			}
+		} catch (Exception e) {
+			// Could provide a more explicit error message for IOException or
+			// IllegalStateException
+			getRequest.abort();
+			e.printStackTrace();
+			// Log.w("ImageDownloader", "Error while retrieving bitmap from " +
+			// url, e.toString());
+		} finally {
+			if (client != null) {
+				client.close();
+			}
+		}
+		return null;
 	}
 }
-

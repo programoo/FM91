@@ -26,6 +26,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
@@ -44,6 +47,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.plus.model.people.Person.Image;
 
 public class CameraFragment extends SherlockFragment {
 	private View v;
@@ -56,7 +60,7 @@ public class CameraFragment extends SherlockFragment {
 		this.v = inflater.inflate(R.layout.camera_fragment, container, false);
 
 		final GridView gv = (GridView) v.findViewById(R.id.cameraGridView);
-		CameraCCTVAdapter ardap = new CameraCCTVAdapter(getActivity()
+		CameraGridViewAdapter ardap = new CameraGridViewAdapter(getActivity()
 				.getApplicationContext(), camList);
 
 		gv.setAdapter(ardap);
@@ -64,6 +68,29 @@ public class CameraFragment extends SherlockFragment {
 				.findViewById(R.id.cctvLayout);
 		final RelativeLayout positionLayout = (RelativeLayout) v
 				.findViewById(R.id.positionLayout);
+
+		// handle gridview click
+		gv.setOnItemClickListener(
+
+		new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
+					long arg3) {
+				
+				Log.d(tag,"arg2: "+arg2+","+"arg3: "+arg3);
+				Camera cam = camList.get(arg2);
+				
+				Intent cameraDetail = new Intent(getActivity(),
+						CameraDetailsActivity.class);
+
+				cameraDetail.putExtra("description", cam.thaiName+","+cam.englishName);
+				cameraDetail.putExtra("imgList", cam.imgList);
+
+				// myMarker(n);
+
+				startActivity(cameraDetail);
+
+			}
+		});
 
 		// handle click event
 		Button positionBtn = (Button) v.findViewById(R.id.positionBtn);
@@ -90,7 +117,7 @@ public class CameraFragment extends SherlockFragment {
 
 				positionLayout.setVisibility(View.GONE);
 				cctvLayout.setVisibility(View.VISIBLE);
-				CameraCCTVAdapter ardap = new CameraCCTVAdapter(getActivity()
+				CameraGridViewAdapter ardap = new CameraGridViewAdapter(getActivity()
 						.getApplicationContext(), camList);
 
 				gv.setAdapter(ardap);
@@ -323,15 +350,20 @@ public class CameraFragment extends SherlockFragment {
 							.item(0).getTextContent();
 					
 					
-					String lastupdate = eElement.getAttribute("lastupdate");
-					String src = eElement.getAttribute("src");
-					String desc = eElement.getAttribute("desc");
-					String imgList = eElement.getAttribute("list");
+					String lastupdate = eElement.getElementsByTagName("lastupdate")
+							.item(0).getTextContent();
+					String src = eElement.getElementsByTagName("src")
+							.item(0).getTextContent();
+					String description = eElement.getElementsByTagName("desc")
+							.item(0).getTextContent();
+					String imgList = eElement.getElementsByTagName("list")
+							.item(0).getTextContent();
+					
 
 					Camera cam = new Camera(id, nameEng, nameTH, lat, lng,
-							available,imgUrl, lastupdate, src, desc, imgList);
+							available, imgUrl, lastupdate, src, description, imgList);
 					this.uniqueAdd(cam);
-					Log.i(tag,"imgUrl "+imgUrl);
+					Log.i(tag, "imgUrl " + imgUrl);
 					/*
 					 * String roadName =
 					 * getStringValueFromExistElement(eElement, "road", "name");

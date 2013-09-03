@@ -9,13 +9,13 @@ public class Camera {
 	public String updateStatus;
 	public String imgUrl;
 	public String lastUpdate;
-	public String image;
+	public String description;
 	public String source;
-	public String camList;
+	public String imgList;
 
 	public Camera(String id, String englishName, String thaiName, String lat,
-			String lng, String updateStatus,String imgUrl, String lastUpdate, String image,
-			String source, String camList) {
+			String lng, String updateStatus,String imgUrl, String lastUpdate, String describe,
+			String source, String imgList) {
 		this.id = id;
 		this.englishName = englishName;
 		this.thaiName = thaiName;
@@ -24,8 +24,8 @@ public class Camera {
 		this.updateStatus = updateStatus;
 		this.imgUrl = imgUrl;
 		this.lastUpdate = lastUpdate;
-		this.image = image;
+		this.description = describe;
 		this.source = source;
-		this.camList = camList;
+		this.imgList = imgList;
 	}
 }

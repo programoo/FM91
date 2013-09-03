@@ -45,9 +45,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mimotech.testgmapapi.BasicMapActivity" />
         <activity
             android:name="com.mimotech.testgmapapi.NewsDetailsActivity"
+            android:screenOrientation="portrait" />
+        
+        <activity
+            android:name="com.mimotech.testgmapapi.CameraDetailsActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -11,12 +11,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CameraCCTVAdapter extends BaseAdapter {
+public class CameraGridViewAdapter extends BaseAdapter {
 	String tag = this.getClass().getSimpleName();
 	Context mainContext;
 	private ArrayList<Camera> camList;
 
-	public CameraCCTVAdapter(Context context, ArrayList<Camera> camList) {
+	public CameraGridViewAdapter(Context context, ArrayList<Camera> camList) {
 		Log.d(tag, "GridViewAdapte");
 		mainContext = context;
 		this.camList = camList;
