@@ -57,14 +57,10 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 					Double.parseDouble(sLng));
 
 		}
-		setUpMapIfNeeded(accidentLatLng, title);
-	}
-
-	private void setUpMapIfNeeded(LatLng accidentLatLng, String title) {
-
+		
 		if (mMap == null) {
 			mMap = ((SupportMapFragment) getSupportFragmentManager()
-					.findFragmentById(R.id.map)).getMap();
+					.findFragmentById(R.id.newsMap)).getMap();
 		}
 
 		if (mMap != null) {
@@ -81,7 +77,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 					16));
 
 		}
-
 	}
+
 
 }

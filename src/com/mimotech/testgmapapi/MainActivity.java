@@ -53,13 +53,15 @@ public class MainActivity extends SherlockFragmentActivity {
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_home"), getResources()
 				.getDrawable(R.drawable.ic_launcher), CameraFragment.class,
 				tabArgs, getString(R.string.camera_tabbar));
-
+		/*
 		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_3");
 		tabArgs.putInt("id", 2);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_home"), getResources()
 				.getDrawable(R.drawable.ic_launcher), NewsFragment.class,
 				tabArgs, getString(R.string.hello_world));
+				
+		*/
 
 	}
 

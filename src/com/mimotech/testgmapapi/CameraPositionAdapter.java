@@ -41,7 +41,7 @@ public class CameraPositionAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		Log.i(tag, "getView:  " + position);
 		LayoutInflater lf = (LayoutInflater) mainContext
-				.getSystemService(mainContext.LAYOUT_INFLATER_SERVICE);
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		View v = lf.inflate(R.layout.camera_fragment_position, null);
 

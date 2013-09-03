@@ -22,16 +22,14 @@
             android:id="@+id/newsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/newsLogo"
-            android:text="@+id/news_headline_text" />
+            android:layout_toRightOf="@+id/newsLogo" />
 
         <TextView
             android:id="@+id/reporter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/newsText"
-            android:layout_toRightOf="@+id/newsLogo"
-            android:text="@string/news_reporter_text" />
+            android:layout_toRightOf="@+id/newsLogo" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -54,17 +52,17 @@
 
         <ImageView
             android:id="@+id/isRead"
-            android:contentDescription="@string/hello_world"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
-            android:visibility="visible"
+            android:contentDescription="@string/hello_world"
             android:maxHeight="@dimen/is_read_icon"
             android:maxWidth="@dimen/is_read_icon"
             android:scaleType="fitCenter"
-            android:src="@drawable/is_read" />
+            android:src="@drawable/is_read"
+            android:visibility="visible" />
     </RelativeLayout>
 
 </RelativeLayout>

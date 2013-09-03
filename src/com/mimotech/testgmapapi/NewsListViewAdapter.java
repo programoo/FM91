@@ -14,17 +14,13 @@ import android.widget.TextView;
 public class NewsListViewAdapter extends BaseAdapter {
 	private String tag = getClass().getSimpleName();
 	private Context context;
-	private String newsId[];
 	private ArrayList<News> newsList;
 	public NewsListViewAdapter(Context context,ArrayList<News> newsList) {
 		super();
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.newsList = newsList;
-		newsId = new String[newsList.size()];
-		for (int i = 0; i < newsList.size(); i++) {
-			newsId[i] = newsList.get(i).id;
-		}
+		
 		Log.d(tag,"NewsListViewAdapter");
 
 	}

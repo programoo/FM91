@@ -91,11 +91,11 @@ public class NewsFragment extends SherlockFragment {
 
 				mapActivity.putExtra("description", n.description
 						+ n.startPointLat + "," + n.startPointLong);
-				mapActivity.putExtra("startPointLong",n.startPointLong);
-				mapActivity.putExtra("startPointLat",n.startPointLat);
-				mapActivity.putExtra("title",n.title);
+				mapActivity.putExtra("startPointLong", n.startPointLong);
+				mapActivity.putExtra("startPointLat", n.startPointLat);
+				mapActivity.putExtra("title", n.title);
 
-				//myMarker(n);
+				// myMarker(n);
 
 				startActivity(mapActivity);
 
@@ -164,8 +164,6 @@ public class NewsFragment extends SherlockFragment {
 		}
 		return null;
 	}
-
-
 
 	private class RequestTask extends AsyncTask<String, String, String> {
 		private String tag = getClass().getSimpleName();
@@ -289,19 +287,16 @@ public class NewsFragment extends SherlockFragment {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			// optional, but recommended
-			// read this -
-			// http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-			// doc.getDocumentElement().normalize();
-
-			System.out.println("Root element :"
-					+ doc.getDocumentElement().getNodeName());
-
 			NodeList nList = doc.getElementsByTagName("news");
-
-			System.out.println("----------------------------"
-					+ nList.getLength());
+			/*
+			 * System.out.println("Root element :" +
+			 * doc.getDocumentElement().getNodeName());
+			 * 
+			 * 
+			 * 
+			 * System.out.println("----------------------------" +
+			 * nList.getLength());
+			 */
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 
