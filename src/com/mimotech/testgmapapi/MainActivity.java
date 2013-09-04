@@ -43,25 +43,25 @@ public class MainActivity extends SherlockFragmentActivity {
 		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_news");
 		tabArgs.putInt("id", 1);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_home"), getResources()
+		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_news"), getResources()
 				.getDrawable(R.drawable.ic_launcher), NewsFragment.class,
 				tabArgs, getString(R.string.news_tabbar));
 
 		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_camera");
 		tabArgs.putInt("id", 2);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_home"), getResources()
+		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_camera"), getResources()
 				.getDrawable(R.drawable.ic_launcher), CameraFragment.class,
 				tabArgs, getString(R.string.camera_tabbar));
-		/*
+		
 		tabArgs = new Bundle();
-		tabArgs.putString("collection", "tab_3");
+		tabArgs.putString("collection", "tab_radio");
 		tabArgs.putInt("id", 2);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_home"), getResources()
-				.getDrawable(R.drawable.ic_launcher), NewsFragment.class,
+		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_radio"), getResources()
+				.getDrawable(R.drawable.ic_launcher), RadioFragment.class,
 				tabArgs, getString(R.string.hello_world));
 				
-		*/
+		
 
 	}
 

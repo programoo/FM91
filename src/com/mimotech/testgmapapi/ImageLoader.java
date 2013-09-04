@@ -24,7 +24,7 @@ public class ImageLoader {
 	}
 
 	public void downloadBitmapToList(String url, ArrayList<Bitmap> arr) {
-		BitmapDownloaderTask task = new BitmapDownloaderTask(arr);
+		BitmapDownloaderTask task = new BitmapDownloaderTask(arr, "keepBitmap");
 		task.execute(url);
 	}
 }
@@ -33,15 +33,17 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 	private String url;
 	private final WeakReference<ImageView> imageViewReference;
 	private ArrayList<Bitmap> arr;
+	private String type = "undefined";
 
 	public BitmapDownloaderTask(ImageView imageView) {
 		imageViewReference = new WeakReference<ImageView>(imageView);
+		type = "undefined";
 	}
 
-	public BitmapDownloaderTask(ArrayList<Bitmap> arr) {
+	public BitmapDownloaderTask(ArrayList<Bitmap> arr, String type) {
 		imageViewReference = new WeakReference<ImageView>(null);
 		this.arr = arr;
-
+		this.type = type;
 	}
 
 	@Override
@@ -58,16 +60,17 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 			bitmap = null;
 		}
 
-		if (imageViewReference != null) {
-			ImageView imageView = imageViewReference.get();
-			if (imageView != null) {
-				imageView.setImageBitmap(bitmap);
+		if (this.type.equalsIgnoreCase("undefined")) {
+			if (imageViewReference != null) {
+				ImageView imageView = imageViewReference.get();
+				if (imageView != null) {
+					imageView.setImageBitmap(bitmap);
+				}
 			}
-		}
-		// no image view pass just keep this bitmap to list
-		else {
+		} else {
 			arr.add(bitmap);
 		}
+
 	}
 
 	static Bitmap downloadBitmap(String url) {

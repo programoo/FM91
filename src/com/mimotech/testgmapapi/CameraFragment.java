@@ -47,7 +47,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.plus.model.people.Person.Image;
 
 public class CameraFragment extends SherlockFragment {
 	private View v;
@@ -98,7 +97,6 @@ public class CameraFragment extends SherlockFragment {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Log.d(tag, "positionBtnsetOnClickListener ja");
 				positionLayout.setVisibility(View.VISIBLE);
 				cctvLayout.setVisibility(View.GONE);
@@ -112,7 +110,6 @@ public class CameraFragment extends SherlockFragment {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Log.d(tag, "cctvOnClickListener ja");
 
 				positionLayout.setVisibility(View.GONE);
@@ -230,9 +227,9 @@ public class CameraFragment extends SherlockFragment {
 					throw new IOException(statusLine.getReasonPhrase());
 				}
 			} catch (ClientProtocolException e) {
-				// TODO Handle problems..
+				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Handle problems..
+				e.printStackTrace();
 			}
 			return responseString;
 		}

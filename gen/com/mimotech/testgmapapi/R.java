@@ -1186,11 +1186,13 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040017;
         public static final int abs__title=0x7f04001f;
         public static final int abs__up=0x7f04000b;
-        public static final int action_settings=0x7f04005d;
+        public static final int action_settings=0x7f040063;
         public static final int activityRoot=0x7f040036;
         public static final int badge_count=0x7f04003e;
         public static final int badge_icon=0x7f04003c;
         public static final int badge_title=0x7f04003d;
+        public static final int buttonPlay=0x7f040062;
+        public static final int buttonStopPlay=0x7f040061;
         public static final int cameraDescription=0x7f040049;
         public static final int cameraDetail=0x7f04004b;
         public static final int cameraGridView=0x7f040044;
@@ -1211,6 +1213,8 @@ containing a value of this type.
         public static final int homeAsUp=0x7f040006;
         public static final int hybrid=0x7f040013;
         public static final int icon=0x7f04003f;
+        public static final int imageButton1=0x7f04005f;
+        public static final int imageButton2=0x7f040060;
         public static final int isRead=0x7f04005a;
         public static final int list1Fragment=0x7f040050;
         public static final int listMode=0x7f040002;
@@ -1231,9 +1235,11 @@ containing a value of this type.
         public static final int pager=0x7f04003b;
         public static final int positionBtn=0x7f040041;
         public static final int positionLayout=0x7f040045;
+        public static final int progressBar1=0x7f04005d;
         public static final int reporter=0x7f040058;
         public static final int satellite=0x7f040011;
         public static final int searchEditText=0x7f040043;
+        public static final int seekBar1=0x7f04005e;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
@@ -1276,8 +1282,9 @@ containing a value of this type.
         public static final int news_fragment_detail=0x7f03001b;
         public static final int news_fragment_listview=0x7f03001c;
         public static final int normal_tabbar_view=0x7f03001d;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001e;
-        public static final int sherlock_spinner_item=0x7f03001f;
+        public static final int radio_fragment=0x7f03001e;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001f;
+        public static final int sherlock_spinner_item=0x7f030020;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
