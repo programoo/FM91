@@ -1,7 +1,6 @@
 package com.mimotech.testgmapapi;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
@@ -13,25 +12,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 
 public class RadioFragment extends SherlockFragment implements OnClickListener {
 	private String tag = this.getClass().getSimpleName();
 	private View viewMainFragment;
-	private ListView lv;
-	private ArrayList<News> newsList;
-	private News currentNews;
-	private LatLng accidentLatLng;
-	private GoogleMap mMap;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		newsList = new ArrayList<News>();
 
 		this.viewMainFragment = inflater.inflate(R.layout.radio_fragment,
 				container, false);
@@ -143,7 +133,7 @@ public class RadioFragment extends SherlockFragment implements OnClickListener {
     private void initializeMediaPlayer() {
         player = new MediaPlayer();
         try {
-            player.setDataSource("http://203.150.224.142:8000");
+            player.setDataSource("http://122.155.16.48:8955");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {

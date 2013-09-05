@@ -2,7 +2,6 @@ package com.mimotech.testgmapapi;
 
 
 public class News {
-	private String tag = getClass().getSimpleName();
 	String id;
 	String type;
 	String primarySource;

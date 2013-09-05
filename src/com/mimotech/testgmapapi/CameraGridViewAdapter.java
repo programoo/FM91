@@ -57,9 +57,6 @@ public class CameraGridViewAdapter extends BaseAdapter {
 		String imgUrl = camList.get(position).imgUrl;
 		Log.i(tag,"ImgUrl: "+camList.get(position).thaiName);
 		new ImageLoader().download(imgUrl, iv);
-		
-		
-		
 
 		return v;
 	}

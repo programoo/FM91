@@ -388,20 +388,6 @@ public class CameraFragment extends SherlockFragment {
 
 		}// end xml parser
 
-		public String getStringValueFromExistElement(Element eElement,
-				String elementName, String attributeName) {
-			try {
-				String valueString = eElement.getElementsByTagName(elementName)
-						.item(0).getAttributes().getNamedItem(attributeName)
-						.getNodeValue();
-				return valueString;
-			} catch (NullPointerException e) {
-				Log.d(tag, "element not found: " + elementName + ","
-						+ attributeName);
-				return "undefined";
-			}
-
-		}
 
 		public void uniqueAdd(Camera cam) {
 

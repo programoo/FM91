@@ -30,7 +30,7 @@ public class ImageLoader {
 }
 
 class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
-	private String url;
+	//private String url;
 	private final WeakReference<ImageView> imageViewReference;
 	private ArrayList<Bitmap> arr;
 	private String type = "undefined";

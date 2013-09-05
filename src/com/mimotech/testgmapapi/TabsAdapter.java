@@ -8,15 +8,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
-import android.widget.TextView;
-
 import com.ais.sand.helper.AisTextView;
 
 public class TabsAdapter extends FragmentPagerAdapter implements
@@ -82,8 +79,8 @@ public class TabsAdapter extends FragmentPagerAdapter implements
 					.findViewById(R.id.badge_icon);
 			icon.setImageDrawable(drawableId);
 			
-			TextView badgeCounter = (TextView) tabIndicator
-					.findViewById(R.id.badge_count);
+			//TextView badgeCounter = (TextView) tabIndicator
+			//		.findViewById(R.id.badge_count);
 			//badgeCounter.setVisibility(View.INVISIBLE);
 
 			AisTextView tabLabel = (AisTextView) tabIndicator

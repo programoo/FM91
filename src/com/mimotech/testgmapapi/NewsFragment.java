@@ -1,6 +1,10 @@
 package com.mimotech.testgmapapi;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigInteger;
@@ -10,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -42,21 +47,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class NewsFragment extends SherlockFragment {
 	private String tag = this.getClass().getSimpleName();
 	private View viewMainFragment;
 	private ListView lv;
 	private ArrayList<News> newsList;
-	private News currentNews;
-	private LatLng accidentLatLng;
-	private GoogleMap mMap;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -226,7 +222,8 @@ public class NewsFragment extends SherlockFragment {
 				 * )&format=XML&limit=10&offset=5&type=all&from=2011-11-05
 				 * 17:41:13&to=2011-11-05 17:45:20
 				 */
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 				Date date = new Date();
 				String dateStart = dateFormat.format(date) + "%2000:00:01";
 				String dateEnd = dateFormat.format(date) + "%2023:59:59";
@@ -387,7 +384,35 @@ public class NewsFragment extends SherlockFragment {
 			}
 
 		}
+		
+		
+		private void readFile() {
+			BufferedReader bufferedReader;
+			try {
+				bufferedReader = new BufferedReader(new FileReader(
+						new File(getActivity().getFilesDir() + File.separator + "news.txt")));
+				
+				String read;
+				StringBuilder builder = new StringBuilder("");
+
+				while ((read = bufferedReader.readLine()) != null) {
+					builder.append(read);
+				}
+				Log.d("Output", builder.toString());
+				bufferedReader.close();
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 
 	}
+	
+	
 
 }
