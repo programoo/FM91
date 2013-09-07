@@ -18,8 +18,8 @@ import android.widget.ImageView;
 
 public class ImageLoader {
 
-	public void download(String url, ImageView imageView) {
-		BitmapDownloaderTask task = new BitmapDownloaderTask(imageView);
+	public void download(String url, ImageView imageView,Camera bm) {
+		BitmapDownloaderTask task = new BitmapDownloaderTask(imageView,bm);
 		task.execute(url);
 	}
 
@@ -34,10 +34,12 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 	private final WeakReference<ImageView> imageViewReference;
 	private ArrayList<Bitmap> arr;
 	private String type = "undefined";
+	private Camera cmRef;//camera reference obj
 
-	public BitmapDownloaderTask(ImageView imageView) {
-		imageViewReference = new WeakReference<ImageView>(imageView);
-		type = "undefined";
+	public BitmapDownloaderTask(ImageView imageView,Camera cmRef) {
+		this.imageViewReference = new WeakReference<ImageView>(imageView);
+		this.type = "undefined";
+		this.cmRef = cmRef;
 	}
 
 	public BitmapDownloaderTask(ArrayList<Bitmap> arr, String type) {
@@ -65,6 +67,7 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 				ImageView imageView = imageViewReference.get();
 				if (imageView != null) {
 					imageView.setImageBitmap(bitmap);
+					cmRef.imgBmp = bitmap;
 				}
 			}
 		} else {

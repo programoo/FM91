@@ -141,7 +141,36 @@ public class NewsFragment extends SherlockFragment {
 		tvBadgeCount.setText(this.unReadNumber() + "");
 
 	}
+	
+	public void readPreviousNews(){
+		this.readFile();
+	}
 
+	public void readFile() {
+		BufferedReader bufferedReader;
+		try {
+			bufferedReader = new BufferedReader(new FileReader(
+					new File(getActivity().getFilesDir() + File.separator + "news.csv")));
+			
+			String read;
+			StringBuilder builder = new StringBuilder("");
+
+			while ((read = bufferedReader.readLine()) != null) {
+				builder.append(read);
+			}
+			Log.d(tag, builder.toString());
+			bufferedReader.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	public int unReadNumber() {
 		int count = newsList.size();
 		for (int i = 0; i < newsList.size(); i++) {
@@ -239,6 +268,7 @@ public class NewsFragment extends SherlockFragment {
 				new RequestTask("getData").execute(traffy_request_url);
 			} else if (requestType.equalsIgnoreCase("getData")) {
 				// this mean we get real data from traffy already
+				readPreviousNews();
 				this.traffyNewsXmlParser(result);
 				reloadViewAfterRequestTaskComplete();
 
@@ -385,32 +415,6 @@ public class NewsFragment extends SherlockFragment {
 
 		}
 		
-		
-		private void readFile() {
-			BufferedReader bufferedReader;
-			try {
-				bufferedReader = new BufferedReader(new FileReader(
-						new File(getActivity().getFilesDir() + File.separator + "news.txt")));
-				
-				String read;
-				StringBuilder builder = new StringBuilder("");
-
-				while ((read = bufferedReader.readLine()) != null) {
-					builder.append(read);
-				}
-				Log.d("Output", builder.toString());
-				bufferedReader.close();
-				
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
 	}
 	
 	

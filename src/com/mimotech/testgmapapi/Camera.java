@@ -1,5 +1,7 @@
 package com.mimotech.testgmapapi;
 
+import android.graphics.Bitmap;
+
 public class Camera {
 	public String id;
 	public String englishName;
@@ -12,6 +14,8 @@ public class Camera {
 	public String description;
 	public String source;
 	public String imgList;
+	//handle graphic logic
+	public Bitmap imgBmp;
 
 	public Camera(String id, String englishName, String thaiName, String lat,
 			String lng, String updateStatus,String imgUrl, String lastUpdate, String describe,
@@ -27,5 +31,7 @@ public class Camera {
 		this.description = describe;
 		this.source = source;
 		this.imgList = imgList;
+		
+		this.imgBmp = null;
 	}
 }

@@ -3,6 +3,7 @@ package com.mimotech.testgmapapi;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,12 +52,18 @@ public class CameraGridViewAdapter extends BaseAdapter {
 
 		TextView tv = (TextView) v.findViewById(R.id.cameraTextView1);
 		tv.setText(camList.get(position).thaiName);
-		
+
 		ImageView iv = (ImageView) v.findViewById(R.id.cameraImageView1);
-		iv.setImageResource(R.drawable.ic_launcher);
-		String imgUrl = camList.get(position).imgUrl;
-		Log.i(tag,"ImgUrl: "+camList.get(position).thaiName);
-		new ImageLoader().download(imgUrl, iv);
+
+		if (camList.get(position).imgBmp == null) {
+
+			iv.setImageResource(R.drawable.ic_launcher);
+			//pass iv,imgBmp by reference
+			new ImageLoader().download(camList.get(position).imgUrl, iv,camList.get(position));
+			Log.i(tag, "ImgUrl: " + camList.get(position).thaiName);
+		} else {
+			iv.setImageBitmap(camList.get(position).imgBmp);
+		}
 
 		return v;
 	}

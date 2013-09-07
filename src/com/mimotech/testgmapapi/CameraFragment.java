@@ -53,6 +53,7 @@ public class CameraFragment extends SherlockFragment {
 	private ArrayList<Camera> camList = new ArrayList<Camera>();
 	private String tag = this.getClass().getSimpleName();
 	private GoogleMap mMap;
+	private boolean isMark = false;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -74,14 +75,15 @@ public class CameraFragment extends SherlockFragment {
 		new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
 					long arg3) {
-				
-				Log.d(tag,"arg2: "+arg2+","+"arg3: "+arg3);
+
+				Log.d(tag, "arg2: " + arg2 + "," + "arg3: " + arg3);
 				Camera cam = camList.get(arg2);
-				
+
 				Intent cameraDetail = new Intent(getActivity(),
 						CameraDetailsActivity.class);
 
-				cameraDetail.putExtra("description", cam.thaiName+","+cam.englishName);
+				cameraDetail.putExtra("description", cam.thaiName + ","
+						+ cam.englishName);
 				cameraDetail.putExtra("imgList", cam.imgList);
 
 				// myMarker(n);
@@ -100,7 +102,6 @@ public class CameraFragment extends SherlockFragment {
 				Log.d(tag, "positionBtnsetOnClickListener ja");
 				positionLayout.setVisibility(View.VISIBLE);
 				cctvLayout.setVisibility(View.GONE);
-				markAll();
 
 			}
 		});
@@ -114,8 +115,8 @@ public class CameraFragment extends SherlockFragment {
 
 				positionLayout.setVisibility(View.GONE);
 				cctvLayout.setVisibility(View.VISIBLE);
-				CameraGridViewAdapter ardap = new CameraGridViewAdapter(getActivity()
-						.getApplicationContext(), camList);
+				CameraGridViewAdapter ardap = new CameraGridViewAdapter(
+						getActivity().getApplicationContext(), camList);
 
 				gv.setAdapter(ardap);
 
@@ -148,17 +149,23 @@ public class CameraFragment extends SherlockFragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	public void markAll() {
-		Log.i(tag, "set up map marker");
+	private void markAll() {
+		//draw marker only first time
+		if(!this.isMark){
+			Log.i(tag, "set up map marker");
 
-		for (int i = 0; i < camList.size(); i++) {
-			myMarker(camList.get(i).lat, camList.get(i).lng,
-					camList.get(i).thaiName);
+			for (int i = 0; i < camList.size(); i++) {
+				myMarker(camList.get(i).lat, camList.get(i).lng,
+						camList.get(i).thaiName);
+			}
+			Log.i(tag, "camera num: " + camList.size());
+			this.isMark = true;
+			
 		}
-		Log.i(tag, "camera num: " + camList.size());
+
 	}
 
-	public void myMarker(String sLat, String sLng, String title) {
+	private void myMarker(String sLat, String sLng, String title) {
 
 		LatLng accidentLatLng;
 		// set accident lat long
@@ -178,9 +185,8 @@ public class CameraFragment extends SherlockFragment {
 					.getSupportFragmentManager().findFragmentById(
 							R.id.cameraMap)).getMap();
 		}
-
+		
 		if (mMap != null) {
-
 			Marker marker = mMap.addMarker(new MarkerOptions()
 					.position(accidentLatLng).title(title)
 					.snippet(accidentLatLng.toString()));
@@ -189,14 +195,13 @@ public class CameraFragment extends SherlockFragment {
 
 			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(accidentLatLng,
 					10));
-
 		}
-	}
-
-	public void reloadViewAfterRequestTaskComplete() {
 
 	}
-
+	
+	private void reloadViewAfterRequestTaskComplete(){
+		this.markAll();
+	}
 	private class RequestTask extends AsyncTask<String, String, String> {
 		private String tag = getClass().getSimpleName();
 		public String AppID = "abcb6710";
@@ -270,7 +275,6 @@ public class CameraFragment extends SherlockFragment {
 				// this mean we get real data from traffy already
 				this.traffyCameraXmlParser(result);
 				reloadViewAfterRequestTaskComplete();
-
 			}
 
 		}
@@ -345,20 +349,20 @@ public class CameraFragment extends SherlockFragment {
 					String available = eElement.getAttribute("available");
 					String imgUrl = eElement.getElementsByTagName("url")
 							.item(0).getTextContent();
-					
-					
-					String lastupdate = eElement.getElementsByTagName("lastupdate")
-							.item(0).getTextContent();
-					String src = eElement.getElementsByTagName("src")
-							.item(0).getTextContent();
+
+					String lastupdate = eElement
+							.getElementsByTagName("lastupdate").item(0)
+							.getTextContent();
+					String src = eElement.getElementsByTagName("src").item(0)
+							.getTextContent();
 					String description = eElement.getElementsByTagName("desc")
 							.item(0).getTextContent();
 					String imgList = eElement.getElementsByTagName("list")
 							.item(0).getTextContent();
-					
 
 					Camera cam = new Camera(id, nameEng, nameTH, lat, lng,
-							available, imgUrl, lastupdate, src, description, imgList);
+							available, imgUrl, lastupdate, src, description,
+							imgList);
 					this.uniqueAdd(cam);
 					Log.i(tag, "imgUrl " + imgUrl);
 					/*
@@ -387,7 +391,6 @@ public class CameraFragment extends SherlockFragment {
 			}
 
 		}// end xml parser
-
 
 		public void uniqueAdd(Camera cam) {
 
