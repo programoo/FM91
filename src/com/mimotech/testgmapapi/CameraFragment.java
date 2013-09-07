@@ -43,12 +43,14 @@ import android.widget.RelativeLayout;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class CameraFragment extends SherlockFragment {
+public class CameraFragment extends SherlockFragment implements OnMarkerClickListener, OnInfoWindowClickListener {
 	private View v;
 	private ArrayList<Camera> camList = new ArrayList<Camera>();
 	private String tag = this.getClass().getSimpleName();
@@ -85,9 +87,6 @@ public class CameraFragment extends SherlockFragment {
 				cameraDetail.putExtra("description", cam.thaiName + ","
 						+ cam.englishName);
 				cameraDetail.putExtra("imgList", cam.imgList);
-
-				// myMarker(n);
-
 				startActivity(cameraDetail);
 
 			}
@@ -156,7 +155,7 @@ public class CameraFragment extends SherlockFragment {
 
 			for (int i = 0; i < camList.size(); i++) {
 				myMarker(camList.get(i).lat, camList.get(i).lng,
-						camList.get(i).thaiName);
+						camList.get(i).thaiName,camList.get(i).id);
 			}
 			Log.i(tag, "camera num: " + camList.size());
 			this.isMark = true;
@@ -165,7 +164,7 @@ public class CameraFragment extends SherlockFragment {
 
 	}
 
-	private void myMarker(String sLat, String sLng, String title) {
+	private void myMarker(String sLat, String sLng, String title,String id) {
 
 		LatLng accidentLatLng;
 		// set accident lat long
@@ -184,11 +183,13 @@ public class CameraFragment extends SherlockFragment {
 			mMap = ((SupportMapFragment) getActivity()
 					.getSupportFragmentManager().findFragmentById(
 							R.id.cameraMap)).getMap();
+			mMap.setOnMarkerClickListener(this);
+			mMap.setOnInfoWindowClickListener(this);
 		}
 		
 		if (mMap != null) {
 			Marker marker = mMap.addMarker(new MarkerOptions()
-					.position(accidentLatLng).title(title)
+					.position(accidentLatLng).title(id+":"+title)
 					.snippet(accidentLatLng.toString()));
 			mMap.getUiSettings().setZoomControlsEnabled(true);
 			marker.showInfoWindow();
@@ -198,10 +199,26 @@ public class CameraFragment extends SherlockFragment {
 		}
 
 	}
+	@Override
+	public boolean onMarkerClick(Marker marker) {
+		// TODO Auto-generated method stub
+		Log.i(tag,marker.getTitle()+marker.getSnippet());
+		return false;
+	}
+
+	public Camera getCamById(String id){
+		for(int i=0;i<camList.size();i++){
+			if(camList.get(i).id.equalsIgnoreCase(id)){
+				return camList.get(i);
+			}
+		}
+		return null;
+	}
 	
 	private void reloadViewAfterRequestTaskComplete(){
 		this.markAll();
 	}
+	
 	private class RequestTask extends AsyncTask<String, String, String> {
 		private String tag = getClass().getSimpleName();
 		public String AppID = "abcb6710";
@@ -403,5 +420,19 @@ public class CameraFragment extends SherlockFragment {
 		}
 
 	}// end private request class
+	@Override
+	public void onInfoWindowClick(Marker marker) {
+		// TODO Auto-generated method stub
+		Log.i(tag,marker.getTitle()+marker.getSnippet());
+		Camera cam = getCamById(marker.getTitle().split("[:]")[0]);
+		Intent cameraDetail = new Intent(getActivity(),
+				CameraDetailsActivity.class);
+
+		cameraDetail.putExtra("description", cam.thaiName + ","
+				+ cam.englishName);
+		cameraDetail.putExtra("imgList", cam.imgList);
+		startActivity(cameraDetail);
+
+	}
 
 }

@@ -224,6 +224,8 @@ public class NewsFragment extends SherlockFragment {
 			}
 		}
 		newsList.add(news);
+		//after add sort it
+
 	}
 	
 	private class RequestTask extends AsyncTask<String, String, String> {
