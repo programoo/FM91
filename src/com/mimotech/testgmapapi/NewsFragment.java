@@ -1,10 +1,12 @@
 package com.mimotech.testgmapapi;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigInteger;
@@ -141,36 +143,60 @@ public class NewsFragment extends SherlockFragment {
 		tvBadgeCount.setText(this.unReadNumber() + "");
 
 	}
-	
-	public void readPreviousNews(){
-		this.readFile();
-	}
 
-	public void readFile() {
-		BufferedReader bufferedReader;
+	public void writeNews() {
+		BufferedWriter bufferedWriter;
 		try {
-			bufferedReader = new BufferedReader(new FileReader(
-					new File(getActivity().getFilesDir() + File.separator + "news.csv")));
-			
-			String read;
-			StringBuilder builder = new StringBuilder("");
-
-			while ((read = bufferedReader.readLine()) != null) {
-				builder.append(read);
+			bufferedWriter = new BufferedWriter(new FileWriter(new File(
+					getActivity().getFilesDir() + File.separator + "news.csv")));
+			for (int i = 0; i < this.newsList.size(); i++) {	
+				bufferedWriter.write(this.newsList.get(i).toString()+"\n");
 			}
-			Log.d(tag, builder.toString());
-			bufferedReader.close();
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			bufferedWriter.close();
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-	
+
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		writeNews();
+	}
+
+	public void readNews() {
+		BufferedReader bufferedReader;
+		try {
+			bufferedReader = new BufferedReader(new FileReader(new File(
+					getActivity().getFilesDir() + File.separator + "news.csv")));
+			String read="";
+
+			while ((read = bufferedReader.readLine()) != null) {
+				Log.i(tag,read);
+				String tmpNews[] = read.split(",");
+
+				News n = new News(tmpNews[0], tmpNews[1], tmpNews[2],
+						tmpNews[3], tmpNews[4], tmpNews[5], tmpNews[6],
+						tmpNews[7], tmpNews[8], tmpNews[9], tmpNews[10],
+						tmpNews[11], tmpNews[12], tmpNews[13], tmpNews[14],
+						tmpNews[15], tmpNews[16], tmpNews[17],
+						Boolean.parseBoolean(tmpNews[18]));
+				this.uniqueAdd(n);
+			}
+			bufferedReader.close();
+
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public int unReadNumber() {
 		int count = newsList.size();
 		for (int i = 0; i < newsList.size(); i++) {
@@ -190,6 +216,16 @@ public class NewsFragment extends SherlockFragment {
 		return null;
 	}
 
+	public void uniqueAdd(News news) {
+
+		for (int i = 0; i < newsList.size(); i++) {
+			if (news.id.equalsIgnoreCase(newsList.get(i).id)) {
+				return;
+			}
+		}
+		newsList.add(news);
+	}
+	
 	private class RequestTask extends AsyncTask<String, String, String> {
 		private String tag = getClass().getSimpleName();
 		public String AppID = "abcb6710";
@@ -251,8 +287,9 @@ public class NewsFragment extends SherlockFragment {
 				 * )&format=XML&limit=10&offset=5&type=all&from=2011-11-05
 				 * 17:41:13&to=2011-11-05 17:45:20
 				 */
-				
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",
+						Locale.getDefault());
 				Date date = new Date();
 				String dateStart = dateFormat.format(date) + "%2000:00:01";
 				String dateEnd = dateFormat.format(date) + "%2023:59:59";
@@ -268,8 +305,9 @@ public class NewsFragment extends SherlockFragment {
 				new RequestTask("getData").execute(traffy_request_url);
 			} else if (requestType.equalsIgnoreCase("getData")) {
 				// this mean we get real data from traffy already
-				readPreviousNews();
+				readNews();
 				this.traffyNewsXmlParser(result);
+				writeNews();
 				reloadViewAfterRequestTaskComplete();
 
 			}
@@ -315,22 +353,10 @@ public class NewsFragment extends SherlockFragment {
 				e.printStackTrace();
 			}
 			NodeList nList = doc.getElementsByTagName("news");
-			/*
-			 * System.out.println("Root element :" +
-			 * doc.getDocumentElement().getNodeName());
-			 * 
-			 * 
-			 * 
-			 * System.out.println("----------------------------" +
-			 * nList.getLength());
-			 */
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 
 				Node nNode = nList.item(temp);
-
-				// System.out.println("\nCurrent Element :" +
-				// nNode.getNodeName());
 
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
@@ -381,24 +407,14 @@ public class NewsFragment extends SherlockFragment {
 							startTime, endTime, mediaType, mediaPath, title,
 							description, locationType, roadName,
 							startPointName, startPointLat, startPointLong,
-							endPointName, endPointLat, endPointLong);
+							endPointName, endPointLat, endPointLong, false);
 
-					this.uniqueAdd(n);
+					uniqueAdd(n);
 
 				}
 			}
 
 		}// end xml parser
-
-		public void uniqueAdd(News news) {
-
-			for (int i = 0; i < newsList.size(); i++) {
-				if (news.id.equalsIgnoreCase(newsList.get(i).id)) {
-					return;
-				}
-			}
-			newsList.add(news);
-		}
 
 		public String getStringValueFromExistElement(Element eElement,
 				String elementName, String attributeName) {
@@ -414,9 +430,7 @@ public class NewsFragment extends SherlockFragment {
 			}
 
 		}
-		
+
 	}
-	
-	
 
 }

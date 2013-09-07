@@ -3,7 +3,6 @@ package com.mimotech.testgmapapi;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +43,6 @@ public class CameraGridViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		Log.i(tag, "getView:  " + position);
 		LayoutInflater lf = (LayoutInflater) mainContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

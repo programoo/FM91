@@ -18,13 +18,13 @@ public class News {
 	String startPointLat, startPointLong;
 	String endPoint;
 	String endPointLat, endPointLong;
-	boolean isRead = false;
+	boolean isRead;
 	public News(String id, String type, String primarySource,
 			String secondarySource, String startTime, String endTime,
 			String mediaType, String path, String title, String description,
 			String locationType, String roadName, String startPoint,
 			String startPointLat, String startPointLong, String endPoint,
-			String endPointLat, String endPointLong) {
+			String endPointLat, String endPointLong,boolean isRead) {
 		this.id = id;
 		this.type = type;
 		this.primarySource = primarySource;
@@ -43,6 +43,7 @@ public class News {
 		this.endPoint = endPoint;
 		this.endPointLat = endPointLat;
 		this.endPointLong = endPointLong;
+		this.isRead = isRead;
 		
 	}
 
@@ -50,6 +51,6 @@ public class News {
 	public String toString() {
 		return id+","+type+","+primarySource+","+secondarySource+","+startTime+","+
 				endTime+","+mediaType+","+path+","+title+","+description+","+locationType+","+
-				roadName+","+startPoint+","+startPointLat+","+startPointLong+","+endPoint+endPointLat+","+endPointLong;
+				roadName+","+startPoint+","+startPointLat+","+startPointLong+","+endPoint+","+endPointLat+","+endPointLong+","+isRead;
 	}
 }
