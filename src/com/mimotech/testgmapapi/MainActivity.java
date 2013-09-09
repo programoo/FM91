@@ -44,24 +44,37 @@ public class MainActivity extends SherlockFragmentActivity {
 		tabArgs.putString("collection", "tab_news");
 		tabArgs.putInt("id", 1);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_news"), getResources()
-				.getDrawable(R.drawable.ic_launcher), NewsFragment.class,
+				.getDrawable(R.drawable.news_tabbar_img), NewsFragment.class,
 				tabArgs, getString(R.string.news_tabbar));
 
 		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_camera");
 		tabArgs.putInt("id", 2);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_camera"), getResources()
-				.getDrawable(R.drawable.ic_launcher), CameraFragment.class,
+				.getDrawable(R.drawable.camera_tabbar_img), CameraFragment.class,
 				tabArgs, getString(R.string.camera_tabbar));
 		
 		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_radio");
-		tabArgs.putInt("id", 2);
+		tabArgs.putInt("id", 3);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_radio"), getResources()
-				.getDrawable(R.drawable.ic_launcher), RadioFragment.class,
-				tabArgs, getString(R.string.hello_world));
+				.getDrawable(R.drawable.radio_tabbar_img), RadioFragment.class,
+				tabArgs, getString(R.string.radio_tabbar_text));
 				
-		
+		tabArgs = new Bundle();
+		tabArgs.putString("collection", "tab_inform");
+		tabArgs.putInt("id", 4);
+		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_inform"), getResources()
+				.getDrawable(R.drawable.inform_tabbar_img), RadioFragment.class,
+				tabArgs, getString(R.string.inform_tabbar_text));
+				
+		tabArgs = new Bundle();
+		tabArgs.putString("collection", "tab_more");
+		tabArgs.putInt("id", 5);
+		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_more"), getResources()
+				.getDrawable(R.drawable.inform_tabbar_img), RadioFragment.class,
+				tabArgs, getString(R.string.radio_tabbar_text));
+	
 
 	}
 
@@ -73,14 +86,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		v.setText("" + badgeCount++);
 		return super.onKeyDown(keyCode, event);
 
-	}
-
-	public void newsBtnOnClick(View view) {
-		Log.d(tag, "newsBtnOnClick");
-	}
-
-	public void eventBtnOnClick(View view) {
-		Log.d(tag, "eventBtnOnClick");
 	}
 
 	public void emergencyBtnOnClick(View view) {

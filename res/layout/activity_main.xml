@@ -7,32 +7,45 @@
 
     <RelativeLayout
         android:id="@+id/fm_banner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/header_bg" >
+
+        <ImageView
+            android:id="@+id/header_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/default_img_describer"
+            android:src="@drawable/icon_fm" />
 
         <com.ais.sand.helper.AisTextView
             android:id="@+id/fm91_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/fm_banner_size"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/header_img"
             android:text="@string/fm_banner_text"
+            android:textColor="@color/fm_header_color"
+            android:textSize="@dimen/fm_banner_size"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/emergency_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/header_btn_width"
+            android:layout_height="@dimen/header_btn_height"
             android:layout_alignParentRight="true"
+            android:background="@drawable/round_btn_bg"
             android:onClick="emergencyBtnOnClick"
-            android:text="@string/emergency_btn_text" />
+            android:text="@string/emergency_btn_text"
+            android:textSize="@dimen/header_btn_text_size" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/fm_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/abs__background_holo_dark"
         android:layout_below="@+id/fm_banner" >
 
         <TabHost

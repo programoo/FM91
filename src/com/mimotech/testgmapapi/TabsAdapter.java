@@ -3,6 +3,7 @@ package com.mimotech.testgmapapi;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
+
 import com.ais.sand.helper.AisTextView;
 
 public class TabsAdapter extends FragmentPagerAdapter implements
@@ -72,33 +75,36 @@ public class TabsAdapter extends FragmentPagerAdapter implements
 		TabInfo info = new TabInfo(tag, clss, args);
 		Log.d(tag, "label name is: " + label);
 		View tabIndicator = null;
-		if (label.equalsIgnoreCase( mContext.getString(R.string.news_tabbar) )) {
+		if (label.equalsIgnoreCase(mContext.getString(R.string.news_tabbar))) {
 			tabIndicator = LayoutInflater.from(mContext).inflate(
 					R.layout.badge_tabbar_view, mTabHost.getTabWidget(), false);
 			ImageView icon = (ImageView) tabIndicator
 					.findViewById(R.id.badge_icon);
 			icon.setImageDrawable(drawableId);
-			
-			//TextView badgeCounter = (TextView) tabIndicator
-			//		.findViewById(R.id.badge_count);
-			//badgeCounter.setVisibility(View.INVISIBLE);
 
-			AisTextView tabLabel = (AisTextView) tabIndicator
+			TextView tv = (TextView) tabIndicator
 					.findViewById(R.id.badge_title);
-			tabLabel.setText(label);
+			tv.setText(label);
+			// set font
+			Typeface tf = Typeface.createFromAsset(mContext.getAssets(),
+					"fonts/Tahoma.ttf");
+			tv.setTypeface(tf);
 
-			
-			
 		} else {
 			tabIndicator = LayoutInflater.from(mContext)
 					.inflate(R.layout.normal_tabbar_view,
 							mTabHost.getTabWidget(), false);
-			ImageView icon = (ImageView) tabIndicator.findViewById(R.id.normal_icon);
+			ImageView icon = (ImageView) tabIndicator
+					.findViewById(R.id.normal_icon);
 			icon.setImageDrawable(drawableId);
-			
-			AisTextView tabLabel = (AisTextView) tabIndicator
+
+			TextView tv = (TextView) tabIndicator
 					.findViewById(R.id.normal_title);
-			tabLabel.setText(label);
+			tv.setText(label);
+			// set font
+			Typeface tf = Typeface.createFromAsset(mContext.getAssets(),
+					"fonts/Tahoma.ttf");
+			tv.setTypeface(tf);
 
 		}
 
@@ -124,9 +130,7 @@ public class TabsAdapter extends FragmentPagerAdapter implements
 		mViewPager.setCurrentItem(position);
 		notifyDataSetChanged();
 		Log.d(tag, "ontabChanged: " + tabId);
-		
-		
-		
+
 	}
 
 	public void onPageScrolled(int position, float positionOffset,

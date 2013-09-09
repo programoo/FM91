@@ -37,24 +37,30 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class NewsFragment extends SherlockFragment {
+public class NewsFragment extends SherlockFragment implements
+		OnItemClickListener, OnClickListener {
 	private String tag = this.getClass().getSimpleName();
 	private View viewMainFragment;
 	private ListView lv;
 	private ArrayList<News> newsList;
+	private Button newsBtn;
+	private Button eventBtn;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -75,31 +81,12 @@ public class NewsFragment extends SherlockFragment {
 
 		Log.d(tag, "onCreateView");
 
-		lv.setOnItemClickListener(new OnItemClickListener() {
+		lv.setOnItemClickListener(this);
 
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Log.d(tag, "item click: " + position + "," + id);
-				// mark as read
-				News n = getNews(id + "");
-				n.isRead = true;
-
-				Intent mapActivity = new Intent(getActivity(),
-						NewsDetailsActivity.class);
-
-				mapActivity.putExtra("description", n.description
-						+ n.startPointLat + "," + n.startPointLong);
-				mapActivity.putExtra("startPointLong", n.startPointLong);
-				mapActivity.putExtra("startPointLat", n.startPointLat);
-				mapActivity.putExtra("title", n.title);
-
-				// myMarker(n);
-
-				startActivity(mapActivity);
-
-			}
-
-		});
+		newsBtn = (Button) viewMainFragment.findViewById(R.id.newsBtn);
+		newsBtn.setOnClickListener(this);
+		eventBtn = (Button) viewMainFragment.findViewById(R.id.eventBtn);
+		eventBtn.setOnClickListener(this);
 
 		return viewMainFragment;
 	}
@@ -149,8 +136,8 @@ public class NewsFragment extends SherlockFragment {
 		try {
 			bufferedWriter = new BufferedWriter(new FileWriter(new File(
 					getActivity().getFilesDir() + File.separator + "news.csv")));
-			for (int i = 0; i < this.newsList.size(); i++) {	
-				bufferedWriter.write(this.newsList.get(i).toString()+"\n");
+			for (int i = 0; i < this.newsList.size(); i++) {
+				bufferedWriter.write(this.newsList.get(i).toString() + "\n");
 			}
 			bufferedWriter.close();
 
@@ -172,10 +159,10 @@ public class NewsFragment extends SherlockFragment {
 		try {
 			bufferedReader = new BufferedReader(new FileReader(new File(
 					getActivity().getFilesDir() + File.separator + "news.csv")));
-			String read="";
+			String read = "";
 
 			while ((read = bufferedReader.readLine()) != null) {
-				Log.i(tag,read);
+				Log.i(tag, read);
 				String tmpNews[] = read.split(",");
 
 				News n = new News(tmpNews[0], tmpNews[1], tmpNews[2],
@@ -187,7 +174,6 @@ public class NewsFragment extends SherlockFragment {
 				this.uniqueAdd(n);
 			}
 			bufferedReader.close();
-
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -223,11 +209,11 @@ public class NewsFragment extends SherlockFragment {
 				return;
 			}
 		}
-		newsList.add(0,news);
-		//after add sort it
+		newsList.add(0, news);
+		// after add sort it
 
 	}
-	
+
 	private class RequestTask extends AsyncTask<String, String, String> {
 		private String tag = getClass().getSimpleName();
 		public String AppID = "abcb6710";
@@ -433,6 +419,48 @@ public class NewsFragment extends SherlockFragment {
 
 		}
 
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		Log.d(tag, "item click: " + arg1 + "," + arg2);
+		// mark as read
+		News n = getNews(arg3 + "");
+		n.isRead = true;
+
+		Intent mapActivity = new Intent(getActivity(),
+				NewsDetailsActivity.class);
+
+		mapActivity.putExtra("description", n.description + n.startPointLat
+				+ "," + n.startPointLong);
+		mapActivity.putExtra("startPointLong", n.startPointLong);
+		mapActivity.putExtra("startPointLat", n.startPointLat);
+		mapActivity.putExtra("title", n.title);
+
+		// myMarker(n);
+
+		startActivity(mapActivity);
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		Log.d(tag, "btn id" + v.getId());
+		switch (v.getId()) {
+		case R.id.newsBtn:
+			Log.d(tag, "news btn click");
+			newsBtn.setTextColor(Color.parseColor("#8dc342"));
+			eventBtn.setTextColor(Color.parseColor("#808080"));
+
+			break;
+		case R.id.eventBtn:
+			Log.d(tag, "eventBtn btn click");
+			newsBtn.setTextColor(Color.parseColor("#808080"));
+			eventBtn.setTextColor(Color.parseColor("#8dc342"));
+			break;
+		}
 	}
 
 }

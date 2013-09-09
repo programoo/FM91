@@ -4,6 +4,13 @@
     <color name="news_badge">#0000FF</color>
     <color name="transparent">#000000</color>
 
+    <!-- header -->
+    <color name="fm_header_color">#ffffff</color>
+    <color name="header_btn_clolor">#d12229</color>
+
+    <!-- news tabbar -->
+    <color name="badge_count_color">#ffffff</color>
+
     <!-- tab -->
     <color name="activetab_background">#a8bb30</color>
     <color name="tab_background">#ffffff</color>
