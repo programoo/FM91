@@ -223,7 +223,7 @@ public class NewsFragment extends SherlockFragment {
 				return;
 			}
 		}
-		newsList.add(news);
+		newsList.add(0,news);
 		//after add sort it
 
 	}
