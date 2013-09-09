@@ -10,6 +10,8 @@
     <dimen name="is_read_icon">15dp</dimen>
     <dimen name="tab_font_size">15dp</dimen>
     <dimen name="news_event_btn_font_size">12dp</dimen>
+    <dimen name="news_listview_icon_width">66dp</dimen>
+    <dimen name="news_listview_icon_height">66dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

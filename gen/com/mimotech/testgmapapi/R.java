@@ -999,9 +999,9 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f070015;
-        public static final int activity_vertical_margin=0x7f070016;
-        public static final int fm_banner_size=0x7f07001a;
+        public static final int activity_horizontal_margin=0x7f070017;
+        public static final int activity_vertical_margin=0x7f070018;
+        public static final int fm_banner_size=0x7f07001c;
         public static final int header_btn_height=0x7f070010;
         public static final int header_btn_text_size=0x7f070011;
         /**  header 
@@ -1011,12 +1011,14 @@ containing a value of this type.
          */
         public static final int is_read_icon=0x7f070012;
         public static final int news_event_btn_font_size=0x7f070014;
+        public static final int news_listview_icon_height=0x7f070016;
+        public static final int news_listview_icon_width=0x7f070015;
         public static final int tab_font_size=0x7f070013;
-        public static final int tab_height=0x7f070018;
-        public static final int tab_icon_size=0x7f070019;
+        public static final int tab_height=0x7f07001a;
+        public static final int tab_icon_size=0x7f07001b;
         /**  tab 
          */
-        public static final int tab_text_size=0x7f070017;
+        public static final int tab_text_size=0x7f070019;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
