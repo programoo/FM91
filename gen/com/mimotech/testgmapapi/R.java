@@ -999,26 +999,25 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f070017;
-        public static final int activity_vertical_margin=0x7f070018;
-        public static final int fm_banner_size=0x7f07001c;
-        public static final int header_btn_height=0x7f070010;
-        public static final int header_btn_text_size=0x7f070011;
+        public static final int activity_horizontal_margin=0x7f07000f;
+        public static final int activity_vertical_margin=0x7f070010;
+        public static final int fm_banner_size=0x7f070016;
+        public static final int header_btn_height=0x7f070012;
+        public static final int header_btn_text_size=0x7f070013;
         /**  header 
          */
-        public static final int header_btn_width=0x7f07000f;
+        public static final int header_btn_width=0x7f070011;
         /**  news babbar 
          */
-        public static final int is_read_icon=0x7f070012;
-        public static final int news_event_btn_font_size=0x7f070014;
-        public static final int news_listview_icon_height=0x7f070016;
-        public static final int news_listview_icon_width=0x7f070015;
-        public static final int tab_font_size=0x7f070013;
-        public static final int tab_height=0x7f07001a;
-        public static final int tab_icon_size=0x7f07001b;
+        public static final int is_read_icon=0x7f070017;
+        public static final int news_event_btn_font_size=0x7f070019;
+        public static final int news_listview_icon_height=0x7f07001b;
+        public static final int news_listview_icon_width=0x7f07001a;
+        public static final int tab_font_size=0x7f070018;
+        public static final int tab_height=0x7f070015;
         /**  tab 
          */
-        public static final int tab_text_size=0x7f070019;
+        public static final int tabbar_title_text_size=0x7f070014;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
@@ -1170,8 +1169,8 @@ containing a value of this type.
         public static final int inform_inactive=0x7f020092;
         public static final int inform_tabbar_img=0x7f020093;
         public static final int is_read=0x7f020094;
-        public static final int new_non=0x7f020095;
-        public static final int news=0x7f020096;
+        public static final int news_active=0x7f020095;
+        public static final int news_inactive=0x7f020096;
         public static final int news_tabbar_img=0x7f020097;
         public static final int radio_active=0x7f020098;
         public static final int radio_inactive=0x7f020099;
@@ -1458,11 +1457,12 @@ containing a value of this type.
         public static final int img_describer=0x7f090034;
         /**  inform tabbar 
          */
-        public static final int inform_tabbar_text=0x7f090037;
+        public static final int inform_tabbar_text=0x7f090038;
         /**  more tabbar 
          */
-        public static final int more_tabbar_text=0x7f090038;
+        public static final int more_tabbar_text=0x7f090039;
         public static final int news_btn_text=0x7f090027;
+        public static final int news_by_thai_text=0x7f090036;
         public static final int news_headline_text=0x7f090029;
         public static final int news_reporter_text=0x7f090031;
         public static final int news_tabbar=0x7f090026;
@@ -1473,7 +1473,7 @@ containing a value of this type.
         public static final int position_btn_text=0x7f09002d;
         /**  radio tabbar 
          */
-        public static final int radio_tabbar_text=0x7f090036;
+        public static final int radio_tabbar_text=0x7f090037;
         public static final int search_hint=0x7f09002e;
     }
     public static final class style {

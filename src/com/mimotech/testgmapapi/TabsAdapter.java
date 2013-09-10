@@ -9,18 +9,19 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.ais.sand.helper.AisTextView;
-
 public class TabsAdapter extends FragmentPagerAdapter implements
-		TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+		TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener, OnTouchListener{
 	String tag = getClass().getSimpleName();
 	private final Context mContext;
 	private final TabHost mTabHost;
@@ -65,6 +66,8 @@ public class TabsAdapter extends FragmentPagerAdapter implements
 		mTabHost.setOnTabChangedListener(this);
 		mViewPager.setAdapter(this);
 		mViewPager.setOnPageChangeListener(this);
+		mViewPager.setOnTouchListener(this);
+			
 	}
 
 	public void addTab(TabHost.TabSpec tabSpec, Drawable drawableId,
@@ -143,5 +146,24 @@ public class TabsAdapter extends FragmentPagerAdapter implements
 	}
 
 	public void onPageScrollStateChanged(int state) {
+	}
+	/*
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	*/
+	/*
+	@Override
+    public int getItemPosition(Object object){
+        return PagerAdapter.POSITION_NONE;
+    }
+	*/
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }

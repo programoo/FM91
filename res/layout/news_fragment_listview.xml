@@ -15,6 +15,7 @@
             android:id="@+id/newsLogo"
             android:layout_width="@dimen/news_listview_icon_width"
             android:layout_height="@dimen/news_listview_icon_height"
+            android:contentDescription="@string/default_img_describer"
             android:src="@drawable/ic_launcher" />
 
         <TextView
@@ -23,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/newsLogo"
             android:ellipsize="marquee"
-            android:maxLength="10"
             android:maxLines="2" />
 
         <TextView
@@ -31,7 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/newsText"
-            android:layout_toRightOf="@+id/newsLogo" />
+            android:layout_toRightOf="@+id/newsLogo"
+            android:ellipsize="marquee"
+            android:maxLines="1" />
     </RelativeLayout>
 
     <RelativeLayout

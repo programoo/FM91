@@ -29,9 +29,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		Log.d(tag, "onCreate");
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
-
 		// mViewPager.setId(1);
-
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 

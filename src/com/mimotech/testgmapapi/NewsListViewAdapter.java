@@ -47,8 +47,8 @@ public class NewsListViewAdapter extends BaseAdapter {
 		description.setText(newsList.get(position).description);
 		
 		
-		reporter.setText("by: "
-				+ newsList.get(position).secondarySource + "("
+		reporter.setText("โดย "
+				+ newsList.get(position).secondarySource + " ("
 				+ newsList.get(position).primarySource + ")");
 		endTime.setText(newsList.get(position).startTime);
 

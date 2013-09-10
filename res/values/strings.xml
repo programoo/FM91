@@ -27,6 +27,7 @@
 
     <!-- news tabbar -->
     <string name="news_tabbar_icon">news tabbar icon</string>
+    <string name="news_by_thai_text">โดย</string>
 
     <!-- radio tabbar -->
     <string name="radio_tabbar_text">วิทยุ</string>

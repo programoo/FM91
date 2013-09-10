@@ -50,7 +50,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class CameraFragment extends SherlockFragment implements OnMarkerClickListener, OnInfoWindowClickListener {
+public class CameraFragment extends SherlockFragment implements
+		OnMarkerClickListener, OnInfoWindowClickListener {
 	private View v;
 	private ArrayList<Camera> camList = new ArrayList<Camera>();
 	private String tag = this.getClass().getSimpleName();
@@ -149,22 +150,22 @@ public class CameraFragment extends SherlockFragment implements OnMarkerClickLis
 	}
 
 	private void markAll() {
-		//draw marker only first time
-		if(!this.isMark){
+		// draw marker only first time
+		if (!this.isMark) {
 			Log.i(tag, "set up map marker");
 
 			for (int i = 0; i < camList.size(); i++) {
 				myMarker(camList.get(i).lat, camList.get(i).lng,
-						camList.get(i).thaiName,camList.get(i).id);
+						camList.get(i).thaiName, camList.get(i).id);
 			}
 			Log.i(tag, "camera num: " + camList.size());
 			this.isMark = true;
-			
+
 		}
 
 	}
 
-	private void myMarker(String sLat, String sLng, String title,String id) {
+	private void myMarker(String sLat, String sLng, String title, String id) {
 
 		LatLng accidentLatLng;
 		// set accident lat long
@@ -186,10 +187,10 @@ public class CameraFragment extends SherlockFragment implements OnMarkerClickLis
 			mMap.setOnMarkerClickListener(this);
 			mMap.setOnInfoWindowClickListener(this);
 		}
-		
+
 		if (mMap != null) {
 			Marker marker = mMap.addMarker(new MarkerOptions()
-					.position(accidentLatLng).title(id+":"+title)
+					.position(accidentLatLng).title(id + ":" + title)
 					.snippet(accidentLatLng.toString()));
 			mMap.getUiSettings().setZoomControlsEnabled(true);
 			marker.showInfoWindow();
@@ -199,26 +200,27 @@ public class CameraFragment extends SherlockFragment implements OnMarkerClickLis
 		}
 
 	}
+
 	@Override
 	public boolean onMarkerClick(Marker marker) {
 		// TODO Auto-generated method stub
-		Log.i(tag,marker.getTitle()+marker.getSnippet());
+		Log.i(tag, marker.getTitle() + marker.getSnippet());
 		return false;
 	}
 
-	public Camera getCamById(String id){
-		for(int i=0;i<camList.size();i++){
-			if(camList.get(i).id.equalsIgnoreCase(id)){
+	public Camera getCamById(String id) {
+		for (int i = 0; i < camList.size(); i++) {
+			if (camList.get(i).id.equalsIgnoreCase(id)) {
 				return camList.get(i);
 			}
 		}
 		return null;
 	}
-	
-	private void reloadViewAfterRequestTaskComplete(){
+
+	private void reloadViewAfterRequestTaskComplete() {
 		this.markAll();
 	}
-	
+
 	private class RequestTask extends AsyncTask<String, String, String> {
 		private String tag = getClass().getSimpleName();
 		public String AppID = "abcb6710";
@@ -320,12 +322,14 @@ public class CameraFragment extends SherlockFragment implements OnMarkerClickLis
 			}
 
 			Document doc = null;
+			NodeList nList = null;
 			try {
 				DocumentBuilderFactory factory = DocumentBuilderFactory
 						.newInstance();
 				DocumentBuilder builder = factory.newDocumentBuilder();
 				InputSource is = new InputSource(new StringReader(xmlString));
 				doc = builder.parse(is);
+				nList = doc.getElementsByTagName("cctv");
 
 			} catch (ParserConfigurationException e) {
 				e.printStackTrace();
@@ -333,8 +337,9 @@ public class CameraFragment extends SherlockFragment implements OnMarkerClickLis
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (NullPointerException e) {
+				e.printStackTrace();
 			}
-			NodeList nList = doc.getElementsByTagName("cctv");
 			/*
 			 * System.out.println("Root element :" +
 			 * doc.getDocumentElement().getNodeName());
@@ -344,68 +349,73 @@ public class CameraFragment extends SherlockFragment implements OnMarkerClickLis
 			 * System.out.println("----------------------------" +
 			 * nList.getLength());
 			 */
+			if (nList != null)
+				for (int temp = 0; temp < nList.getLength(); temp++) {
 
-			for (int temp = 0; temp < nList.getLength(); temp++) {
+					Node nNode = nList.item(temp);
 
-				Node nNode = nList.item(temp);
+					// System.out.println("\nCurrent Element :" +
+					// nNode.getNodeName());
 
-				// System.out.println("\nCurrent Element :" +
-				// nNode.getNodeName());
+					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element eElement = (Element) nNode;
+						String id = eElement.getAttribute("no");
+						String nameEng = eElement.getAttribute("name");
+						String nameTH = eElement.getAttribute("name_th");
 
-					Element eElement = (Element) nNode;
-					String id = eElement.getAttribute("no");
-					String nameEng = eElement.getAttribute("name");
-					String nameTH = eElement.getAttribute("name_th");
+						String lat = eElement.getElementsByTagName("point")
+								.item(0).getAttributes().getNamedItem("lat")
+								.getNodeValue();
+						String lng = eElement.getElementsByTagName("point")
+								.item(0).getAttributes().getNamedItem("lng")
+								.getNodeValue();
+						String available = eElement.getAttribute("available");
+						String imgUrl = eElement.getElementsByTagName("url")
+								.item(0).getTextContent();
 
-					String lat = eElement.getElementsByTagName("point").item(0)
-							.getAttributes().getNamedItem("lat").getNodeValue();
-					String lng = eElement.getElementsByTagName("point").item(0)
-							.getAttributes().getNamedItem("lng").getNodeValue();
-					String available = eElement.getAttribute("available");
-					String imgUrl = eElement.getElementsByTagName("url")
-							.item(0).getTextContent();
+						String lastupdate = eElement
+								.getElementsByTagName("lastupdate").item(0)
+								.getTextContent();
+						String src = eElement.getElementsByTagName("src")
+								.item(0).getTextContent();
+						String description = eElement
+								.getElementsByTagName("desc").item(0)
+								.getTextContent();
+						String imgList = eElement.getElementsByTagName("list")
+								.item(0).getTextContent();
 
-					String lastupdate = eElement
-							.getElementsByTagName("lastupdate").item(0)
-							.getTextContent();
-					String src = eElement.getElementsByTagName("src").item(0)
-							.getTextContent();
-					String description = eElement.getElementsByTagName("desc")
-							.item(0).getTextContent();
-					String imgList = eElement.getElementsByTagName("list")
-							.item(0).getTextContent();
+						Camera cam = new Camera(id, nameEng, nameTH, lat, lng,
+								available, imgUrl, lastupdate, src,
+								description, imgList);
+						this.uniqueAdd(cam);
+						Log.i(tag, "imgUrl " + imgUrl);
+						/*
+						 * String roadName =
+						 * getStringValueFromExistElement(eElement, "road",
+						 * "name"); String startPointName =
+						 * getStringValueFromExistElement( eElement,
+						 * "startpoint", "name"); String startPointLat =
+						 * getStringValueFromExistElement( eElement,
+						 * "startpoint", "latitude"); String startPointLong =
+						 * getStringValueFromExistElement( eElement,
+						 * "startpoint", "longitude");
+						 * 
+						 * String endPointName = getStringValueFromExistElement(
+						 * eElement, "endpoint", "name"); String endPointLat =
+						 * getStringValueFromExistElement( eElement, "endpoint",
+						 * "latitude"); String endPointLong =
+						 * getStringValueFromExistElement( eElement, "endpoint",
+						 * "longitude"); News n = new News(id, type,
+						 * primarySource, secondarySource, startTime, endTime,
+						 * mediaType, mediaPath, title, description,
+						 * locationType, roadName, startPointName,
+						 * startPointLat, startPointLong, endPointName,
+						 * endPointLat, endPointLong);
+						 */
 
-					Camera cam = new Camera(id, nameEng, nameTH, lat, lng,
-							available, imgUrl, lastupdate, src, description,
-							imgList);
-					this.uniqueAdd(cam);
-					Log.i(tag, "imgUrl " + imgUrl);
-					/*
-					 * String roadName =
-					 * getStringValueFromExistElement(eElement, "road", "name");
-					 * String startPointName = getStringValueFromExistElement(
-					 * eElement, "startpoint", "name"); String startPointLat =
-					 * getStringValueFromExistElement( eElement, "startpoint",
-					 * "latitude"); String startPointLong =
-					 * getStringValueFromExistElement( eElement, "startpoint",
-					 * "longitude");
-					 * 
-					 * String endPointName = getStringValueFromExistElement(
-					 * eElement, "endpoint", "name"); String endPointLat =
-					 * getStringValueFromExistElement( eElement, "endpoint",
-					 * "latitude"); String endPointLong =
-					 * getStringValueFromExistElement( eElement, "endpoint",
-					 * "longitude"); News n = new News(id, type, primarySource,
-					 * secondarySource, startTime, endTime, mediaType,
-					 * mediaPath, title, description, locationType, roadName,
-					 * startPointName, startPointLat, startPointLong,
-					 * endPointName, endPointLat, endPointLong);
-					 */
-
+					}
 				}
-			}
 
 		}// end xml parser
 
@@ -420,10 +430,11 @@ public class CameraFragment extends SherlockFragment implements OnMarkerClickLis
 		}
 
 	}// end private request class
+
 	@Override
 	public void onInfoWindowClick(Marker marker) {
 		// TODO Auto-generated method stub
-		Log.i(tag,marker.getTitle()+marker.getSnippet());
+		Log.i(tag, marker.getTitle() + marker.getSnippet());
 		Camera cam = getCamById(marker.getTitle().split("[:]")[0]);
 		Intent cameraDetail = new Intent(getActivity(),
 				CameraDetailsActivity.class);

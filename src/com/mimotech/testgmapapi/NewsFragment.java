@@ -88,6 +88,10 @@ public class NewsFragment extends SherlockFragment implements
 		eventBtn = (Button) viewMainFragment.findViewById(R.id.eventBtn);
 		eventBtn.setOnClickListener(this);
 
+		//set default sub-menu color
+		newsBtn.setTextColor(Color.parseColor("#8dc342"));
+		eventBtn.setTextColor(Color.parseColor("#808080"));
+		
 		return viewMainFragment;
 	}
 
@@ -178,6 +182,9 @@ public class NewsFragment extends SherlockFragment implements
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 

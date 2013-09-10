@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/badge_icon"
-        android:layout_width="@dimen/tab_icon_size"
-        android:layout_height="@dimen/tab_icon_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/news_tabbar_icon"
@@ -22,21 +22,20 @@
         android:layout_below="@+id/badge_icon"
         android:layout_centerHorizontal="true"
         android:textColor="@color/tabbar_text_color"
-        android:textSize="@dimen/tab_font_size" />
+        android:textSize="@dimen/tabbar_title_text_size" />
 
     <TextView
         android:id="@+id/badge_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/badge_icon"
         android:background="@drawable/circle"
-        android:paddingBottom="1dp"
+        android:paddingBottom="0dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:paddingTop="1dp"
+        android:paddingTop="0dp"
         android:textColor="@color/badge_count_color"
-        android:textSize="@dimen/tab_font_size"
+        android:textSize="@dimen/tabbar_title_text_size"
         android:textStyle="bold" />
 
 </RelativeLayout>
