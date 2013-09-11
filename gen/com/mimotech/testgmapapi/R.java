@@ -1323,17 +1323,18 @@ containing a value of this type.
         public static final int abs__simple_dropdown_hint=0x7f030014;
         public static final int activity_main=0x7f030015;
         public static final int badge_tabbar_view=0x7f030016;
-        public static final int camera_fragment=0x7f030017;
-        public static final int camera_fragment_detail=0x7f030018;
-        public static final int camera_fragment_gridview=0x7f030019;
-        public static final int news_fragment=0x7f03001a;
-        public static final int news_fragment_detail=0x7f03001b;
-        public static final int news_fragment_listview=0x7f03001c;
-        public static final int normal_tabbar_view=0x7f03001d;
-        public static final int radio_fragment=0x7f03001e;
-        public static final int share_activity=0x7f03001f;
-        public static final int sherlock_spinner_dropdown_item=0x7f030020;
-        public static final int sherlock_spinner_item=0x7f030021;
+        public static final int blank_activity=0x7f030017;
+        public static final int camera_fragment=0x7f030018;
+        public static final int camera_fragment_detail=0x7f030019;
+        public static final int camera_fragment_gridview=0x7f03001a;
+        public static final int news_fragment=0x7f03001b;
+        public static final int news_fragment_detail=0x7f03001c;
+        public static final int news_fragment_listview=0x7f03001d;
+        public static final int normal_tabbar_view=0x7f03001e;
+        public static final int radio_fragment=0x7f03001f;
+        public static final int share_activity=0x7f030020;
+        public static final int sherlock_spinner_dropdown_item=0x7f030021;
+        public static final int sherlock_spinner_item=0x7f030022;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;

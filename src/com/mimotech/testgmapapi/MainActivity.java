@@ -59,22 +59,24 @@ public class MainActivity extends SherlockFragmentActivity {
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_radio"), getResources()
 				.getDrawable(R.drawable.radio_tabbar_img), RadioFragment.class,
 				tabArgs, getString(R.string.radio_tabbar_text));
-				
+		/*
 		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_inform");
 		tabArgs.putInt("id", 4);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_inform"), getResources()
-				.getDrawable(R.drawable.inform_tabbar_img), RadioFragment.class,
+				.getDrawable(R.drawable.inform_tabbar_img), BlankActivity.class,
 				tabArgs, getString(R.string.inform_tabbar_text));
 				
+		*/
+		/*		
 		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_more");
 		tabArgs.putInt("id", 5);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_more"), getResources()
-				.getDrawable(R.drawable.inform_tabbar_img), RadioFragment.class,
+				.getDrawable(R.drawable.inform_tabbar_img), BlankActivity.class,
 				tabArgs, getString(R.string.radio_tabbar_text));
 	
-
+		 */
 	}
 
 	@Override

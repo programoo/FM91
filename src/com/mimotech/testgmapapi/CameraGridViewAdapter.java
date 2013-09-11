@@ -62,15 +62,8 @@ public class CameraGridViewAdapter extends BaseAdapter {
 			new ImageLoader().download(camList.get(position).imgUrl, iv,camList.get(position));
 			//((BitmapDrawable)iv.getDrawable()).getBitmap().recycle();
 
-			Log.i(tag, "ImgUrl: " + camList.get(position).thaiName);
+			//Log.i(tag, "ImgUrl: " + camList.get(position).thaiName);
 		} else {
-			//((BitmapDrawable)iv.getDrawable()).getBitmap().recycle(); 
-			/*
-			Drawable toRecycle= iv.getDrawable();
-			if (toRecycle != null) {
-			    ((BitmapDrawable)iv.getDrawable()).getBitmap().recycle();
-			}
-			*/
 			
 			iv.setImageBitmap(camList.get(position).imgBmp);
 		}

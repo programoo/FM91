@@ -75,19 +75,29 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 
 	}
 
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		/*
+		 * if (mCamera != null) { mCamera.release(); mCamera = null; }
+		 */
+	}
+
 	public void myMarker(String sLat, String sLng, String title) {
 
-		LatLng accidentLatLng;
+		LatLng accidentLatLng = new LatLng(0, 0);
 		Log.i(tag, "set up map");
 		// set accident lat long
-		if (sLat.equalsIgnoreCase("undefined")
-				|| sLng.equalsIgnoreCase("undefined")) {
-			accidentLatLng = new LatLng(0, 0);
+		if (!sLat.equalsIgnoreCase("undefined")
+				&& !sLng.equalsIgnoreCase("undefined")) {
 
-		} else {
-
-			accidentLatLng = new LatLng(Double.parseDouble(sLat),
-					Double.parseDouble(sLng));
+			try {
+				accidentLatLng = new LatLng(Double.parseDouble(sLat),
+						Double.parseDouble(sLng));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
 
 		}
 

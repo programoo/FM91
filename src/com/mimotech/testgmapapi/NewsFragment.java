@@ -197,6 +197,12 @@ public class NewsFragment extends SherlockFragment implements
 
 	}
 
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
+
 	public int unReadNumber() {
 		int count = newsList.size();
 		for (int i = 0; i < newsList.size(); i++) {
@@ -446,8 +452,7 @@ public class NewsFragment extends SherlockFragment implements
 		Intent mapActivity = new Intent(getActivity(),
 				NewsDetailsActivity.class);
 
-		mapActivity.putExtra("description", n.description + n.startPointLat
-				+ "," + n.startPointLong);
+		mapActivity.putExtra("description", n.description);
 		mapActivity.putExtra("startPointLong", n.startPointLong);
 		mapActivity.putExtra("startPointLat", n.startPointLat);
 		mapActivity.putExtra("title", n.title);

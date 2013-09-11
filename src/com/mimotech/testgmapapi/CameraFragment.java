@@ -441,6 +441,7 @@ public class CameraFragment extends SherlockFragment implements
 
 		cameraDetail.putExtra("description", cam.thaiName + ","
 				+ cam.englishName);
+		cameraDetail.putExtra("cameraId", cam.id);
 		cameraDetail.putExtra("imgList", cam.imgList);
 		startActivity(cameraDetail);
 
