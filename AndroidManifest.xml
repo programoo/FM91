@@ -52,6 +52,9 @@
         <activity
             android:name="com.mimotech.testgmapapi.CameraDetailsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mimotech.testgmapapi.ShareButtonActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

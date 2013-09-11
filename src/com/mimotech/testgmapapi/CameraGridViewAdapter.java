@@ -52,14 +52,26 @@ public class CameraGridViewAdapter extends BaseAdapter {
 		tv.setText(camList.get(position).thaiName);
 
 		ImageView iv = (ImageView) v.findViewById(R.id.cameraImageView1);
+		//recycle image for prevent external allocation too large for this process
 
+		
 		if (camList.get(position).imgBmp == null) {
 
 			iv.setImageResource(R.drawable.ic_launcher);
 			//pass iv,imgBmp by reference
 			new ImageLoader().download(camList.get(position).imgUrl, iv,camList.get(position));
+			//((BitmapDrawable)iv.getDrawable()).getBitmap().recycle();
+
 			Log.i(tag, "ImgUrl: " + camList.get(position).thaiName);
 		} else {
+			//((BitmapDrawable)iv.getDrawable()).getBitmap().recycle(); 
+			/*
+			Drawable toRecycle= iv.getDrawable();
+			if (toRecycle != null) {
+			    ((BitmapDrawable)iv.getDrawable()).getBitmap().recycle();
+			}
+			*/
+			
 			iv.setImageBitmap(camList.get(position).imgBmp);
 		}
 

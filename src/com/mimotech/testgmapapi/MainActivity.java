@@ -1,5 +1,6 @@
 package com.mimotech.testgmapapi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -88,7 +89,11 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	public void emergencyBtnOnClick(View view) {
 		Log.d(tag, "emergencyBtnOnClick");
-
+		Intent shareBtn = new Intent(MainActivity.this,
+				ShareButtonActivity.class);
+		startActivity(shareBtn);
+		
+		
 	}
 
 }

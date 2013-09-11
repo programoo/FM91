@@ -103,6 +103,13 @@ public class NewsFragment extends SherlockFragment implements
 	public void onStart() {
 		super.onStart();
 		Log.d(tag, "onStart");
+		
+		//update from old memory
+		readNews();
+		writeNews();
+		reloadViewAfterRequestTaskComplete();
+
+		
 		// update already read list
 		lv = (ListView) viewMainFragment.findViewById(R.id.list1Fragment);
 		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity(),
