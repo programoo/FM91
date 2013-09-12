@@ -340,22 +340,11 @@ public class CameraFragment extends SherlockFragment implements
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 			}
-			/*
-			 * System.out.println("Root element :" +
-			 * doc.getDocumentElement().getNodeName());
-			 * 
-			 * 
-			 * 
-			 * System.out.println("----------------------------" +
-			 * nList.getLength());
-			 */
+			
 			if (nList != null)
 				for (int temp = 0; temp < nList.getLength(); temp++) {
 
 					Node nNode = nList.item(temp);
-
-					// System.out.println("\nCurrent Element :" +
-					// nNode.getNodeName());
 
 					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
@@ -390,30 +379,6 @@ public class CameraFragment extends SherlockFragment implements
 								description, imgList);
 						this.uniqueAdd(cam);
 						Log.i(tag, "imgUrl " + imgUrl);
-						/*
-						 * String roadName =
-						 * getStringValueFromExistElement(eElement, "road",
-						 * "name"); String startPointName =
-						 * getStringValueFromExistElement( eElement,
-						 * "startpoint", "name"); String startPointLat =
-						 * getStringValueFromExistElement( eElement,
-						 * "startpoint", "latitude"); String startPointLong =
-						 * getStringValueFromExistElement( eElement,
-						 * "startpoint", "longitude");
-						 * 
-						 * String endPointName = getStringValueFromExistElement(
-						 * eElement, "endpoint", "name"); String endPointLat =
-						 * getStringValueFromExistElement( eElement, "endpoint",
-						 * "latitude"); String endPointLong =
-						 * getStringValueFromExistElement( eElement, "endpoint",
-						 * "longitude"); News n = new News(id, type,
-						 * primarySource, secondarySource, startTime, endTime,
-						 * mediaType, mediaPath, title, description,
-						 * locationType, roadName, startPointName,
-						 * startPointLat, startPointLong, endPointName,
-						 * endPointLat, endPointLong);
-						 */
-
 					}
 				}
 

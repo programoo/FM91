@@ -31,6 +31,7 @@ public class ImageLoader {
 
 class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 	//private String url;
+	private String url;
 	private final WeakReference<ImageView> imageViewReference;
 	private ArrayList<Bitmap> arr;
 	private String type = "undefined";
@@ -40,6 +41,7 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 		this.imageViewReference = new WeakReference<ImageView>(imageView);
 		this.type = "undefined";
 		this.cmRef = cmRef;
+		url="undefined";
 	}
 
 	public BitmapDownloaderTask(ArrayList<Bitmap> arr, String type) {
@@ -52,6 +54,7 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 	// Actual download method, run in the task thread
 	protected Bitmap doInBackground(String... params) {
 		// params comes from the execute() call: params[0] is the url.
+		this.url = params[0];
 		return downloadBitmap(params[0]);
 	}
 
@@ -71,7 +74,10 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 				}
 			}
 		} else {
-			arr.add(bitmap);
+			//find num
+			int num = Integer.parseInt(this.url.split("[&]")[2].split("[=]")[1]);
+			Log.d(this.getClass().getSimpleName(),"load complete: "+num);
+			arr.set(num,bitmap);
 		}
 
 	}
