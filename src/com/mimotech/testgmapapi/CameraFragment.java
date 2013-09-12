@@ -165,6 +165,37 @@ public class CameraFragment extends SherlockFragment implements
 
 	}
 
+	public double distance(double lat1, double lon1, double lat2, double lon2,
+			String unit) {
+		double theta = lon1 - lon2;
+		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2))
+				+ Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2))
+				* Math.cos(deg2rad(theta));
+		dist = Math.acos(dist);
+		dist = rad2deg(dist);
+		dist = dist * 60 * 1.1515;
+		if (unit.equalsIgnoreCase("K")) {
+			dist = dist * 1.609344;
+		} else if (unit.equalsIgnoreCase("N")) {
+			dist = dist * 0.8684;
+		}
+		return (dist);
+	}
+
+	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+	/* :: This function converts decimal degrees to radians : */
+	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+	private double deg2rad(double deg) {
+		return (deg * Math.PI / 180.0);
+	}
+
+	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+	/* :: This function converts radians to decimal degrees : */
+	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+	private double rad2deg(double rad) {
+		return (rad * 180.0 / Math.PI);
+	}
+	
 	private void myMarker(String sLat, String sLng, String title, String id) {
 
 		LatLng accidentLatLng;
@@ -262,7 +293,7 @@ public class CameraFragment extends SherlockFragment implements
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			Log.d(this.getClass().getSimpleName(), "cctv onPostExecute");
-			Log.i(tag, "result: " + result);
+			//Log.i(tag, "result: " + result);
 
 			// Do anything with response..
 			if (requestType.equalsIgnoreCase("getRandomStr")) {
@@ -290,7 +321,7 @@ public class CameraFragment extends SherlockFragment implements
 
 				new RequestTask("getData").execute(traffy_request_url);
 			} else if (requestType.equalsIgnoreCase("getData")) {
-				Log.i(tag, "result cctv: " + result);
+				//Log.i(tag, "result cctv: " + result);
 				// this mean we get real data from traffy already
 				this.traffyCameraXmlParser(result);
 				reloadViewAfterRequestTaskComplete();
@@ -378,7 +409,7 @@ public class CameraFragment extends SherlockFragment implements
 								available, imgUrl, lastupdate, src,
 								description, imgList);
 						this.uniqueAdd(cam);
-						Log.i(tag, "imgUrl " + imgUrl);
+
 					}
 				}
 

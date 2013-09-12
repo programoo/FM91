@@ -100,7 +100,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 			}
 
 		}
-
+		
 		if (mMap == null) {
 			mMap = ((SupportMapFragment) getSupportFragmentManager()
 					.findFragmentById(R.id.newsMap)).getMap();
@@ -108,10 +108,17 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 
 		if (mMap != null) {
 			Log.i(tag, "Map not null");
-
+			
+			
+			//calculate distance between user and event
+			double howFar = (int)( new Info().distance(accidentLatLng.latitude,accidentLatLng.longitude, Info.lat, Info.lng, "K")*100 )/100.0;
+			if( accidentLatLng.latitude ==0 || accidentLatLng.longitude ==0 ){
+				howFar = 0;
+			}
+			String titileDetail = "far from you: "+howFar+" km";
 			Marker marker = mMap.addMarker(new MarkerOptions()
 					.position(accidentLatLng).title(title)
-					.snippet(accidentLatLng.toString()));
+					.snippet(titileDetail));
 			Log.d(tag, "setUpMarker");
 			mMap.getUiSettings().setZoomControlsEnabled(true);
 			marker.showInfoWindow();

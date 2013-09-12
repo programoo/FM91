@@ -48,7 +48,6 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 		String[] imgList = intent.getStringExtra("imgList").split(",");
 		for (int i = 0; i < imgList.length; i++) {
 			new ImageLoader().downloadBitmapToList(imgList[i], bitMapList);
-			Log.i(tag,"request cctv url:"+imgList[i]);
 			bitMapList.add(null);
 		}
 		Log.i(tag, "loading complete");
@@ -137,7 +136,6 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 					e.printStackTrace();
 				}
 				updateUIThread(i + "");
-				System.out.println("Hello from a thread!");
 				i++;
 			}
 		}

@@ -76,7 +76,6 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 		} else {
 			//find num
 			int num = Integer.parseInt(this.url.split("[&]")[2].split("[=]")[1]);
-			Log.d(this.getClass().getSimpleName(),"load complete: "+num);
 			arr.set(num,bitmap);
 		}
 

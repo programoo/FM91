@@ -36,8 +36,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,6 +54,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -88,10 +93,10 @@ public class NewsFragment extends SherlockFragment implements
 		eventBtn = (Button) viewMainFragment.findViewById(R.id.eventBtn);
 		eventBtn.setOnClickListener(this);
 
-		//set default sub-menu color
+		// set default sub-menu color
 		newsBtn.setTextColor(Color.parseColor("#8dc342"));
 		eventBtn.setTextColor(Color.parseColor("#808080"));
-		
+
 		return viewMainFragment;
 	}
 
@@ -103,13 +108,12 @@ public class NewsFragment extends SherlockFragment implements
 	public void onStart() {
 		super.onStart();
 		Log.d(tag, "onStart");
-		
-		//update from old memory
+
+		// update from old memory
 		readNews();
 		writeNews();
 		reloadViewAfterRequestTaskComplete();
 
-		
 		// update already read list
 		lv = (ListView) viewMainFragment.findViewById(R.id.list1Fragment);
 		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity(),
@@ -120,9 +124,26 @@ public class NewsFragment extends SherlockFragment implements
 		TextView tvBadgeCount = (TextView) getActivity().findViewById(
 				R.id.badge_count);
 		tvBadgeCount.setText(this.unReadNumber() + "");
+		
+		//get current location by gps
+		Log.d(tag,"Request location");
+		LocationManager locationManager = (LocationManager) 
+				getActivity().getSystemService(Context.LOCATION_SERVICE);
+		
+		LocationListener locationListener = new MyLocationListener();  
+		locationManager.requestLocationUpdates(  
+		LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
 
 	}
 
+	public void sort(){
+		for(int i=0;i<this.newsList.size();i++){
+			for(int j=0;j<this.newsList.size();j++){
+				
+			}
+		}
+	}
+	
 	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		Log.d(tag, "onActivityCreated");
@@ -173,7 +194,7 @@ public class NewsFragment extends SherlockFragment implements
 			String read = "";
 
 			while ((read = bufferedReader.readLine()) != null) {
-				Log.i(tag, read);
+				//Log.i(tag, read);
 				String tmpNews[] = read.split(",");
 
 				News n = new News(tmpNews[0], tmpNews[1], tmpNews[2],
@@ -185,13 +206,12 @@ public class NewsFragment extends SherlockFragment implements
 				this.uniqueAdd(n);
 			}
 			bufferedReader.close();
-
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -234,12 +254,65 @@ public class NewsFragment extends SherlockFragment implements
 
 	}
 
+	/*----------Listener class to get coordinates ------------- */
+	private class MyLocationListener implements LocationListener {
+
+		@Override
+		public void onLocationChanged(Location loc) {
+			Toast.makeText(
+					getActivity().getBaseContext(),
+					"Location changed: Lat: " + loc.getLatitude() + " Lng: "
+							+ loc.getLongitude(), Toast.LENGTH_SHORT).show();
+			String longitude = "Longitude: " + loc.getLongitude();
+			String latitude = "Latitude: " + loc.getLatitude();
+
+			Log.i(tag, "your current location:"+latitude+","+longitude);
+			Info.lat = loc.getLatitude();
+			Info.lng = loc.getLongitude();
+			
+			/*-------to get City-Name from coordinates -------- */
+			/*
+			String cityName = null;
+			Geocoder gcd = new Geocoder(getActivity().getBaseContext(),
+					Locale.getDefault());
+			List<Address> addresses;
+			try {
+				addresses = gcd.getFromLocation(loc.getLatitude(),
+						loc.getLongitude(), 1);
+				if (addresses.size() > 0)
+					System.out.println(addresses.get(0).getLocality());
+				cityName = addresses.get(0).getLocality();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
+					+ cityName;
+			Log.e(tag,s);
+			Toast.makeText(
+					getActivity().getBaseContext(),s, Toast.LENGTH_SHORT).show();
+			*/
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+	}
+
 	private class RequestTask extends AsyncTask<String, String, String> {
 		private String tag = getClass().getSimpleName();
 		public String AppID = "abcb6710";
 		public String hiddenkey = "TxLYP6j1Ee";
 		public String randomStr = "undefined";
 		public String requestType = "";
+		private String passKey = "";
 
 		public RequestTask(String requestType) {
 			this.requestType = requestType;
@@ -265,8 +338,10 @@ public class NewsFragment extends SherlockFragment implements
 				}
 			} catch (ClientProtocolException e) {
 				// TODO Handle problems..
+				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Handle problems..
+				e.printStackTrace();
 			}
 			return responseString;
 		}
@@ -275,12 +350,11 @@ public class NewsFragment extends SherlockFragment implements
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			Log.d(this.getClass().getSimpleName(), "onPostExecute");
-			Log.i(tag, "result: " + result);
+			//Log.i(tag, "result: " + result);
 
 			// Do anything with response..
 			if (requestType.equalsIgnoreCase("getRandomStr")) {
 				randomStr = result;
-				String passKey = "";
 				try {
 					passKey = convertToMD5(AppID + randomStr)
 							+ convertToMD5(hiddenkey + randomStr);
