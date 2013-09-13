@@ -1174,16 +1174,19 @@ containing a value of this type.
         public static final int is_read=0x7f020097;
         public static final int logo=0x7f020098;
         public static final int menu_bg=0x7f020099;
-        public static final int news_active=0x7f02009a;
-        public static final int news_bg=0x7f02009b;
-        public static final int news_inactive=0x7f02009c;
-        public static final int news_tabbar_img=0x7f02009d;
-        public static final int radio_active=0x7f02009e;
-        public static final int radio_inactive=0x7f02009f;
-        public static final int radio_tabbar_img=0x7f0200a0;
-        public static final int round_btn_bg=0x7f0200a1;
-        public static final int submenu_bg=0x7f0200a2;
-        public static final int twitter=0x7f0200a3;
+        public static final int more_active=0x7f02009a;
+        public static final int more_inactive=0x7f02009b;
+        public static final int more_tabbar_img=0x7f02009c;
+        public static final int news_active=0x7f02009d;
+        public static final int news_bg=0x7f02009e;
+        public static final int news_inactive=0x7f02009f;
+        public static final int news_tabbar_img=0x7f0200a0;
+        public static final int radio_active=0x7f0200a1;
+        public static final int radio_inactive=0x7f0200a2;
+        public static final int radio_tabbar_img=0x7f0200a3;
+        public static final int round_btn_bg=0x7f0200a4;
+        public static final int submenu_bg=0x7f0200a5;
+        public static final int twitter=0x7f0200a6;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040024;
