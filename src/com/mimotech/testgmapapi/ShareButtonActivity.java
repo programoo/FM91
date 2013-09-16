@@ -1,4 +1,3 @@
-
 /*
  ===========================================================================
  Copyright (c) 2012 Three Pillar Global Inc. http://threepillarglobal.com
@@ -26,6 +25,8 @@
 package com.mimotech.testgmapapi;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.brickred.socialauth.Photo;
@@ -38,6 +39,8 @@ import org.brickred.socialauth.android.SocialAuthListener;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -97,7 +100,7 @@ public class ShareButtonActivity extends Activity {
 		Button share = (Button) findViewById(R.id.sharebutton);
 		share.setText("Share");
 		share.setTextColor(Color.WHITE);
-		//share.setBackgroundResource(R.drawable.button_gradient);
+		// share.setBackgroundResource(R.drawable.button_gradient);
 
 		// Add it to Library
 		adapter = new SocialAuthAdapter(new ResponseListener());
@@ -107,7 +110,8 @@ public class ShareButtonActivity extends Activity {
 		adapter.addProvider(Provider.TWITTER, R.drawable.twitter);
 
 		// Providers require setting user call Back url
-		adapter.addCallBack(Provider.TWITTER, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
+		adapter.addCallBack(Provider.TWITTER,
+				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
 
 		// Enable Provider
 		adapter.enable(share);
@@ -126,10 +130,14 @@ public class ShareButtonActivity extends Activity {
 			Log.d("ShareButton", "Authentication Successful");
 
 			// Get name of provider after authentication
-			final String providerName = values.getString(SocialAuthAdapter.PROVIDER);
+			final String providerName = values
+					.getString(SocialAuthAdapter.PROVIDER);
 			Log.d("ShareButton", "Provider Name = " + providerName);
-			Toast.makeText(ShareButtonActivity.this, providerName + " connected", Toast.LENGTH_LONG).show();
-
+			Toast.makeText(ShareButtonActivity.this,
+					providerName + " connected", Toast.LENGTH_LONG).show();
+			Toast.makeText(ShareButtonActivity.this,
+					"DCIM: " + Environment.DIRECTORY_DCIM, Toast.LENGTH_LONG)
+					.show();
 			update = (Button) findViewById(R.id.update);
 			edit = (EditText) findViewById(R.id.editTxt);
 
@@ -140,20 +148,54 @@ public class ShareButtonActivity extends Activity {
 
 				@Override
 				public void onClick(View v) {
-					adapter.updateStatus(edit.getText().toString(), new MessageListener(), false);
+					adapter.updateStatus(edit.getText().toString(),
+							new MessageListener(), false);
+
+					// Use your own code here
+
+					String imgUri = "/mnt/sdcard/DCIM/Camera/IMG001.jpg";
+					try {
+
+						File bmFile = new File(imgUri);
+						Bitmap bitmap = decodeFile(bmFile);
+
+						Toast.makeText(ShareButtonActivity.this,
+								"POSTING IMAGE...", Toast.LENGTH_LONG)
+								.show();		
+								
+						adapter.uploadImage("posting image..", imgUri,
+								bitmap, 100);
+						Toast.makeText(ShareButtonActivity.this,
+								"POST IMAGE COMPLETE", Toast.LENGTH_LONG)
+								.show();
+
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						Toast.makeText(ShareButtonActivity.this,
+								"ERROR HAPPEN HERE", Toast.LENGTH_LONG).show();
+
+						e.printStackTrace();
+					}
+					Toast.makeText(ShareButtonActivity.this, "POSTED IMAGE",
+							Toast.LENGTH_LONG).show();
 
 					// to share on multiple providers
-					adapter.updateStatus(edit.getText().toString(), new MessageListener(), false);
+					// adapter.updateStatus(edit.getText().toString(), new
+					// MessageListener(), false);
 				}
 			});
 
 			// Share via Email Intent
 			if (providerName.equalsIgnoreCase("share_mail")) {
 				// Use your own code here
-				Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto",
-						"vineet.aggarwal@3pillarglobal.com", null));
-				emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Test");
-				File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+				Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+						Uri.fromParts("mailto",
+								"vineet.aggarwal@3pillarglobal.com", null));
+				emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+						"Test");
+				File file = new File(
+						Environment
+								.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
 						"image5964402.png");
 				Uri uri = Uri.fromFile(file);
 				emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -164,8 +206,9 @@ public class ShareButtonActivity extends Activity {
 			if (providerName.equalsIgnoreCase("share_mms")) {
 
 				// Use your own code here
-				File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-						"image5964402.png");
+				File file = new File(
+						Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM
+								+ "/Camera/"), "IMG001.jpg.png");
 				Uri uri = Uri.fromFile(file);
 
 				Intent mmsIntent = new Intent(Intent.ACTION_SEND, uri);
@@ -192,6 +235,32 @@ public class ShareButtonActivity extends Activity {
 			Log.d("Share-Button", "Dialog Closed by pressing Back Key");
 		}
 
+		private Bitmap decodeFile(File f) {
+			try {
+				// Decode image size
+				BitmapFactory.Options o = new BitmapFactory.Options();
+				o.inJustDecodeBounds = true;
+				BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+
+				// The new size we want to scale to
+				final int REQUIRED_SIZE = 256;
+
+				// Find the correct scale value. It should be the power of 2.
+				int scale = 1;
+				while (o.outWidth / scale / 2 >= REQUIRED_SIZE
+						&& o.outHeight / scale / 2 >= REQUIRED_SIZE)
+					scale *= 2;
+
+				// Decode with inSampleSize
+				BitmapFactory.Options o2 = new BitmapFactory.Options();
+				o2.inSampleSize = scale;
+				return BitmapFactory.decodeStream(new FileInputStream(f), null,
+						o2);
+			} catch (FileNotFoundException e) {
+			}
+			return null;
+		}
+
 	}
 
 	// To get status of message after authentication
@@ -199,10 +268,15 @@ public class ShareButtonActivity extends Activity {
 		@Override
 		public void onExecute(String provider, Integer t) {
 			Integer status = t;
-			if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
-				Toast.makeText(ShareButtonActivity.this, "Message posted on " + provider, Toast.LENGTH_LONG).show();
+			if (status.intValue() == 200 || status.intValue() == 201
+					|| status.intValue() == 204)
+				Toast.makeText(ShareButtonActivity.this,
+						"Message posted on " + provider, Toast.LENGTH_LONG)
+						.show();
 			else
-				Toast.makeText(ShareButtonActivity.this, "Message not posted on " + provider, Toast.LENGTH_LONG).show();
+				Toast.makeText(ShareButtonActivity.this,
+						"Message not posted on " + provider, Toast.LENGTH_LONG)
+						.show();
 		}
 
 		@Override

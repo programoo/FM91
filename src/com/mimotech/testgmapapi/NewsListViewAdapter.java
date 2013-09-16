@@ -31,32 +31,36 @@ public class NewsListViewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		convertView = inflater.inflate(R.layout.news_fragment_listview, parent,
-				false);
+		
+		//if(convertView == null){
+			convertView = inflater.inflate(R.layout.news_fragment_listview, parent,
+					false);
 
-		ImageView imageView = (ImageView) convertView
-				.findViewById(R.id.newsLogo);
-		TextView description = (TextView) convertView
-				.findViewById(R.id.newsText);
-		TextView reporter = (TextView) convertView.findViewById(R.id.reporter);
+			ImageView imageView = (ImageView) convertView
+					.findViewById(R.id.newsLogo);
+			TextView description = (TextView) convertView
+					.findViewById(R.id.newsText);
+			TextView reporter = (TextView) convertView.findViewById(R.id.reporter);
 
-		final TextView endTime = (TextView) convertView
-				.findViewById(R.id.newsTime);
+			TextView endTime = (TextView) convertView
+					.findViewById(R.id.newsTime);
 
-		imageView.setImageResource(R.drawable.ic_launcher);
+			imageView.setImageResource(R.drawable.ic_launcher);
 
-		description.setText(newsList.get(position).description);
+			description.setText(newsList.get(position).description);
 
-		reporter.setText("โดย " + newsList.get(position).secondarySource + " ("
-				+ newsList.get(position).primarySource + ")");
-		endTime.setText(newsList.get(position).alreadyPassTime);
+			reporter.setText("โดย " + newsList.get(position).secondarySource + " ("
+					+ newsList.get(position).primarySource + ")");
+			endTime.setText(newsList.get(position).alreadyPassTime);
 
-		// hidden isRead marker if already read and
-		if (newsList.get(position).isRead) {
-			ImageView isReadImg = (ImageView) convertView
-					.findViewById(R.id.isRead);
-			isReadImg.setVisibility(View.INVISIBLE);
-		}
+			// hidden isRead marker if already read and
+			if (newsList.get(position).isRead) {
+				ImageView isReadImg = (ImageView) convertView
+						.findViewById(R.id.isRead);
+				isReadImg.setVisibility(View.INVISIBLE);
+			}
+		//}
+
 
 		return convertView;
 

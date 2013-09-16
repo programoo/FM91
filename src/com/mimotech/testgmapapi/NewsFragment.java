@@ -265,6 +265,7 @@ public class NewsFragment extends SherlockFragment implements
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		this.reloadViewAfterRequestTaskComplete();
 	}
 
 	public int unReadNumber() {

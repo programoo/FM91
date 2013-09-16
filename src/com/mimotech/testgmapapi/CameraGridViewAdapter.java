@@ -11,15 +11,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
+
 public class CameraGridViewAdapter extends BaseAdapter {
 	String tag = this.getClass().getSimpleName();
 	Context mainContext;
 	private ArrayList<Camera> camList;
-
+	private AQuery aq;
+	private LayoutInflater lf;
 	public CameraGridViewAdapter(Context context, ArrayList<Camera> camList) {
 		Log.d(tag, "GridViewAdapte");
 		mainContext = context;
 		this.camList = camList;
+		aq = new AQuery(this.mainContext);
+		lf = (LayoutInflater) mainContext
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
 	}
 
 	@Override
@@ -42,27 +50,18 @@ public class CameraGridViewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater lf = (LayoutInflater) mainContext
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		if(convertView ==null){
+			convertView = lf.inflate(R.layout.camera_fragment_gridview, null);
+			final TextView tv = (TextView) convertView.findViewById(R.id.cameraTextView1);
+			final ImageView iv = (ImageView) convertView.findViewById(R.id.cameraImageView1);
 
-		View v = lf.inflate(R.layout.camera_fragment_gridview, null);
-
-		TextView tv = (TextView) v.findViewById(R.id.cameraTextView1);
-		tv.setText(camList.get(position).thaiName);
-
-		ImageView iv = (ImageView) v.findViewById(R.id.cameraImageView1);
-
-		if (camList.get(position).imgBmp == null) {
-
-			iv.setImageResource(R.drawable.ic_launcher);
-			new ImageLoader().download(camList.get(position).imgUrl, iv,camList.get(position));
-
-		} else {
-			
-			iv.setImageBitmap(camList.get(position).imgBmp);
+			tv.setText(camList.get(position).thaiName);
+			aq.id(iv).image(camList.get(position).imgUrl, true, true,200, 0);
 		}
 
-		return v;
+		
+
+		return convertView;
 	}
 
 }
