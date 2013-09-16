@@ -19,6 +19,13 @@
     <string name="news_reporter_text">longdoo (twitter)</string>
     <string name="default_img_describer">default_img_describer</string>
 
+    <!-- thai translate text -->
+
+    <string name="pass_day_text">วัน</string>
+    <string name="pass_hour_text">ชั่วโมง</string>
+    <string name="pass_minute_text">นาที</string>
+    <string name="pass_second_text">วินาที</string>
+
     <!-- header -->
     <string name="header_img_describer">header_img_describer</string>
 

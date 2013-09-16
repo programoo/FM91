@@ -15,21 +15,22 @@ public class NewsListViewAdapter extends BaseAdapter {
 	private String tag = getClass().getSimpleName();
 	private Context context;
 	private ArrayList<News> newsList;
-	public NewsListViewAdapter(Context context,ArrayList<News> newsList) {
+	private LayoutInflater inflater;
+
+	public NewsListViewAdapter(Context context, ArrayList<News> newsList) {
 		super();
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.newsList = newsList;
-		
-		Log.d(tag,"NewsListViewAdapter");
+		inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		Log.d(tag, "NewsListViewAdapter");
 
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 		convertView = inflater.inflate(R.layout.news_fragment_listview, parent,
 				false);
 
@@ -39,18 +40,16 @@ public class NewsListViewAdapter extends BaseAdapter {
 				.findViewById(R.id.newsText);
 		TextView reporter = (TextView) convertView.findViewById(R.id.reporter);
 
-		TextView endTime = (TextView) convertView.findViewById(R.id.newsTime);
+		final TextView endTime = (TextView) convertView
+				.findViewById(R.id.newsTime);
 
 		imageView.setImageResource(R.drawable.ic_launcher);
-		
-		
+
 		description.setText(newsList.get(position).description);
-		
-		
-		reporter.setText("โดย "
-				+ newsList.get(position).secondarySource + " ("
+
+		reporter.setText("โดย " + newsList.get(position).secondarySource + " ("
 				+ newsList.get(position).primarySource + ")");
-		endTime.setText(newsList.get(position).startTime);
+		endTime.setText(newsList.get(position).alreadyPassTime);
 
 		// hidden isRead marker if already read and
 		if (newsList.get(position).isRead) {

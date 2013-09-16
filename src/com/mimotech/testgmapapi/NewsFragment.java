@@ -29,6 +29,10 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -66,6 +70,14 @@ public class NewsFragment extends SherlockFragment implements
 	private ArrayList<News> newsList;
 	private Button newsBtn;
 	private Button eventBtn;
+	private DateTimeFormatter formatter;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -80,9 +92,6 @@ public class NewsFragment extends SherlockFragment implements
 				newsList);
 
 		lv.setAdapter(ardap);
-
-		new RequestTask("getRandomStr")
-				.execute("http://api.traffy.in.th/apis/getKey.php?appid=abcb6710");
 
 		Log.d(tag, "onCreateView");
 
@@ -103,6 +112,9 @@ public class NewsFragment extends SherlockFragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		Log.d(tag, "onViewCreated");
 		super.onViewCreated(view, savedInstanceState);
+		new RequestTask("getRandomStr")
+				.execute("http://api.traffy.in.th/apis/getKey.php?appid=abcb6710");
+
 	}
 
 	public void onStart() {
@@ -124,26 +136,32 @@ public class NewsFragment extends SherlockFragment implements
 		TextView tvBadgeCount = (TextView) getActivity().findViewById(
 				R.id.badge_count);
 		tvBadgeCount.setText(this.unReadNumber() + "");
-		
-		//get current location by gps
-		Log.d(tag,"Request location");
-		LocationManager locationManager = (LocationManager) 
-				getActivity().getSystemService(Context.LOCATION_SERVICE);
-		
-		LocationListener locationListener = new MyLocationListener();  
-		locationManager.requestLocationUpdates(  
-		LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+
+		// get current location by gps
+		Log.d(tag, "Request location");
+		LocationManager locationManager = (LocationManager) getActivity()
+				.getSystemService(Context.LOCATION_SERVICE);
+
+		LocationListener locationListener = new MyLocationListener();
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				5000, 10, locationListener);
 
 	}
 
-	public void sort(){
+	public void sortNewsList() {
 		for(int i=0;i<this.newsList.size();i++){
-			for(int j=0;j<this.newsList.size();j++){
-				
+			for(int j=0;j<this.newsList.size()-1;j++){
+				News jA = this.newsList.get(j);
+				News jB = this.newsList.get(j+1);
+				if(jB.unixTime > jA.unixTime){					
+					this.newsList.set(j+1,jA);
+					this.newsList.set(j,jB);
+				}
 			}
 		}
+		
 	}
-	
+
 	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		Log.d(tag, "onActivityCreated");
@@ -152,13 +170,21 @@ public class NewsFragment extends SherlockFragment implements
 
 	public void reloadViewAfterRequestTaskComplete() {
 		Log.d(tag, "reloadViewAfterRequestTaskComplete");
-
+		this.sortNewsList();
+		
 		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity(),
 				newsList);
 		lv.setAdapter(ardap);
 
 		TextView tvBadgeCount = (TextView) getActivity().findViewById(
 				R.id.badge_count);
+		//if zero hide it
+		if(this.unReadNumber() == 0){
+			tvBadgeCount.setVisibility(View.INVISIBLE);
+		}
+		else{
+			tvBadgeCount.setVisibility(View.VISIBLE);
+		}
 		tvBadgeCount.setText(this.unReadNumber() + "");
 
 	}
@@ -183,6 +209,7 @@ public class NewsFragment extends SherlockFragment implements
 	public void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+		//sort before writh
 		writeNews();
 	}
 
@@ -194,19 +221,36 @@ public class NewsFragment extends SherlockFragment implements
 			String read = "";
 
 			while ((read = bufferedReader.readLine()) != null) {
-				//Log.i(tag, read);
+				// Log.i(tag, read);
 				String tmpNews[] = read.split(",");
+				String startTime = tmpNews[4];
 
-				News n = new News(tmpNews[0], tmpNews[1], tmpNews[2],
-						tmpNews[3], tmpNews[4], tmpNews[5], tmpNews[6],
-						tmpNews[7], tmpNews[8], tmpNews[9], tmpNews[10],
-						tmpNews[11], tmpNews[12], tmpNews[13], tmpNews[14],
-						tmpNews[15], tmpNews[16], tmpNews[17],
-						Boolean.parseBoolean(tmpNews[18]));
+				News n = new News(
+						tmpNews[0],
+						tmpNews[1],
+						tmpNews[2],
+						tmpNews[3],
+						tmpNews[4],
+						tmpNews[5],
+						tmpNews[6],
+						tmpNews[7],
+						tmpNews[8],
+						tmpNews[9],
+						tmpNews[10],
+						tmpNews[11],
+						tmpNews[12],
+						tmpNews[13],
+						tmpNews[14],
+						tmpNews[15],
+						tmpNews[16],
+						tmpNews[17],
+						Boolean.parseBoolean(tmpNews[18]),
+						getHumanLanguageTime(formatter.parseDateTime(startTime)),
+						formatter.parseDateTime(startTime).getMillis());
 				this.uniqueAdd(n);
 			}
 			bufferedReader.close();
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -254,7 +298,6 @@ public class NewsFragment extends SherlockFragment implements
 
 	}
 
-	/*----------Listener class to get coordinates ------------- */
 	private class MyLocationListener implements LocationListener {
 
 		@Override
@@ -266,31 +309,24 @@ public class NewsFragment extends SherlockFragment implements
 			String longitude = "Longitude: " + loc.getLongitude();
 			String latitude = "Latitude: " + loc.getLatitude();
 
-			Log.i(tag, "your current location:"+latitude+","+longitude);
+			Log.i(tag, "your current location:" + latitude + "," + longitude);
 			Info.lat = loc.getLatitude();
 			Info.lng = loc.getLongitude();
-			
+
 			/*-------to get City-Name from coordinates -------- */
 			/*
-			String cityName = null;
-			Geocoder gcd = new Geocoder(getActivity().getBaseContext(),
-					Locale.getDefault());
-			List<Address> addresses;
-			try {
-				addresses = gcd.getFromLocation(loc.getLatitude(),
-						loc.getLongitude(), 1);
-				if (addresses.size() > 0)
-					System.out.println(addresses.get(0).getLocality());
-				cityName = addresses.get(0).getLocality();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
-					+ cityName;
-			Log.e(tag,s);
-			Toast.makeText(
-					getActivity().getBaseContext(),s, Toast.LENGTH_SHORT).show();
-			*/
+			 * String cityName = null; Geocoder gcd = new
+			 * Geocoder(getActivity().getBaseContext(), Locale.getDefault());
+			 * List<Address> addresses; try { addresses =
+			 * gcd.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1); if
+			 * (addresses.size() > 0)
+			 * System.out.println(addresses.get(0).getLocality()); cityName =
+			 * addresses.get(0).getLocality(); } catch (IOException e) {
+			 * e.printStackTrace(); } String s = longitude + "\n" + latitude +
+			 * "\n\nMy Current City is: " + cityName; Log.e(tag,s);
+			 * Toast.makeText( getActivity().getBaseContext(),s,
+			 * Toast.LENGTH_SHORT).show();
+			 */
 		}
 
 		@Override
@@ -350,7 +386,7 @@ public class NewsFragment extends SherlockFragment implements
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			Log.d(this.getClass().getSimpleName(), "onPostExecute");
-			//Log.i(tag, "result: " + result);
+			// Log.i(tag, "result: " + result);
 
 			// Do anything with response..
 			if (requestType.equalsIgnoreCase("getRandomStr")) {
@@ -485,12 +521,17 @@ public class NewsFragment extends SherlockFragment implements
 							eElement, "endpoint", "latitude");
 					String endPointLong = getStringValueFromExistElement(
 							eElement, "endpoint", "longitude");
+
+					// reformat to unix time
 					News n = new News(id, type, primarySource, secondarySource,
 							startTime, endTime, mediaType, mediaPath, title,
 							description, locationType, roadName,
 							startPointName, startPointLat, startPointLong,
-							endPointName, endPointLat, endPointLong, false);
-
+							endPointName, endPointLat, endPointLong, false,
+							getHumanLanguageTime(formatter
+									.parseDateTime(startTime)), formatter
+									.parseDateTime(startTime).getMillis());
+					Log.i(tag, "startTime: " + startTime);
 					uniqueAdd(n);
 
 				}
@@ -513,6 +554,28 @@ public class NewsFragment extends SherlockFragment implements
 
 		}
 
+	}
+
+	public String getHumanLanguageTime(DateTime newsTime) {
+		String alreadyPassTime = "undefined";
+		// joda time convert
+		DateTime currentTime = new DateTime();
+		Duration dur = new Duration(newsTime, currentTime);
+
+		if (dur.getStandardDays() > 0) {
+			alreadyPassTime = dur.getStandardDays() + " "
+					+ getString(R.string.pass_day_text);
+		} else if (dur.getStandardHours() > 0) {
+			alreadyPassTime = dur.getStandardHours() + " "
+					+ getString(R.string.pass_hour_text);
+		} else if (dur.getStandardMinutes() > 0) {
+			alreadyPassTime = dur.getStandardMinutes() + " "
+					+ getString(R.string.pass_minute_text);
+		} else {
+			alreadyPassTime = getString(R.string.pass_second_text);
+		}
+
+		return alreadyPassTime;
 	}
 
 	@Override

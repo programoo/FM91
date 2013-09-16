@@ -32,8 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/newsText"
             android:layout_toRightOf="@+id/newsLogo"
-            android:ellipsize="marquee"
-            android:maxLines="1" />
+            android:singleLine="true" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -48,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:singleLine="true"
             android:paddingBottom="2dp"
             android:paddingLeft="5dp"
             android:paddingRight="15dp"

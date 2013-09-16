@@ -1471,32 +1471,38 @@ containing a value of this type.
         public static final int fm_banner_text=0x7f09002f;
         /**  header 
          */
-        public static final int header_img_describer=0x7f090033;
+        public static final int header_img_describer=0x7f090037;
         public static final int hello_world=0x7f090024;
         /**  Image description 
          */
-        public static final int img_describer=0x7f090034;
+        public static final int img_describer=0x7f090038;
         /**  inform tabbar 
          */
-        public static final int inform_tabbar_text=0x7f090039;
+        public static final int inform_tabbar_text=0x7f09003d;
         /**  more tabbar 
          */
-        public static final int more_tabbar_text=0x7f09003a;
+        public static final int more_tabbar_text=0x7f09003e;
         public static final int news_btn_text=0x7f090027;
-        public static final int news_by_thai_text=0x7f090036;
+        public static final int news_by_thai_text=0x7f09003a;
         public static final int news_headline_text=0x7f090029;
         public static final int news_reporter_text=0x7f090031;
         public static final int news_tabbar=0x7f090026;
         /**  news tabbar 
          */
-        public static final int news_tabbar_icon=0x7f090035;
+        public static final int news_tabbar_icon=0x7f090039;
         public static final int news_times_text=0x7f090030;
+        /**  thai translate text 
+         */
+        public static final int pass_day_text=0x7f090033;
+        public static final int pass_hour_text=0x7f090034;
+        public static final int pass_minute_text=0x7f090035;
+        public static final int pass_second_text=0x7f090036;
         public static final int position_btn_text=0x7f09002d;
         /**  radio tabbar 
          */
-        public static final int radio_tabbar_text=0x7f090038;
+        public static final int radio_tabbar_text=0x7f09003c;
         public static final int search_hint=0x7f09002e;
-        public static final int share_btn_name=0x7f090037;
+        public static final int share_btn_name=0x7f09003b;
     }
     public static final class style {
         /** 

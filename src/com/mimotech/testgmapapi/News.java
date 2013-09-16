@@ -18,13 +18,18 @@ public class News {
 	String startPointLat, startPointLong;
 	String endPoint;
 	String endPointLat, endPointLong;
+	
+	//assign later
+	String alreadyPassTime="undefined";
+	long unixTime=0;
+	
 	boolean isRead;
 	public News(String id, String type, String primarySource,
 			String secondarySource, String startTime, String endTime,
 			String mediaType, String path, String title, String description,
 			String locationType, String roadName, String startPoint,
 			String startPointLat, String startPointLong, String endPoint,
-			String endPointLat, String endPointLong,boolean isRead) {
+			String endPointLat, String endPointLong,boolean isRead,String alreadyPassTime,long unixTime) {
 		this.id = id;
 		this.type = type;
 		this.primarySource = primarySource;
@@ -44,6 +49,8 @@ public class News {
 		this.endPointLat = endPointLat;
 		this.endPointLong = endPointLong;
 		this.isRead = isRead;
+		this.alreadyPassTime = alreadyPassTime;
+		this.unixTime = unixTime;
 		
 	}
 
