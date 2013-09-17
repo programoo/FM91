@@ -20,12 +20,13 @@
     <string name="default_img_describer">default_img_describer</string>
 
     <!-- thai translate text -->
-
+    <string name="farfromyou_msg">ห่างจากคุณ</string>
     <string name="pass_day_text">วัน</string>
     <string name="pass_hour_text">ชั่วโมง</string>
     <string name="pass_minute_text">นาที</string>
     <string name="pass_second_text">วินาที</string>
-
+    <string name="internet_disconnect_alert">การเชื่อมต่อมีปัญหา กรุณาตรวจสอบการเชื่อมต่ออีกครั้ง</string>
+    <string name="news_share_edittext_hint">ความคิดเห็นของคุณ</string>
     <!-- header -->
     <string name="header_img_describer">header_img_describer</string>
 
@@ -36,6 +37,9 @@
     <string name="news_tabbar_icon">news tabbar icon</string>
     <string name="news_by_thai_text">โดย</string>
     <string name="share_btn_name">share</string>
+
+    <!-- news details -->
+    <string name="news_details_share_btn_name">share</string>
 
     <!-- radio tabbar -->
     <string name="radio_tabbar_text">วิทยุ</string>

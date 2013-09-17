@@ -1,5 +1,9 @@
 package com.mimotech.testgmapapi;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import org.brickred.socialauth.android.DialogListener;
 import org.brickred.socialauth.android.SocialAuthAdapter;
 import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
@@ -7,38 +11,53 @@ import org.brickred.socialauth.android.SocialAuthError;
 import org.brickred.socialauth.android.SocialAuthListener;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Window;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class NewsDetailsActivity extends SherlockFragmentActivity {
+public class NewsDetailsActivity extends SherlockFragmentActivity implements
+		OnClickListener {
 	private String tag = getClass().getSimpleName();
 	private GoogleMap mMap;
 	private SocialAuthAdapter adapter;
 	private String description;
+	private RelativeLayout newsDetailNormalLayout;
+	private RelativeLayout newsDetailShareLayout;
+	private EditText newsDetailsShareEditText;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.news_fragment_detail);
 
 		Log.d(tag, "onCreate1");
+
+		newsDetailNormalLayout = (RelativeLayout) findViewById(R.id.news_detail_normal_layout);
+		newsDetailShareLayout = (RelativeLayout) findViewById(R.id.news_detail_share_layout);
+
+		newsDetailNormalLayout.setVisibility(View.VISIBLE);
+		newsDetailShareLayout.setVisibility(View.GONE);
 
 		Intent intent = getIntent();
 		String sLat = intent.getStringExtra("startPointLat");
@@ -46,32 +65,28 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 		String title = intent.getStringExtra("title");
 		description = intent.getStringExtra("description");
 
+		// normal layout
 		TextView tv = (TextView) findViewById(R.id.newsTextDetail);
 		tv.setText(description);
-
 		this.myMarker(sLat, sLng, title);
-
-		// share button
-
-		// Create Your Own Share Button
 		Button share = (Button) findViewById(R.id.shareBtn);
-		share.setText("Share");
-		share.setTextColor(Color.WHITE);
-		// share.setBackgroundResource(R.drawable.button_gradient);
-
-		// Add it to Library
 		adapter = new SocialAuthAdapter(new ResponseListener());
-
 		// Add providers
 		adapter.addProvider(Provider.FACEBOOK, R.drawable.facebook);
 		adapter.addProvider(Provider.TWITTER, R.drawable.twitter);
-
 		// Providers require setting user call Back url
 		adapter.addCallBack(Provider.TWITTER,
 				"http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
-
 		// Enable Provider
-		adapter.enable(share);
+		adapter.enable((Button) share);
+
+		// share layout
+		TextView shareDetailTv = (TextView) findViewById(R.id.news_details_msg);
+		shareDetailTv.setText(description);
+		Button shareButton = (Button) findViewById(R.id.newsDetailsShareBtn);
+		shareButton.setOnClickListener(this);
+
+		newsDetailsShareEditText = (EditText) findViewById(R.id.newsDetailsShareEditText);
 
 	}
 
@@ -100,7 +115,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 			}
 
 		}
-		
+
 		if (mMap == null) {
 			mMap = ((SupportMapFragment) getSupportFragmentManager()
 					.findFragmentById(R.id.newsMap)).getMap();
@@ -108,23 +123,39 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 
 		if (mMap != null) {
 			Log.i(tag, "Map not null");
+
+			// calculate distance between user and event
+			double howFar = (int) (new Info().distance(accidentLatLng.latitude,
+					accidentLatLng.longitude, Info.lat, Info.lng, "K") * 100) / 100.0;
 			
-			
-			//calculate distance between user and event
-			double howFar = (int)( new Info().distance(accidentLatLng.latitude,accidentLatLng.longitude, Info.lat, Info.lng, "K")*100 )/100.0;
-			if( accidentLatLng.latitude ==0 || accidentLatLng.longitude ==0 ){
+			if (accidentLatLng.latitude == 0 || accidentLatLng.longitude == 0) {
 				howFar = 0;
 			}
-			String titileDetail = "far from you: "+howFar+" km";
+			// news marker
+			String titileDetail = getString(R.string.farfromyou_msg) + ": "
+					+ howFar + " km";
 			Marker marker = mMap.addMarker(new MarkerOptions()
 					.position(accidentLatLng).title(title)
 					.snippet(titileDetail));
-			Log.d(tag, "setUpMarker");
+			Log.d(tag, "setUpMarkerNewsMarker");
+
+			// user marker
+			new LatLng(Info.lat, Info.lng);
+			titileDetail = getString(R.string.farfromyou_msg) + ": " + howFar
+					+ " km";
+			Marker myMarker = mMap.addMarker(new MarkerOptions()
+					.position(new LatLng(Info.lat, Info.lng)).title("You here")
+					.snippet("You here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))) ;
+				
+			Log.d(tag, "setUpMarkerNewsMarker");
+
 			mMap.getUiSettings().setZoomControlsEnabled(true);
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(accidentLatLng,
+					11));
+			//myMarker.showInfoWindow();
 			marker.showInfoWindow();
 
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(accidentLatLng,
-					16));
+
 
 		}
 	}
@@ -147,7 +178,17 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 			Toast.makeText(NewsDetailsActivity.this,
 					providerName + " connected", Toast.LENGTH_LONG).show();
 
-			adapter.updateStatus(description, new MessageListener(), false);
+			newsDetailNormalLayout.setVisibility(View.GONE);
+			newsDetailShareLayout.setVisibility(View.VISIBLE);
+
+			// after connected complete redirect to share page
+			Log.d(tag, "emergencyBtnOnClick");
+			/*
+			 * Intent shareBtn = new Intent(NewsDetailsActivity.this,
+			 * ShareButtonActivity.class); startActivity(shareBtn);
+			 */
+
+			// adapter.updateStatus(description, new MessageListener(), false);
 
 		}
 
@@ -188,6 +229,61 @@ public class NewsDetailsActivity extends SherlockFragmentActivity {
 		public void onError(SocialAuthError e) {
 
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		String quotMsg = newsDetailsShareEditText.getText().toString() + "\n"
+				+ description;
+		adapter.updateStatus(quotMsg, new MessageListener(), false);
+
+		// prevent re-post return to first step
+		newsDetailNormalLayout.setVisibility(View.VISIBLE);
+		newsDetailShareLayout.setVisibility(View.GONE);
+
+		try {
+
+			String imgUri = "/mnt/sdcard/DCIM/Camera/IMG001.jpg";
+			File bmFile = new File(imgUri);
+			Bitmap bitmap = decodeFile(bmFile);
+
+			Toast.makeText(NewsDetailsActivity.this, "POSTING IMAGE...",
+					Toast.LENGTH_LONG).show();
+
+			adapter.uploadImage(quotMsg, imgUri, bitmap, 100);
+
+			Toast.makeText(NewsDetailsActivity.this, "POST IMAGE COMPLETE",
+					Toast.LENGTH_LONG).show();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private Bitmap decodeFile(File f) {
+		try {
+			// Decode image size
+			BitmapFactory.Options o = new BitmapFactory.Options();
+			o.inJustDecodeBounds = true;
+			BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+
+			// The new size we want to scale to
+			final int REQUIRED_SIZE = 256;
+
+			// Find the correct scale value. It should be the power of 2.
+			int scale = 1;
+			while (o.outWidth / scale / 2 >= REQUIRED_SIZE
+					&& o.outHeight / scale / 2 >= REQUIRED_SIZE)
+				scale *= 2;
+
+			// Decode with inSampleSize
+			BitmapFactory.Options o2 = new BitmapFactory.Options();
+			o2.inSampleSize = scale;
+			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+		} catch (FileNotFoundException e) {
+		}
+		return null;
 	}
 
 }

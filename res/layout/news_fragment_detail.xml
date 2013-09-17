@@ -5,34 +5,47 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/fm_news_detail_banner"
+        android:id="@+id/news_detail_share_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.ais.sand.helper.AisTextView
-            android:id="@+id/fm91_header"
+        <ImageButton
+            android:id="@+id/newsDetailsShareUploadImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:contentDescription="@string/default_img_describer"
+            android:src="@drawable/ic_launcher" />
+
+        <EditText
+            android:id="@+id/newsDetailsShareEditText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/newsDetailsShareUploadImage"
+            android:hint="@string/news_share_edittext_hint"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/news_details_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/newsDetailsShareUploadImage"
             android:text="@string/fm_banner_text"
-            android:textSize="@dimen/fm_banner_size"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/emergency_btn"
+            android:id="@+id/newsDetailsShareBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:onClick="emergencyBtnOnClick"
-            android:text="@string/emergency_btn_text" />
+            android:layout_below="@+id/news_details_msg"
+            android:text="@string/news_details_share_btn_name" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/fm_news_detail_body"
+        android:id="@+id/news_detail_normal_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fm_news_detail_banner"
         android:background="#FF000000" >
 
         <TextView
@@ -45,24 +58,18 @@
             android:id="@+id/shareBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/newsTextDetail"
             android:layout_alignParentRight="true"
-            android:text="@string/share_btn_name" />
-
-        <ImageView
-            android:id="@+id/newsLogoDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/newsTextDetail"
-            android:layout_margin="0dp"
+            android:background="@drawable/sharebutton_icon"
             android:contentDescription="@string/default_img_describer"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/sharebutton_icon"
+            android:text="@string/share_btn_name" />
 
         <fragment
             android:id="@+id/newsMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/newsLogoDetail"
+            android:layout_below="@+id/shareBtn"
             class="com.google.android.gms.maps.SupportMapFragment" />
     </RelativeLayout>
 

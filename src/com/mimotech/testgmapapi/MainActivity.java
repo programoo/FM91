@@ -11,7 +11,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Window;
+import com.androidquery.util.AQUtility;
 
 public class MainActivity extends SherlockFragmentActivity {
 	String tag = getClass().getSimpleName();
@@ -22,10 +22,14 @@ public class MainActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+		//setTitle("Title");
+		//getSupportActionBar().hide();
+		//getSupportActionBar().show();
+		
 		setContentView(R.layout.activity_main);
 		Log.d(tag, "onCreate");
 
@@ -93,6 +97,17 @@ public class MainActivity extends SherlockFragmentActivity {
 				tabArgs, getString(R.string.radio_tabbar_text));
 	
 		 */
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		//clean the file cache when root activity exit
+        //the resulting total cache size will be less than 3M   
+        if(isTaskRoot()){
+                AQUtility.cleanCacheAsync(this);
+        }
 	}
 
 	@Override

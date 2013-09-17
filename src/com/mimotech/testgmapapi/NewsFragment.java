@@ -40,7 +40,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -58,7 +60,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -71,12 +72,19 @@ public class NewsFragment extends SherlockFragment implements
 	private Button newsBtn;
 	private Button eventBtn;
 	private DateTimeFormatter formatter;
-
+	private LocationManager locationManager;
+	private LocationListener locationListener ;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+		locationManager = (LocationManager) getActivity()
+				.getSystemService(Context.LOCATION_SERVICE);
+
+		locationListener = new MyLocationListener();
+
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -139,27 +147,23 @@ public class NewsFragment extends SherlockFragment implements
 
 		// get current location by gps
 		Log.d(tag, "Request location");
-		LocationManager locationManager = (LocationManager) getActivity()
-				.getSystemService(Context.LOCATION_SERVICE);
-
-		LocationListener locationListener = new MyLocationListener();
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
 				5000, 10, locationListener);
 
 	}
 
 	public void sortNewsList() {
-		for(int i=0;i<this.newsList.size();i++){
-			for(int j=0;j<this.newsList.size()-1;j++){
+		for (int i = 0; i < this.newsList.size(); i++) {
+			for (int j = 0; j < this.newsList.size() - 1; j++) {
 				News jA = this.newsList.get(j);
-				News jB = this.newsList.get(j+1);
-				if(jB.unixTime > jA.unixTime){					
-					this.newsList.set(j+1,jA);
-					this.newsList.set(j,jB);
+				News jB = this.newsList.get(j + 1);
+				if (jB.unixTime > jA.unixTime) {
+					this.newsList.set(j + 1, jA);
+					this.newsList.set(j, jB);
 				}
 			}
 		}
-		
+
 	}
 
 	public void onActivityCreated(final Bundle savedInstanceState) {
@@ -171,18 +175,17 @@ public class NewsFragment extends SherlockFragment implements
 	public void reloadViewAfterRequestTaskComplete() {
 		Log.d(tag, "reloadViewAfterRequestTaskComplete");
 		this.sortNewsList();
-		
+
 		NewsListViewAdapter ardap = new NewsListViewAdapter(getActivity(),
 				newsList);
 		lv.setAdapter(ardap);
 
 		TextView tvBadgeCount = (TextView) getActivity().findViewById(
 				R.id.badge_count);
-		//if zero hide it
-		if(this.unReadNumber() == 0){
+		// if zero hide it
+		if (this.unReadNumber() == 0) {
 			tvBadgeCount.setVisibility(View.INVISIBLE);
-		}
-		else{
+		} else {
 			tvBadgeCount.setVisibility(View.VISIBLE);
 		}
 		tvBadgeCount.setText(this.unReadNumber() + "");
@@ -209,7 +212,7 @@ public class NewsFragment extends SherlockFragment implements
 	public void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		//sort before writh
+		// sort before writh
 		writeNews();
 	}
 
@@ -303,31 +306,20 @@ public class NewsFragment extends SherlockFragment implements
 
 		@Override
 		public void onLocationChanged(Location loc) {
+			/*
 			Toast.makeText(
 					getActivity().getBaseContext(),
 					"Location changed: Lat: " + loc.getLatitude() + " Lng: "
 							+ loc.getLongitude(), Toast.LENGTH_SHORT).show();
+			*/
 			String longitude = "Longitude: " + loc.getLongitude();
 			String latitude = "Latitude: " + loc.getLatitude();
-
+			
 			Log.i(tag, "your current location:" + latitude + "," + longitude);
+			
 			Info.lat = loc.getLatitude();
 			Info.lng = loc.getLongitude();
 
-			/*-------to get City-Name from coordinates -------- */
-			/*
-			 * String cityName = null; Geocoder gcd = new
-			 * Geocoder(getActivity().getBaseContext(), Locale.getDefault());
-			 * List<Address> addresses; try { addresses =
-			 * gcd.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1); if
-			 * (addresses.size() > 0)
-			 * System.out.println(addresses.get(0).getLocality()); cityName =
-			 * addresses.get(0).getLocality(); } catch (IOException e) {
-			 * e.printStackTrace(); } String s = longitude + "\n" + latitude +
-			 * "\n\nMy Current City is: " + cityName; Log.e(tag,s);
-			 * Toast.makeText( getActivity().getBaseContext(),s,
-			 * Toast.LENGTH_SHORT).show();
-			 */
 		}
 
 		@Override
@@ -387,9 +379,7 @@ public class NewsFragment extends SherlockFragment implements
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			Log.d(this.getClass().getSimpleName(), "onPostExecute");
-			// Log.i(tag, "result: " + result);
 
-			// Do anything with response..
 			if (requestType.equalsIgnoreCase("getRandomStr")) {
 				randomStr = result;
 				try {
@@ -429,6 +419,20 @@ public class NewsFragment extends SherlockFragment implements
 				writeNews();
 				reloadViewAfterRequestTaskComplete();
 
+				if (result == null) {
+					new AlertDialog.Builder(getActivity())
+							.setMessage(
+									getString( R.string.internet_disconnect_alert) )
+							.setPositiveButton("OK",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog,
+												int which) {
+											// continue with delete
+										}
+							}).show();
+
+				}
 			}
 
 		}

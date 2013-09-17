@@ -26,7 +26,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +50,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -57,6 +62,23 @@ public class CameraFragment extends SherlockFragment implements
 	private String tag = this.getClass().getSimpleName();
 	private GoogleMap mMap;
 	private boolean isMark = false;
+	private LocationManager locationManager;
+	private LocationListener locationListener;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		locationManager = (LocationManager) getActivity().getSystemService(
+				Context.LOCATION_SERVICE);
+
+		locationListener = new MyLocationListener();
+		// get current location by gps
+		Log.d(tag, "Request location");
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				5000, 10, locationListener);
+
+	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -99,6 +121,7 @@ public class CameraFragment extends SherlockFragment implements
 
 			@Override
 			public void onClick(View v) {
+				markAll();
 				Log.d(tag, "positionBtnsetOnClickListener ja");
 				positionLayout.setVisibility(View.VISIBLE);
 				cctvLayout.setVisibility(View.GONE);
@@ -138,6 +161,9 @@ public class CameraFragment extends SherlockFragment implements
 
 	public void onStart() {
 		super.onStart();
+		Log.d(tag, "Request location");
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				5000, 10, locationListener);
 	}
 
 	public void onResume() {
@@ -182,20 +208,46 @@ public class CameraFragment extends SherlockFragment implements
 		return (dist);
 	}
 
-	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
-	/* :: This function converts decimal degrees to radians : */
-	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
 	private double deg2rad(double deg) {
 		return (deg * Math.PI / 180.0);
 	}
 
-	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
-	/* :: This function converts radians to decimal degrees : */
-	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
 	private double rad2deg(double rad) {
 		return (rad * 180.0 / Math.PI);
 	}
-	
+
+	private class MyLocationListener implements LocationListener {
+
+		@Override
+		public void onLocationChanged(Location loc) {
+			/*
+			 * Toast.makeText( getActivity().getBaseContext(),
+			 * "Location changed: Lat: " + loc.getLatitude() + " Lng: " +
+			 * loc.getLongitude(), Toast.LENGTH_SHORT).show();
+			 */
+			String longitude = "Longitude: " + loc.getLongitude();
+			String latitude = "Latitude: " + loc.getLatitude();
+
+			Log.i(tag, "your current location:" + latitude + "," + longitude);
+
+			Info.lat = loc.getLatitude();
+			Info.lng = loc.getLongitude();
+
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+	}
+
 	private void myMarker(String sLat, String sLng, String title, String id) {
 
 		LatLng accidentLatLng;
@@ -217,17 +269,43 @@ public class CameraFragment extends SherlockFragment implements
 							R.id.cameraMap)).getMap();
 			mMap.setOnMarkerClickListener(this);
 			mMap.setOnInfoWindowClickListener(this);
+
 		}
 
 		if (mMap != null) {
+
+			// calculate distance between user and event
+			double howFar = (int) (new Info().distance(accidentLatLng.latitude,
+					accidentLatLng.longitude, Info.lat, Info.lng, "K") * 100) / 100.0;
+			// news marker
+			String titileDetail = getString(R.string.farfromyou_msg) + ": "
+					+ howFar + " km";
+
 			Marker marker = mMap.addMarker(new MarkerOptions()
 					.position(accidentLatLng).title(id + ":" + title)
-					.snippet(accidentLatLng.toString()));
+					.snippet(titileDetail)
+					.icon(BitmapDescriptorFactory.fromResource(R.drawable.camera_gmap_icon)));
+					
 			mMap.getUiSettings().setZoomControlsEnabled(true);
 			marker.showInfoWindow();
 
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(accidentLatLng,
-					10));
+			//
+			
+			
+			// when load complete mark our position
+			Marker myMarker = mMap.addMarker(new MarkerOptions()
+					.position(new LatLng(Info.lat, Info.lng))
+					.title("You here")
+					.snippet("You here")
+					.icon(BitmapDescriptorFactory
+							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+			
+			
+			myMarker.showInfoWindow();
+			
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
+					Info.lat, Info.lng), 10));
+
 		}
 
 	}
@@ -293,7 +371,7 @@ public class CameraFragment extends SherlockFragment implements
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			Log.d(this.getClass().getSimpleName(), "cctv onPostExecute");
-			//Log.i(tag, "result: " + result);
+			// Log.i(tag, "result: " + result);
 
 			// Do anything with response..
 			if (requestType.equalsIgnoreCase("getRandomStr")) {
@@ -321,7 +399,7 @@ public class CameraFragment extends SherlockFragment implements
 
 				new RequestTask("getData").execute(traffy_request_url);
 			} else if (requestType.equalsIgnoreCase("getData")) {
-				//Log.i(tag, "result cctv: " + result);
+				// Log.i(tag, "result cctv: " + result);
 				// this mean we get real data from traffy already
 				this.traffyCameraXmlParser(result);
 				reloadViewAfterRequestTaskComplete();
@@ -371,7 +449,7 @@ public class CameraFragment extends SherlockFragment implements
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 			}
-			
+
 			if (nList != null)
 				for (int temp = 0; temp < nList.getLength(); temp++) {
 
@@ -434,12 +512,18 @@ public class CameraFragment extends SherlockFragment implements
 		Camera cam = getCamById(marker.getTitle().split("[:]")[0]);
 		Intent cameraDetail = new Intent(getActivity(),
 				CameraDetailsActivity.class);
-
-		cameraDetail.putExtra("description", cam.thaiName + ","
-				+ cam.englishName);
-		cameraDetail.putExtra("cameraId", cam.id);
-		cameraDetail.putExtra("imgList", cam.imgList);
-		startActivity(cameraDetail);
+		//in case of user point
+		try{
+			cameraDetail.putExtra("description", cam.thaiName + ","
+					+ cam.englishName);
+			cameraDetail.putExtra("cameraId", cam.id);
+			cameraDetail.putExtra("imgList", cam.imgList);
+			startActivity(cameraDetail);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		
 
 	}
 
