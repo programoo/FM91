@@ -10,7 +10,7 @@
         android:layout_height="wrap_content" >
 
         <ImageButton
-            android:id="@+id/newsDetailsShareUploadImage"
+            android:id="@+id/uploadImgBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/default_img_describer"
@@ -20,7 +20,7 @@
             android:id="@+id/newsDetailsShareEditText"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/newsDetailsShareUploadImage"
+            android:layout_toRightOf="@+id/uploadImgBtn"
             android:hint="@string/news_share_edittext_hint"
             android:textColor="#000000"
             android:textSize="12sp" />
@@ -29,7 +29,7 @@
             android:id="@+id/news_details_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/newsDetailsShareUploadImage"
+            android:layout_below="@+id/uploadImgBtn"
             android:text="@string/fm_banner_text"
             android:textSize="12sp"
             android:textStyle="bold" />

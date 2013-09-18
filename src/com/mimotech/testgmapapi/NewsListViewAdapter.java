@@ -32,7 +32,7 @@ public class NewsListViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		//if(convertView == null){
+		if(convertView == null)
 			convertView = inflater.inflate(R.layout.news_fragment_listview, parent,
 					false);
 

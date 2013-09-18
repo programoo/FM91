@@ -19,6 +19,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,6 +34,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,10 +44,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -56,35 +63,45 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class CameraFragment extends SherlockFragment implements
-		OnMarkerClickListener, OnInfoWindowClickListener {
+		OnMarkerClickListener, OnInfoWindowClickListener, TextWatcher {
 	private View v;
-	private ArrayList<Camera> camList = new ArrayList<Camera>();
+	private ArrayList<Camera> camList;
+	private ArrayList<Camera> camListFilter;
+	private ArrayList<Marker> markerList;
+
 	private String tag = this.getClass().getSimpleName();
 	private GoogleMap mMap;
-	private boolean isMark = false;
 	private LocationManager locationManager;
 	private LocationListener locationListener;
+	private GridView gv;
+	private EditText searchCameraEdt;
+	private AQuery aq;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		camList = new ArrayList<Camera>();
+		camListFilter = new ArrayList<Camera>();
+		markerList = new ArrayList<Marker>();
+		aq = new AQuery(getActivity());
+
+		
 		locationManager = (LocationManager) getActivity().getSystemService(
 				Context.LOCATION_SERVICE);
 
 		locationListener = new MyLocationListener();
-		// get current location by gps
 		Log.d(tag, "Request location");
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
 				5000, 10, locationListener);
-
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		this.v = inflater.inflate(R.layout.camera_fragment, container, false);
 
-		final GridView gv = (GridView) v.findViewById(R.id.cameraGridView);
+		gv = (GridView) v.findViewById(R.id.cameraGridView);
 		CameraGridViewAdapter ardap = new CameraGridViewAdapter(getActivity()
 				.getApplicationContext(), camList);
 
@@ -94,6 +111,10 @@ public class CameraFragment extends SherlockFragment implements
 		final RelativeLayout positionLayout = (RelativeLayout) v
 				.findViewById(R.id.positionLayout);
 
+		// handle edittext event
+		searchCameraEdt = (EditText) v.findViewById(R.id.searchCameraEdt);
+		searchCameraEdt.addTextChangedListener(this);
+
 		// handle gridview click
 		gv.setOnItemClickListener(
 
@@ -102,13 +123,12 @@ public class CameraFragment extends SherlockFragment implements
 					long arg3) {
 
 				Log.d(tag, "arg2: " + arg2 + "," + "arg3: " + arg3);
-				Camera cam = camList.get(arg2);
-
+				Camera cam = (Camera) gv.getItemAtPosition(arg2);
+				
 				Intent cameraDetail = new Intent(getActivity(),
 						CameraDetailsActivity.class);
 
-				cameraDetail.putExtra("description", cam.thaiName + ","
-						+ cam.englishName);
+				cameraDetail.putExtra("description", cam.toString());
 				cameraDetail.putExtra("imgList", cam.imgList);
 				startActivity(cameraDetail);
 
@@ -138,8 +158,19 @@ public class CameraFragment extends SherlockFragment implements
 
 				positionLayout.setVisibility(View.GONE);
 				cctvLayout.setVisibility(View.VISIBLE);
+				camListFilter = new ArrayList<Camera>();
+
+				for (int i = 0; i < camList.size(); i++) {
+					if (camList.get(i).toString()
+							.indexOf(searchCameraEdt.getText().toString()) != -1) {
+						camListFilter.add(camList.get(i));
+					}
+				}
+
 				CameraGridViewAdapter ardap = new CameraGridViewAdapter(
-						getActivity().getApplicationContext(), camList);
+						getActivity().getApplicationContext(), camListFilter);
+
+				gv.setAdapter(ardap);
 
 				gv.setAdapter(ardap);
 
@@ -161,9 +192,6 @@ public class CameraFragment extends SherlockFragment implements
 
 	public void onStart() {
 		super.onStart();
-		Log.d(tag, "Request location");
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				5000, 10, locationListener);
 	}
 
 	public void onResume() {
@@ -176,18 +204,19 @@ public class CameraFragment extends SherlockFragment implements
 	}
 
 	private void markAll() {
-		// draw marker only first time
-		if (!this.isMark) {
-			Log.i(tag, "set up map marker");
 
-			for (int i = 0; i < camList.size(); i++) {
-				myMarker(camList.get(i).lat, camList.get(i).lng,
-						camList.get(i).thaiName, camList.get(i).id);
-			}
-			Log.i(tag, "camera num: " + camList.size());
-			this.isMark = true;
-
+		Log.i(tag, "set up map marker");
+		// remove old marker
+		for (int i = 0; i < this.markerList.size(); i++) {
+			this.markerList.get(i).remove();
 		}
+
+		// re-draw marker again
+		for (int i = 0; i < camListFilter.size(); i++) {
+			myMarker(camListFilter.get(i).lat, camListFilter.get(i).lng,
+					camListFilter.get(i).thaiName, camListFilter.get(i).id);
+		}
+		Log.i(tag, "camera num: " + camListFilter.size());
 
 	}
 
@@ -232,19 +261,31 @@ public class CameraFragment extends SherlockFragment implements
 
 			Info.lat = loc.getLatitude();
 			Info.lng = loc.getLongitude();
+			markAll();
 
 		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
+			Toast.makeText(getActivity(),
+					"onProviderDisabled" + R.string.gps_disconnect_alert,
+					Toast.LENGTH_LONG).show();
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
+			Toast.makeText(getActivity(),
+					"onProviderEnabled" + R.string.gps_disconnect_alert,
+					Toast.LENGTH_LONG).show();
+
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
+			Toast.makeText(getActivity(),
+					"onStatusChanged" + R.string.gps_disconnect_alert,
+					Toast.LENGTH_LONG).show();
+
 		}
 	}
 
@@ -282,27 +323,30 @@ public class CameraFragment extends SherlockFragment implements
 					+ howFar + " km";
 
 			Marker marker = mMap.addMarker(new MarkerOptions()
-					.position(accidentLatLng).title(id + ":" + title)
+					.position(accidentLatLng)
+					.title(id + ":" + title)
 					.snippet(titileDetail)
-					.icon(BitmapDescriptorFactory.fromResource(R.drawable.camera_gmap_icon)));
-					
+					.icon(BitmapDescriptorFactory
+							.fromResource(R.drawable.camera_gmap_icon)));
+			// kept it for remove later
+			markerList.add(marker);
+
 			mMap.getUiSettings().setZoomControlsEnabled(true);
-			marker.showInfoWindow();
+			// marker.showInfoWindow();
 
 			//
-			
-			
+
 			// when load complete mark our position
+
 			Marker myMarker = mMap.addMarker(new MarkerOptions()
 					.position(new LatLng(Info.lat, Info.lng))
-					.title("You here")
-					.snippet("You here")
+					.title(getString(R.string.you_here_msg))
+					.snippet(Info.reverseGpsName)
 					.icon(BitmapDescriptorFactory
 							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-			
-			
+
 			myMarker.showInfoWindow();
-			
+
 			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
 					Info.lat, Info.lng), 10));
 
@@ -327,7 +371,26 @@ public class CameraFragment extends SherlockFragment implements
 	}
 
 	private void reloadViewAfterRequestTaskComplete() {
-		this.markAll();
+		// get current location by gps
+
+		Log.d(tag, "Request location");
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				5000, 10, locationListener);
+		//filter with 
+		camListFilter = new ArrayList<Camera>();
+
+		for (int i = 0; i < camList.size(); i++) {
+			if (camList.get(i).toString()
+					.indexOf(searchCameraEdt.getText().toString()) != -1) {
+				camListFilter.add(camList.get(i));
+			}
+		}
+		
+		
+		markAll();
+		
+		//request for gpis
+		asyncJson();
 	}
 
 	private class RequestTask extends AsyncTask<String, String, String> {
@@ -512,19 +575,78 @@ public class CameraFragment extends SherlockFragment implements
 		Camera cam = getCamById(marker.getTitle().split("[:]")[0]);
 		Intent cameraDetail = new Intent(getActivity(),
 				CameraDetailsActivity.class);
-		//in case of user point
-		try{
+		// in case of user point
+		try {
 			cameraDetail.putExtra("description", cam.thaiName + ","
 					+ cam.englishName);
 			cameraDetail.putExtra("cameraId", cam.id);
 			cameraDetail.putExtra("imgList", cam.imgList);
 			startActivity(cameraDetail);
-		}
-		catch(NullPointerException e){
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-		
 
 	}
 
+	@Override
+	public void afterTextChanged(Editable s) {
+		// TODO Auto-generated method stub
+		Log.i(tag, "afterTextChanged" + s.toString());
+		// re-create new list for show only user
+		camListFilter = new ArrayList<Camera>();
+
+		for (int i = 0; i < this.camList.size(); i++) {
+			if (this.camList.get(i).toString().indexOf(s.toString()) != -1) {
+				camListFilter.add(this.camList.get(i));
+			}
+		}
+		// re-draw gridview
+		CameraGridViewAdapter ardap = new CameraGridViewAdapter(getActivity()
+				.getApplicationContext(), camListFilter);
+		gv.setAdapter(ardap);
+
+		// re-draw camera
+		this.markAll();
+
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		// TODO Auto-generated method stub
+		Log.i(tag, "beforeTextChanged" + s.toString());
+
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		// TODO Auto-generated method stub
+		Log.i(tag, "onTextChanged" + s.toString());
+
+	}
+
+	public void asyncJson() {
+
+		// perform a Google search in just a few lines of code
+
+		String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng="+Info.lat+","+Info.lng+"&sensor=true";
+		
+		//String url = "http://www.thairath.co.th/rss/news.xml";
+		aq.ajax(url, JSONObject.class, this, "jsonCallback");
+
+	}
+
+	public void jsonCallback(String url, JSONObject json, AjaxStatus status) {
+
+		if (json != null) {
+			// successful ajax call
+			Log.i(tag,"json: "+json.toString());
+			String reverseGpsName = json.toString().split("\"formatted_address\":\"")[1].split("\",\"")[0];
+			Info.reverseGpsName = reverseGpsName;
+			
+		} else {
+			// ajax error
+		}
+
+	}
 }

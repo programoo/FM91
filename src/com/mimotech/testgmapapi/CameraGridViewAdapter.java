@@ -19,6 +19,7 @@ public class CameraGridViewAdapter extends BaseAdapter {
 	private ArrayList<Camera> camList;
 	private AQuery aq;
 	private LayoutInflater lf;
+
 	public CameraGridViewAdapter(Context context, ArrayList<Camera> camList) {
 		Log.d(tag, "GridViewAdapte");
 		mainContext = context;
@@ -26,7 +27,6 @@ public class CameraGridViewAdapter extends BaseAdapter {
 		aq = new AQuery(this.mainContext);
 		lf = (LayoutInflater) mainContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 
 	}
 
@@ -37,9 +37,9 @@ public class CameraGridViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Camera getItem(int position) {
 		// TODO Auto-generated method stub
-		return camList.get(position);
+		return this.camList.get(position);
 	}
 
 	@Override
@@ -50,16 +50,16 @@ public class CameraGridViewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if(convertView ==null){
+		if (convertView == null)
 			convertView = lf.inflate(R.layout.camera_fragment_gridview, null);
-			final TextView tv = (TextView) convertView.findViewById(R.id.cameraTextView1);
-			final ImageView iv = (ImageView) convertView.findViewById(R.id.cameraImageView1);
-
-			tv.setText(camList.get(position).thaiName);
-			aq.id(iv).image(camList.get(position).imgUrl, true, true,200, 0);
-		}
-
 		
+		
+		TextView tv = (TextView) convertView.findViewById(R.id.cameraTextView1);
+		ImageView iv = (ImageView) convertView
+				.findViewById(R.id.cameraImageView1);
+
+		tv.setText(camList.get(position).thaiName);
+		aq.id(iv).image(camList.get(position).imgUrl, true, true, 200, 0);
 
 		return convertView;
 	}

@@ -3,7 +3,7 @@ package com.mimotech.testgmapapi;
 public class Info {
 	public static double lat = 0;
 	public static double lng = 0;
-
+	public static String reverseGpsName="";
 	public Info(){
 		
 	}

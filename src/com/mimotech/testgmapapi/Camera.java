@@ -14,12 +14,12 @@ public class Camera {
 	public String description;
 	public String source;
 	public String imgList;
-	//handle graphic logic
+	// handle graphic logic
 	public Bitmap imgBmp;
 
 	public Camera(String id, String englishName, String thaiName, String lat,
-			String lng, String updateStatus,String imgUrl, String lastUpdate, String describe,
-			String source, String imgList) {
+			String lng, String updateStatus, String imgUrl, String lastUpdate,
+			String describe, String source, String imgList) {
 		this.id = id;
 		this.englishName = englishName;
 		this.thaiName = thaiName;
@@ -31,7 +31,15 @@ public class Camera {
 		this.description = describe;
 		this.source = source;
 		this.imgList = imgList;
-		
+
 		this.imgBmp = null;
+	}
+
+	public String toString() {
+		return this.id + "," + this.englishName + "," + this.thaiName + ","
+				+ this.lat + "," + this.lng + this.updateStatus + ","
+				+ this.imgUrl + this.lastUpdate + "," + this.description + ","
+				+ this.source;
+
 	}
 }

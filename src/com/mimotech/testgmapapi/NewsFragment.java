@@ -60,6 +60,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -73,15 +74,15 @@ public class NewsFragment extends SherlockFragment implements
 	private Button eventBtn;
 	private DateTimeFormatter formatter;
 	private LocationManager locationManager;
-	private LocationListener locationListener ;
-	
+	private LocationListener locationListener;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-		locationManager = (LocationManager) getActivity()
-				.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) getActivity().getSystemService(
+				Context.LOCATION_SERVICE);
 
 		locationListener = new MyLocationListener();
 
@@ -307,16 +308,15 @@ public class NewsFragment extends SherlockFragment implements
 		@Override
 		public void onLocationChanged(Location loc) {
 			/*
-			Toast.makeText(
-					getActivity().getBaseContext(),
-					"Location changed: Lat: " + loc.getLatitude() + " Lng: "
-							+ loc.getLongitude(), Toast.LENGTH_SHORT).show();
-			*/
+			 * Toast.makeText( getActivity().getBaseContext(),
+			 * "Location changed: Lat: " + loc.getLatitude() + " Lng: " +
+			 * loc.getLongitude(), Toast.LENGTH_SHORT).show();
+			 */
 			String longitude = "Longitude: " + loc.getLongitude();
 			String latitude = "Latitude: " + loc.getLatitude();
-			
+
 			Log.i(tag, "your current location:" + latitude + "," + longitude);
-			
+
 			Info.lat = loc.getLatitude();
 			Info.lng = loc.getLongitude();
 
@@ -422,7 +422,7 @@ public class NewsFragment extends SherlockFragment implements
 				if (result == null) {
 					new AlertDialog.Builder(getActivity())
 							.setMessage(
-									getString( R.string.internet_disconnect_alert) )
+									getString(R.string.internet_disconnect_alert))
 							.setPositiveButton("OK",
 									new DialogInterface.OnClickListener() {
 										public void onClick(
@@ -430,8 +430,13 @@ public class NewsFragment extends SherlockFragment implements
 												int which) {
 											// continue with delete
 										}
-							}).show();
+									}).show();
 
+				} else {
+
+					Toast.makeText(getActivity().getBaseContext(),
+							R.string.internet_connect_alert, Toast.LENGTH_LONG)
+							.show();
 				}
 			}
 
@@ -536,7 +541,6 @@ public class NewsFragment extends SherlockFragment implements
 							getHumanLanguageTime(formatter
 									.parseDateTime(startTime)), formatter
 									.parseDateTime(startTime).getMillis());
-					Log.i(tag, "startTime: " + startTime);
 					uniqueAdd(n);
 
 				}
@@ -552,8 +556,10 @@ public class NewsFragment extends SherlockFragment implements
 						.getNodeValue();
 				return valueString;
 			} catch (NullPointerException e) {
-				Log.d(tag, "element not found: " + elementName + ","
-						+ attributeName);
+				/*
+				 * Log.d(tag, "element not found: " + elementName + "," +
+				 * attributeName);
+				 */
 				return "undefined";
 			}
 

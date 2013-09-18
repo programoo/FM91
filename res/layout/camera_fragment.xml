@@ -8,6 +8,7 @@
         android:id="@+id/cctvBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/submenu_bg"
         android:onClick="cctvBtnOnClick"
         android:text="@string/cctv_btn_text" />
 
@@ -16,26 +17,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/cctvBtn"
+        android:background="@drawable/submenu_bg"
         android:text="@string/position_btn_text" />
+
+    <EditText
+        android:id="@+id/searchCameraEdt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/positionBtn"
+        android:hint="@string/search_hint"
+        android:textColor="#000000"
+        android:textSize="12sp" />
 
     <RelativeLayout
         android:id="@+id/cctvLayout"
-        android:layout_below="@+id/positionBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/searchCameraEdt"
         android:orientation="vertical" >
-
-        <EditText
-            android:id="@+id/searchEditText"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/search_hint" />
 
         <GridView
             android:id="@+id/cameraGridView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/searchEditText"
             android:columnWidth="100dp"
             android:gravity="center"
             android:numColumns="auto_fit"

@@ -10,9 +10,11 @@ import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
 import org.brickred.socialauth.android.SocialAuthError;
 import org.brickred.socialauth.android.SocialAuthListener;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class NewsDetailsActivity extends SherlockFragmentActivity implements
 		OnClickListener {
@@ -42,6 +46,8 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 	private RelativeLayout newsDetailNormalLayout;
 	private RelativeLayout newsDetailShareLayout;
 	private EditText newsDetailsShareEditText;
+
+	private static final int REQUEST_CODE = 6384;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -88,15 +94,22 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 
 		newsDetailsShareEditText = (EditText) findViewById(R.id.newsDetailsShareEditText);
 
+		ImageButton uploadImgBtn = (ImageButton) findViewById(R.id.uploadImgBtn);
+		uploadImgBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// Perform action on click
+				Log.i(tag, "upload image click");
+				showChooser();
+			}
+		});
+
 	}
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		/*
-		 * if (mCamera != null) { mCamera.release(); mCamera = null; }
-		 */
+
 	}
 
 	public void myMarker(String sLat, String sLng, String title) {
@@ -127,7 +140,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 			// calculate distance between user and event
 			double howFar = (int) (new Info().distance(accidentLatLng.latitude,
 					accidentLatLng.longitude, Info.lat, Info.lng, "K") * 100) / 100.0;
-			
+
 			if (accidentLatLng.latitude == 0 || accidentLatLng.longitude == 0) {
 				howFar = 0;
 			}
@@ -144,26 +157,60 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 			titileDetail = getString(R.string.farfromyou_msg) + ": " + howFar
 					+ " km";
 			Marker myMarker = mMap.addMarker(new MarkerOptions()
-					.position(new LatLng(Info.lat, Info.lng)).title("You here")
-					.snippet("You here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))) ;
-				
+					.position(new LatLng(Info.lat, Info.lng))
+					.title(getString(R.string.you_here_msg))
+					.snippet(Info.reverseGpsName)
+					.icon(BitmapDescriptorFactory
+							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
 			Log.d(tag, "setUpMarkerNewsMarker");
 
 			mMap.getUiSettings().setZoomControlsEnabled(true);
 			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(accidentLatLng,
 					11));
-			//myMarker.showInfoWindow();
+			// myMarker.showInfoWindow();
 			marker.showInfoWindow();
-
-
 
 		}
 	}
 
-	/**
-	 * Listens Response from Library
-	 * 
-	 */
+	private void showChooser() {
+		// Use the GET_CONTENT intent from the utility class
+		Intent target = FileUtils.createGetContentIntent();
+		// Create the chooser Intent
+		Intent intent = Intent.createChooser(target,
+				getString(R.string.chooser_label));
+		try {
+			startActivityForResult(intent, REQUEST_CODE);
+		} catch (ActivityNotFoundException e) {
+			// The reason for the existence of aFileChooser
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case REQUEST_CODE:
+			// If the file selection was successful
+			if (resultCode == RESULT_OK) {
+				if (data != null) {
+					// Get the URI of the selected file
+					final Uri uri = data.getData();
+
+					try {
+						// Create a file instance from the URI
+						final File file = FileUtils.getFile(uri);
+						Log.i(tag,"path: "+file.getAbsolutePath());
+					} catch (Exception e) {
+						Log.e("FileSelectorTestActivity", "File select error",
+								e);
+					}
+				}
+			}
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 
 	private final class ResponseListener implements DialogListener {
 		@Override
@@ -233,6 +280,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onClick(View v) {
+
 		String quotMsg = newsDetailsShareEditText.getText().toString() + "\n"
 				+ description;
 		adapter.updateStatus(quotMsg, new MessageListener(), false);

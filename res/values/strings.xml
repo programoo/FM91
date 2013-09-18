@@ -20,12 +20,16 @@
     <string name="default_img_describer">default_img_describer</string>
 
     <!-- thai translate text -->
+    <string name="chooser_label">เลือกรูปภาพ</string>
+    <string name="you_here_msg">คุณอยู่ที่นี่</string>
     <string name="farfromyou_msg">ห่างจากคุณ</string>
     <string name="pass_day_text">วัน</string>
     <string name="pass_hour_text">ชั่วโมง</string>
     <string name="pass_minute_text">นาที</string>
     <string name="pass_second_text">วินาที</string>
     <string name="internet_disconnect_alert">การเชื่อมต่อมีปัญหา กรุณาตรวจสอบการเชื่อมต่ออีกครั้ง</string>
+    <string name="gps_disconnect_alert">การเชื่อมต่อจีพีเอสมีปัญหา กรุณาตรวจสอบการเชื่อมต่ออีกครั้ง</string>
+    <string name="internet_connect_alert">การเชื่อมต่อสำเร็จ</string>
     <string name="news_share_edittext_hint">ความคิดเห็นของคุณ</string>
     <!-- header -->
     <string name="header_img_describer">header_img_describer</string>
