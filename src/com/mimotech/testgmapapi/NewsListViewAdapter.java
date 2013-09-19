@@ -59,6 +59,13 @@ public class NewsListViewAdapter extends BaseAdapter {
 						.findViewById(R.id.isRead);
 				isReadImg.setVisibility(View.INVISIBLE);
 			}
+			else{
+				//show unread tag
+				ImageView isReadImg = (ImageView) convertView
+						.findViewById(R.id.isRead);
+				isReadImg.setVisibility(View.VISIBLE);
+		
+			}
 		//}
 
 

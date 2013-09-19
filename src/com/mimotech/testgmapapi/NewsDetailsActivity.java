@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +47,11 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 	private RelativeLayout newsDetailNormalLayout;
 	private RelativeLayout newsDetailShareLayout;
 	private EditText newsDetailsShareEditText;
+
+	// share layout
+	private ImageView uploadIv;
+	private Bitmap bitmapSelected;
+	private String pathImgSelected;
 
 	private static final int REQUEST_CODE = 6384;
 
@@ -72,6 +78,8 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 		description = intent.getStringExtra("description");
 
 		// normal layout
+		uploadIv = (ImageView) findViewById(R.id.uploadImgIv);
+
 		TextView tv = (TextView) findViewById(R.id.newsTextDetail);
 		tv.setText(description);
 		this.myMarker(sLat, sLng, title);
@@ -199,8 +207,11 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 
 					try {
 						// Create a file instance from the URI
-						final File file = FileUtils.getFile(uri);
-						Log.i(tag,"path: "+file.getAbsolutePath());
+						File file = FileUtils.getFile(uri);
+						Log.i(tag, "path: " + file.getAbsolutePath());
+						pathImgSelected = file.getAbsolutePath();
+						bitmapSelected = decodeFile(file);
+						uploadIv.setImageBitmap(bitmapSelected);
 					} catch (Exception e) {
 						Log.e("FileSelectorTestActivity", "File select error",
 								e);
@@ -291,14 +302,14 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 
 		try {
 
-			String imgUri = "/mnt/sdcard/DCIM/Camera/IMG001.jpg";
-			File bmFile = new File(imgUri);
-			Bitmap bitmap = decodeFile(bmFile);
-
 			Toast.makeText(NewsDetailsActivity.this, "POSTING IMAGE...",
 					Toast.LENGTH_LONG).show();
 
-			adapter.uploadImage(quotMsg, imgUri, bitmap, 100);
+			// adapter.uploadImage(quotMsg, pathImgSelected, bitmapSelected,
+			// 100);
+
+			adapter.uploadImageAsync(quotMsg, pathImgSelected, bitmapSelected,
+					100, null);
 
 			Toast.makeText(NewsDetailsActivity.this, "POST IMAGE COMPLETE",
 					Toast.LENGTH_LONG).show();

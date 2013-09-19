@@ -26,10 +26,8 @@ public class RadioFragment extends SherlockFragment implements OnClickListener {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		this.viewMainFragment = inflater.inflate(R.layout.radio_fragment,
 				container, false);
-		// setContentView(R.layout);
 
 		initializeUIElements();
 

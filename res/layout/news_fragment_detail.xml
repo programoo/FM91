@@ -38,8 +38,16 @@
             android:id="@+id/newsDetailsShareBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/news_details_msg"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
             android:text="@string/news_details_share_btn_name" />
+
+        <ImageView
+            android:id="@+id/uploadImgIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/news_details_msg"
+            android:contentDescription="@string/default_img_describer" />
     </RelativeLayout>
 
     <RelativeLayout

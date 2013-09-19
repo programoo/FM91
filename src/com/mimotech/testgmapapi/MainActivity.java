@@ -67,36 +67,19 @@ public class MainActivity extends SherlockFragmentActivity {
 		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_inform");
 		tabArgs.putInt("id", 3);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_radio"), getResources()
-				.getDrawable(R.drawable.inform_tabbar_img), RadioFragment.class,
-				tabArgs, getString(R.string.radio_tabbar_text));
-		
-		
-		tabArgs = new Bundle();
-		tabArgs.putString("collection", "tab_more");
-		tabArgs.putInt("id", 4);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_radio"), getResources()
-				.getDrawable(R.drawable.more_tabbar_img), RadioFragment.class,
-				tabArgs, getString(R.string.radio_tabbar_text));
+		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_inform"), getResources()
+				.getDrawable(R.drawable.inform_tabbar_img), InformFragment.class,
+				tabArgs, getString(R.string.inform_tabbar_text));
 		
 		/*
 		tabArgs = new Bundle();
-		tabArgs.putString("collection", "tab_inform");
-		tabArgs.putInt("id", 4);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_inform"), getResources()
-				.getDrawable(R.drawable.inform_tabbar_img), BlankActivity.class,
-				tabArgs, getString(R.string.inform_tabbar_text));
-				
-		*/
-		/*		
-		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_more");
-		tabArgs.putInt("id", 5);
+		tabArgs.putInt("id", 4);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_more"), getResources()
-				.getDrawable(R.drawable.inform_tabbar_img), BlankActivity.class,
-				tabArgs, getString(R.string.radio_tabbar_text));
-	
-		 */
+				.getDrawable(R.drawable.more_tabbar_img), MoreFragment.class,
+				tabArgs, getString(R.string.more_tabbar_text));
+		*/
+				
 	}
 
 	@Override
