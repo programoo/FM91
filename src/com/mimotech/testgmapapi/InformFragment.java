@@ -1,14 +1,13 @@
 package com.mimotech.testgmapapi;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
-public class InformFragment extends SherlockFragment {
+public class InformFragment extends Fragment {
 	private String tag = this.getClass().getSimpleName();
 	private View viewMainFragment;
 
@@ -20,6 +19,12 @@ public class InformFragment extends SherlockFragment {
 
 		Log.d(tag, "onCreateView");
 		return viewMainFragment;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
 	}
 
 

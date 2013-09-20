@@ -34,6 +34,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -46,53 +47,33 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockFragment;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-public class CameraFragment extends SherlockFragment implements
-		OnMarkerClickListener, OnInfoWindowClickListener, TextWatcher {
+public class CameraFragment extends Fragment implements TextWatcher {
+	private String TAG = this.getClass().getSimpleName();
 	private View v;
-	private ArrayList<Camera> camList;
 	private ArrayList<Camera> camListFilter;
-	private ArrayList<Marker> markerList;
-
-	private String tag = this.getClass().getSimpleName();
-	private GoogleMap mMap;
 	private LocationManager locationManager;
 	private LocationListener locationListener;
 	private GridView gv;
 	private EditText searchCameraEdt;
 	private AQuery aq;
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		camList = new ArrayList<Camera>();
+		Info.camList = new ArrayList<Camera>();
 		camListFilter = new ArrayList<Camera>();
-		markerList = new ArrayList<Marker>();
 		aq = new AQuery(getActivity());
 
-		
 		locationManager = (LocationManager) getActivity().getSystemService(
 				Context.LOCATION_SERVICE);
 
 		locationListener = new MyLocationListener();
-		Log.d(tag, "Request location");
+		Log.d(TAG, "Request location");
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
 				5000, 10, locationListener);
 	}
@@ -103,13 +84,9 @@ public class CameraFragment extends SherlockFragment implements
 
 		gv = (GridView) v.findViewById(R.id.cameraGridView);
 		CameraGridViewAdapter ardap = new CameraGridViewAdapter(getActivity()
-				.getApplicationContext(), camList);
+				.getApplicationContext(), Info.camList);
 
 		gv.setAdapter(ardap);
-		final RelativeLayout cctvLayout = (RelativeLayout) v
-				.findViewById(R.id.cctvLayout);
-		final RelativeLayout positionLayout = (RelativeLayout) v
-				.findViewById(R.id.positionLayout);
 
 		// handle edittext event
 		searchCameraEdt = (EditText) v.findViewById(R.id.searchCameraEdt);
@@ -122,9 +99,9 @@ public class CameraFragment extends SherlockFragment implements
 			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
 					long arg3) {
 
-				Log.d(tag, "arg2: " + arg2 + "," + "arg3: " + arg3);
+				Log.d(TAG, "arg2: " + arg2 + "," + "arg3: " + arg3);
 				Camera cam = (Camera) gv.getItemAtPosition(arg2);
-				
+
 				Intent cameraDetail = new Intent(getActivity(),
 						CameraDetailsActivity.class);
 
@@ -141,10 +118,13 @@ public class CameraFragment extends SherlockFragment implements
 
 			@Override
 			public void onClick(View v) {
-				markAll();
-				Log.d(tag, "positionBtnsetOnClickListener ja");
-				positionLayout.setVisibility(View.VISIBLE);
-				cctvLayout.setVisibility(View.GONE);
+				Log.d(TAG, "positionBtnsetOnClickListener ja");
+				Intent cameraMap = new Intent(getActivity(),
+						CameraPositionMapActivity.class);
+
+				cameraMap.putExtra("description", "kak description");
+				cameraMap.putExtra("imgList", "image");
+				startActivity(cameraMap);
 
 			}
 		});
@@ -154,16 +134,14 @@ public class CameraFragment extends SherlockFragment implements
 
 			@Override
 			public void onClick(View v) {
-				Log.d(tag, "cctvOnClickListener ja");
+				Log.d(TAG, "cctvOnClickListener ja");
 
-				positionLayout.setVisibility(View.GONE);
-				cctvLayout.setVisibility(View.VISIBLE);
 				camListFilter = new ArrayList<Camera>();
 
-				for (int i = 0; i < camList.size(); i++) {
-					if (camList.get(i).toString()
+				for (int i = 0; i < Info.camList.size(); i++) {
+					if (Info.camList.get(i).toString()
 							.indexOf(searchCameraEdt.getText().toString()) != -1) {
-						camListFilter.add(camList.get(i));
+						camListFilter.add(Info.camList.get(i));
 					}
 				}
 
@@ -177,12 +155,12 @@ public class CameraFragment extends SherlockFragment implements
 			}
 		});
 
-		Log.i(tag, "onCreateView");
+		Log.i(TAG, "onCreateView");
 		return v;
 	}
 
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		Log.i(tag, "onViewCreated");
+		Log.i(TAG, "onViewCreated");
 		super.onViewCreated(view, savedInstanceState);
 
 		new RequestTask("getRandomStr")
@@ -203,193 +181,23 @@ public class CameraFragment extends SherlockFragment implements
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	private void markAll() {
-
-		Log.i(tag, "set up map marker");
-		// remove old marker
-		for (int i = 0; i < this.markerList.size(); i++) {
-			this.markerList.get(i).remove();
-		}
-
-		// re-draw marker again
-		for (int i = 0; i < camListFilter.size(); i++) {
-			myMarker(camListFilter.get(i).lat, camListFilter.get(i).lng,
-					camListFilter.get(i).thaiName, camListFilter.get(i).id);
-		}
-		Log.i(tag, "camera num: " + camListFilter.size());
-
-	}
-
-	public double distance(double lat1, double lon1, double lat2, double lon2,
-			String unit) {
-		double theta = lon1 - lon2;
-		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2))
-				+ Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2))
-				* Math.cos(deg2rad(theta));
-		dist = Math.acos(dist);
-		dist = rad2deg(dist);
-		dist = dist * 60 * 1.1515;
-		if (unit.equalsIgnoreCase("K")) {
-			dist = dist * 1.609344;
-		} else if (unit.equalsIgnoreCase("N")) {
-			dist = dist * 0.8684;
-		}
-		return (dist);
-	}
-
-	private double deg2rad(double deg) {
-		return (deg * Math.PI / 180.0);
-	}
-
-	private double rad2deg(double rad) {
-		return (rad * 180.0 / Math.PI);
-	}
-
-	private class MyLocationListener implements LocationListener {
-
-		@Override
-		public void onLocationChanged(Location loc) {
-			/*
-			 * Toast.makeText( getActivity().getBaseContext(),
-			 * "Location changed: Lat: " + loc.getLatitude() + " Lng: " +
-			 * loc.getLongitude(), Toast.LENGTH_SHORT).show();
-			 */
-			String longitude = "Longitude: " + loc.getLongitude();
-			String latitude = "Latitude: " + loc.getLatitude();
-
-			Log.i(tag, "your current location:" + latitude + "," + longitude);
-
-			Info.lat = loc.getLatitude();
-			Info.lng = loc.getLongitude();
-			markAll();
-
-		}
-
-		@Override
-		public void onProviderDisabled(String provider) {
-			Toast.makeText(getActivity(),
-					"onProviderDisabled" + R.string.gps_disconnect_alert,
-					Toast.LENGTH_LONG).show();
-		}
-
-		@Override
-		public void onProviderEnabled(String provider) {
-			Toast.makeText(getActivity(),
-					"onProviderEnabled" + R.string.gps_disconnect_alert,
-					Toast.LENGTH_LONG).show();
-
-		}
-
-		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-			Toast.makeText(getActivity(),
-					"onStatusChanged" + R.string.gps_disconnect_alert,
-					Toast.LENGTH_LONG).show();
-
-		}
-	}
-
-	private void myMarker(String sLat, String sLng, String title, String id) {
-
-		LatLng accidentLatLng;
-		// set accident lat long
-		if (sLat.equalsIgnoreCase("undefined")
-				|| sLng.equalsIgnoreCase("undefined")) {
-			accidentLatLng = new LatLng(0, 0);
-
-		} else {
-
-			accidentLatLng = new LatLng(Double.parseDouble(sLat),
-					Double.parseDouble(sLng));
-
-		}
-
-		if (mMap == null) {
-			mMap = ((SupportMapFragment) getActivity()
-					.getSupportFragmentManager().findFragmentById(
-							R.id.cameraMap)).getMap();
-			mMap.setOnMarkerClickListener(this);
-			mMap.setOnInfoWindowClickListener(this);
-
-		}
-
-		if (mMap != null) {
-
-			// calculate distance between user and event
-			double howFar = (int) (new Info().distance(accidentLatLng.latitude,
-					accidentLatLng.longitude, Info.lat, Info.lng, "K") * 100) / 100.0;
-			// news marker
-			String titileDetail = getString(R.string.farfromyou_msg) + ": "
-					+ howFar + " km";
-
-			Marker marker = mMap.addMarker(new MarkerOptions()
-					.position(accidentLatLng)
-					.title(id + ":" + title)
-					.snippet(titileDetail)
-					.icon(BitmapDescriptorFactory
-							.fromResource(R.drawable.camera_gmap_icon)));
-			// kept it for remove later
-			markerList.add(marker);
-
-			mMap.getUiSettings().setZoomControlsEnabled(true);
-			// marker.showInfoWindow();
-
-			//
-
-			// when load complete mark our position
-
-			Marker myMarker = mMap.addMarker(new MarkerOptions()
-					.position(new LatLng(Info.lat, Info.lng))
-					.title(getString(R.string.you_here_msg))
-					.snippet(Info.reverseGpsName)
-					.icon(BitmapDescriptorFactory
-							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-
-			myMarker.showInfoWindow();
-
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-					Info.lat, Info.lng), 10));
-
-		}
-
-	}
-
-	@Override
-	public boolean onMarkerClick(Marker marker) {
-		// TODO Auto-generated method stub
-		Log.i(tag, marker.getTitle() + marker.getSnippet());
-		return false;
-	}
-
-	public Camera getCamById(String id) {
-		for (int i = 0; i < camList.size(); i++) {
-			if (camList.get(i).id.equalsIgnoreCase(id)) {
-				return camList.get(i);
-			}
-		}
-		return null;
-	}
-
 	private void reloadViewAfterRequestTaskComplete() {
 		// get current location by gps
 
-		Log.d(tag, "Request location");
+		Log.d(TAG, "Request location");
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
 				5000, 10, locationListener);
-		//filter with 
+		// filter with
 		camListFilter = new ArrayList<Camera>();
 
-		for (int i = 0; i < camList.size(); i++) {
-			if (camList.get(i).toString()
+		for (int i = 0; i < Info.camList.size(); i++) {
+			if (Info.camList.get(i).toString()
 					.indexOf(searchCameraEdt.getText().toString()) != -1) {
-				camListFilter.add(camList.get(i));
+				camListFilter.add(Info.camList.get(i));
 			}
 		}
-		
-		
-		markAll();
-		
-		//request for gpis
+
+		// request for gpis
 		asyncJson();
 	}
 
@@ -558,46 +366,26 @@ public class CameraFragment extends SherlockFragment implements
 
 		public void uniqueAdd(Camera cam) {
 
-			for (int i = 0; i < camList.size(); i++) {
-				if (cam.id.equalsIgnoreCase(camList.get(i).id)) {
+			for (int i = 0; i < Info.camList.size(); i++) {
+				if (cam.id.equalsIgnoreCase(Info.camList.get(i).id)) {
 					return;
 				}
 			}
-			camList.add(cam);
+			Info.camList.add(cam);
 		}
 
 	}// end private request class
 
 	@Override
-	public void onInfoWindowClick(Marker marker) {
-		// TODO Auto-generated method stub
-		Log.i(tag, marker.getTitle() + marker.getSnippet());
-		Camera cam = getCamById(marker.getTitle().split("[:]")[0]);
-		Intent cameraDetail = new Intent(getActivity(),
-				CameraDetailsActivity.class);
-		// in case of user point
-		try {
-			cameraDetail.putExtra("description", cam.thaiName + ","
-					+ cam.englishName);
-			cameraDetail.putExtra("cameraId", cam.id);
-			cameraDetail.putExtra("imgList", cam.imgList);
-			startActivity(cameraDetail);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	@Override
 	public void afterTextChanged(Editable s) {
 		// TODO Auto-generated method stub
-		Log.i(tag, "afterTextChanged" + s.toString());
+		Log.i(TAG, "afterTextChanged" + s.toString());
 		// re-create new list for show only user
 		camListFilter = new ArrayList<Camera>();
 
-		for (int i = 0; i < this.camList.size(); i++) {
-			if (this.camList.get(i).toString().indexOf(s.toString()) != -1) {
-				camListFilter.add(this.camList.get(i));
+		for (int i = 0; i < Info.camList.size(); i++) {
+			if (Info.camList.get(i).toString().indexOf(s.toString()) != -1) {
+				camListFilter.add(Info.camList.get(i));
 			}
 		}
 		// re-draw gridview
@@ -606,7 +394,6 @@ public class CameraFragment extends SherlockFragment implements
 		gv.setAdapter(ardap);
 
 		// re-draw camera
-		this.markAll();
 
 	}
 
@@ -614,14 +401,14 @@ public class CameraFragment extends SherlockFragment implements
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
 		// TODO Auto-generated method stub
-		Log.i(tag, "beforeTextChanged" + s.toString());
+		Log.i(TAG, "beforeTextChanged" + s.toString());
 
 	}
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		// TODO Auto-generated method stub
-		Log.i(tag, "onTextChanged" + s.toString());
+		Log.i(TAG, "onTextChanged" + s.toString());
 
 	}
 
@@ -629,9 +416,10 @@ public class CameraFragment extends SherlockFragment implements
 
 		// perform a Google search in just a few lines of code
 
-		String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng="+Info.lat+","+Info.lng+"&sensor=true";
-		
-		//String url = "http://www.thairath.co.th/rss/news.xml";
+		String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng="
+				+ Info.lat + "," + Info.lng + "&sensor=true";
+
+		// String url = "http://www.thairath.co.th/rss/news.xml";
 		aq.ajax(url, JSONObject.class, this, "jsonCallback");
 
 	}
@@ -640,13 +428,57 @@ public class CameraFragment extends SherlockFragment implements
 
 		if (json != null) {
 			// successful ajax call
-			Log.i(tag,"json: "+json.toString());
-			String reverseGpsName = json.toString().split("\"formatted_address\":\"")[1].split("\",\"")[0];
+			Log.i(TAG, "json: " + json.toString());
+			String reverseGpsName = json.toString().split(
+					"\"formatted_address\":\"")[1].split("\",\"")[0];
 			Info.reverseGpsName = reverseGpsName;
-			
+
 		} else {
 			// ajax error
 		}
 
 	}
+
+	private class MyLocationListener implements LocationListener {
+
+		@Override
+		public void onLocationChanged(Location loc) {
+			/*
+			 * Toast.makeText( getActivity().getBaseContext(),
+			 * "Location changed: Lat: " + loc.getLatitude() + " Lng: " +
+			 * loc.getLongitude(), Toast.LENGTH_SHORT).show();
+			 */
+			String longitude = "Longitude: " + loc.getLongitude();
+			String latitude = "Latitude: " + loc.getLatitude();
+
+			Log.i(TAG, "your current location:" + latitude + "," + longitude);
+
+			Info.lat = loc.getLatitude();
+			Info.lng = loc.getLongitude();
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			Toast.makeText(getActivity(),
+					"onProviderDisabled" + R.string.gps_disconnect_alert,
+					Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			Toast.makeText(getActivity(),
+					"onProviderEnabled" + R.string.gps_disconnect_alert,
+					Toast.LENGTH_LONG).show();
+
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			Toast.makeText(getActivity(),
+					"onStatusChanged" + R.string.gps_disconnect_alert,
+					Toast.LENGTH_LONG).show();
+
+		}
+	}
+
 }

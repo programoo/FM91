@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -61,7 +62,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.news_fragment_detail);
+		setContentView(R.layout.news_fragment_detail_activity);
 
 		Log.d(tag, "onCreate1");
 
@@ -302,24 +303,23 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 
 		try {
 
-			Toast.makeText(NewsDetailsActivity.this, "POSTING IMAGE...",
+			Toast.makeText(NewsDetailsActivity.this, "Posting message...",
 					Toast.LENGTH_LONG).show();
 
 			// adapter.uploadImage(quotMsg, pathImgSelected, bitmapSelected,
 			// 100);
 
-			adapter.uploadImageAsync(quotMsg, pathImgSelected, bitmapSelected,
-					100, null);
+			//adapter.uploadImageAsync(quotMsg, pathImgSelected, bitmapSelected,
+			//		100, null);
 
-			Toast.makeText(NewsDetailsActivity.this, "POST IMAGE COMPLETE",
-					Toast.LENGTH_LONG).show();
-
+			new uploadImgBgTask().execute(quotMsg);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
+	
 	private Bitmap decodeFile(File f) {
 		try {
 			// Decode image size
@@ -345,4 +345,26 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 		return null;
 	}
 
+	private class uploadImgBgTask extends AsyncTask<String, String, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			
+			try {
+				adapter.uploadImage(params[0], pathImgSelected, bitmapSelected,100);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			return "ok";
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			Log.d(tag,"image posted complete");
+		}
+		
+	}
+	
 }

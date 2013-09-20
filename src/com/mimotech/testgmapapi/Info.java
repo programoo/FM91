@@ -1,10 +1,13 @@
 package com.mimotech.testgmapapi;
 
+import java.util.ArrayList;
+
 public class Info {
 	//Bangkok as default
 	public static double lat = 13.724714;
 	public static double lng = 100.633111;
 	public static String reverseGpsName="";
+	public static ArrayList<Camera> camList;
 	public Info(){
 		
 	}
@@ -40,4 +43,14 @@ public class Info {
 		return (rad * 180.0 / Math.PI);
 	}
 
+	public static Camera getCamById(String id) {
+		for (int i = 0; i < Info.camList.size(); i++) {
+			if (Info.camList.get(i).id.equalsIgnoreCase(id)) {
+				return Info.camList.get(i);
+			}
+		}
+		return null;
+	}
+
+	
 }

@@ -18,8 +18,8 @@ import android.widget.ImageView;
 
 public class ImageLoader {
 
-	public void download(String url, ImageView imageView,Camera bm) {
-		BitmapDownloaderTask task = new BitmapDownloaderTask(imageView,bm);
+	public void download(String url, ImageView imageView, Camera bm) {
+		BitmapDownloaderTask task = new BitmapDownloaderTask(imageView, bm);
 		task.execute(url);
 	}
 
@@ -30,18 +30,18 @@ public class ImageLoader {
 }
 
 class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
-	//private String url;
+	// private String url;
 	private String url;
 	private final WeakReference<ImageView> imageViewReference;
 	private ArrayList<Bitmap> arr;
 	private String type = "undefined";
-	private Camera cmRef;//camera reference obj
+	private Camera cmRef;// camera reference obj
 
-	public BitmapDownloaderTask(ImageView imageView,Camera cmRef) {
+	public BitmapDownloaderTask(ImageView imageView, Camera cmRef) {
 		this.imageViewReference = new WeakReference<ImageView>(imageView);
 		this.type = "undefined";
 		this.cmRef = cmRef;
-		url="undefined";
+		url = "undefined";
 	}
 
 	public BitmapDownloaderTask(ArrayList<Bitmap> arr, String type) {
@@ -74,9 +74,16 @@ class BitmapDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 				}
 			}
 		} else {
-			//find num
-			int num = Integer.parseInt(this.url.split("[&]")[2].split("[=]")[1]);
-			arr.set(num,bitmap);
+			// find num
+			try {
+
+				int num = Integer.parseInt(this.url.split("[&]")[2]
+						.split("[=]")[1]);
+				arr.set(num, bitmap);
+				
+			} catch (ArrayIndexOutOfBoundsException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

@@ -50,6 +50,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,10 +63,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
-public class NewsFragment extends SherlockFragment implements
-		OnItemClickListener, OnClickListener {
+public class NewsFragment extends Fragment implements OnItemClickListener,
+		OnClickListener {
 	private String tag = this.getClass().getSimpleName();
 	private View viewMainFragment;
 	private ListView lv;
@@ -122,7 +121,7 @@ public class NewsFragment extends SherlockFragment implements
 		Log.d(tag, "onViewCreated");
 		super.onViewCreated(view, savedInstanceState);
 		new RequestTask("getRandomStr")
-				.execute("http://api.traffy.in.th/apis/getKey.php?appid=abcb6710");
+		.execute("http://api.traffy.in.th/apis/getKey.php?appid=abcb6710");
 
 	}
 

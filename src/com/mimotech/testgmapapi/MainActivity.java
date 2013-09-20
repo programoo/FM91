@@ -2,6 +2,7 @@ package com.mimotech.testgmapapi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -10,10 +11,9 @@ import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.androidquery.util.AQUtility;
 
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends FragmentActivity {
 	String tag = getClass().getSimpleName();
 	private ViewPager mViewPager;
 	private TabHost mTabHost;
@@ -66,7 +66,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		tabArgs = new Bundle();
 		tabArgs.putString("collection", "tab_inform");
-		tabArgs.putInt("id", 3);
+		tabArgs.putInt("id", 4);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_inform"), getResources()
 				.getDrawable(R.drawable.inform_tabbar_img), InformFragment.class,
 				tabArgs, getString(R.string.inform_tabbar_text));
@@ -84,7 +84,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		//clean the file cache when root activity exit
         //the resulting total cache size will be less than 3M   
