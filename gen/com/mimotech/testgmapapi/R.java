@@ -804,17 +804,17 @@ containing a value of this type.
         public static final int abs__bright_foreground_disabled_holo_light=0x7f0a0005;
         public static final int abs__bright_foreground_holo_dark=0x7f0a0002;
         public static final int abs__bright_foreground_holo_light=0x7f0a0003;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f0a003f;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f0a0040;
-        public static final int abs__primary_text_holo_dark=0x7f0a0041;
-        public static final int abs__primary_text_holo_light=0x7f0a0042;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f0a0040;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f0a0041;
+        public static final int abs__primary_text_holo_dark=0x7f0a0042;
+        public static final int abs__primary_text_holo_light=0x7f0a0043;
         /**  tab 
          */
-        public static final int activetab_background=0x7f0a0015;
-        public static final int activetab_text=0x7f0a0019;
+        public static final int activetab_background=0x7f0a0016;
+        public static final int activetab_text=0x7f0a001a;
         /**  news tabbar 
          */
-        public static final int badge_count_color=0x7f0a0014;
+        public static final int badge_count_color=0x7f0a0015;
         public static final int common_action_bar_splitter=0x7f0a000f;
         /**  Sign-in Button Colors 
          */
@@ -827,74 +827,77 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f0a000c;
         public static final int common_signin_btn_light_text_focused=0x7f0a000d;
         public static final int common_signin_btn_light_text_pressed=0x7f0a000b;
-        public static final int common_signin_btn_text_dark=0x7f0a0043;
-        public static final int common_signin_btn_text_light=0x7f0a0044;
-        public static final int context_button_text=0x7f0a0036;
+        public static final int common_signin_btn_text_dark=0x7f0a0044;
+        public static final int common_signin_btn_text_light=0x7f0a0045;
+        public static final int context_button_text=0x7f0a0037;
         /**  context menu 
          */
-        public static final int context_menu_bg=0x7f0a0033;
-        public static final int context_menu_border=0x7f0a0034;
-        public static final int context_menu_header_text=0x7f0a0037;
-        public static final int context_menu_text=0x7f0a0035;
-        public static final int custom_theme_color=0x7f0a0038;
+        public static final int context_menu_bg=0x7f0a0034;
+        public static final int context_menu_border=0x7f0a0035;
+        public static final int context_menu_header_text=0x7f0a0038;
+        public static final int context_menu_text=0x7f0a0036;
+        public static final int custom_theme_color=0x7f0a0039;
         /**  contact detail 
          */
-        public static final int detail_bg=0x7f0a002a;
-        public static final int detail_header_bg=0x7f0a002b;
-        public static final int detail_name_text=0x7f0a002c;
-        public static final int detail_phone_text=0x7f0a002e;
-        public static final int detail_section_bg=0x7f0a0030;
-        public static final int detail_section_text=0x7f0a0031;
-        public static final int detail_time_text=0x7f0a002f;
-        public static final int detail_type_text=0x7f0a002d;
-        public static final int dialbox=0x7f0a001d;
-        public static final int dialbox_border=0x7f0a001f;
-        public static final int dialbox_text=0x7f0a001e;
-        public static final int dialfont=0x7f0a001c;
+        public static final int detail_bg=0x7f0a002b;
+        public static final int detail_header_bg=0x7f0a002c;
+        public static final int detail_name_text=0x7f0a002d;
+        public static final int detail_phone_text=0x7f0a002f;
+        public static final int detail_section_bg=0x7f0a0031;
+        public static final int detail_section_text=0x7f0a0032;
+        public static final int detail_time_text=0x7f0a0030;
+        public static final int detail_type_text=0x7f0a002e;
+        public static final int dialbox=0x7f0a001e;
+        public static final int dialbox_border=0x7f0a0020;
+        public static final int dialbox_text=0x7f0a001f;
+        public static final int dialfont=0x7f0a001d;
         /**  dial fragment 
          */
-        public static final int dialfont_active=0x7f0a001b;
-        public static final int dialog_loading_center=0x7f0a003c;
-        public static final int dialog_loading_end=0x7f0a003e;
-        public static final int dialog_loading_start=0x7f0a003d;
-        public static final int dialpad_border=0x7f0a0020;
+        public static final int dialfont_active=0x7f0a001c;
+        public static final int dialog_loading_center=0x7f0a003d;
+        public static final int dialog_loading_end=0x7f0a003f;
+        public static final int dialog_loading_start=0x7f0a003e;
+        public static final int dialpad_border=0x7f0a0021;
         /**  header 
          */
-        public static final int fm_header_color=0x7f0a0012;
-        public static final int header_btn_clolor=0x7f0a0013;
-        public static final int infoTheme_bg=0x7f0a003a;
-        public static final int line_color=0x7f0a003b;
-        public static final int list_bg=0x7f0a0024;
-        public static final int list_line_divider=0x7f0a0023;
+        public static final int fm_header_color=0x7f0a0013;
+        /**  predefine color name 
+         */
+        public static final int grey=0x7f0a0010;
+        public static final int header_btn_clolor=0x7f0a0014;
+        public static final int infoTheme_bg=0x7f0a003b;
+        public static final int line_color=0x7f0a003c;
+        public static final int list_bg=0x7f0a0025;
+        public static final int list_line_divider=0x7f0a0024;
         /**  all 
          */
-        public static final int myTheme_bg=0x7f0a0039;
+        public static final int myTheme_bg=0x7f0a003a;
         /**  all list 
          */
-        public static final int name=0x7f0a0022;
-        public static final int news_badge=0x7f0a0010;
+        public static final int name=0x7f0a0023;
+        public static final int news_badge=0x7f0a0011;
         /**  call log list 
          */
-        public static final int phone=0x7f0a0026;
-        public static final int pressedtab_background=0x7f0a0017;
-        public static final int pressedtab_text=0x7f0a001a;
+        public static final int phone=0x7f0a0027;
+        public static final int pressedtab_background=0x7f0a0018;
+        public static final int pressedtab_text=0x7f0a001b;
         /**  contact list 
          */
-        public static final int section_bg=0x7f0a0028;
-        public static final int section_text_color=0x7f0a0029;
+        public static final int section_bg=0x7f0a0029;
+        public static final int section_text_color=0x7f0a002a;
         /**  list selector 
          */
-        public static final int selected=0x7f0a0025;
-        public static final int submenu_text_color=0x7f0a0045;
-        public static final int tab_background=0x7f0a0016;
-        public static final int tab_text=0x7f0a0018;
-        public static final int tabbar_text_color=0x7f0a0046;
-        public static final int time=0x7f0a0027;
+        public static final int selected=0x7f0a0026;
+        public static final int submenu_text_color=0x7f0a0046;
+        public static final int tab_background=0x7f0a0017;
+        public static final int tab_text=0x7f0a0019;
+        public static final int tabbar_text_color=0x7f0a0047;
+        public static final int time=0x7f0a0028;
         /**  title view 
          */
-        public static final int title_bar_text=0x7f0a0032;
-        public static final int transparent=0x7f0a0011;
-        public static final int warm_grey=0x7f0a0021;
+        public static final int title_bar_text=0x7f0a0033;
+        public static final int transparent=0x7f0a0012;
+        public static final int warm_grey=0x7f0a0022;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
