@@ -1,51 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activityRoot"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/fm_banner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/header_bg" >
-
-        <ImageView
-            android:id="@+id/header_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/default_img_describer"
-            android:src="@drawable/icon_fm" />
-
-        <com.ais.sand.helper.AisTextView
-            android:id="@+id/fm91_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/header_img"
-            android:text="@string/fm_banner_text"
-            android:textColor="@color/fm_header_color"
-            android:textSize="@dimen/fm_banner_size"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/emergency_btn"
-            android:layout_width="@dimen/header_btn_width"
-            android:layout_height="@dimen/header_btn_height"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/round_btn_bg"
-            android:onClick="emergencyBtnOnClick"
-            android:text="@string/emergency_btn_text"
-            android:textSize="@dimen/header_btn_text_size" />
-    </RelativeLayout>
+    <include layout="@layout/blank_activity"
+        android:id="@+id/fmBanner" />
 
     <RelativeLayout
         android:id="@+id/fm_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fm_banner"
+        android:layout_below="@+id/fmBanner"
         android:background="@drawable/menu_bg" >
 
         <TabHost

@@ -20,13 +20,18 @@
     <string name="default_img_describer">default_img_describer</string>
 
     <!-- thai translate text -->
+    <string name="what_about_text">เกี่ยวกับอะไร</string>
+    <string name="save_text">บันทึก</string>
+    <string name="name_text">ชื่อ</string>
+    <string name="phone_text">เบอร์โทรศัพท์</string>
+    <string name="insert_your_data">กรุณาใส่ข้อมูลของคุณ</string>
     <string name="chooser_label">เลือกรูปภาพ</string>
     <string name="you_here_msg">คุณอยู่ที่นี่</string>
     <string name="farfromyou_msg">ห่างจากคุณ</string>
     <string name="pass_day_text">วัน</string>
     <string name="pass_hour_text">ชั่วโมง</string>
     <string name="pass_minute_text">นาที</string>
-    <string name="pass_second_text">วินาที</string>
+    <string name="pass_second_text">วินาทีที่แล้ว</string>
     <string name="internet_disconnect_alert">การเชื่อมต่อมีปัญหา กรุณาตรวจสอบการเชื่อมต่ออีกครั้ง</string>
     <string name="gps_disconnect_alert">การเชื่อมต่อจีพีเอสมีปัญหา กรุณาตรวจสอบการเชื่อมต่ออีกครั้ง</string>
     <string name="internet_connect_alert">การเชื่อมต่อสำเร็จ</string>
@@ -53,5 +58,6 @@
 
     <!-- more tabbar -->
     <string name="more_tabbar_text">อื่นๆ</string>
+    <string name="title_activity_insert_profile">InsertProfileActivity</string>
 
 </resources>

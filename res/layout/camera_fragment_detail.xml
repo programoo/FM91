@@ -4,35 +4,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/fm_news_detail_banner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <com.ais.sand.helper.AisTextView
-            android:id="@+id/fm91_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/fm_banner_text"
-            android:textSize="@dimen/fm_banner_size"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/emergency_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:onClick="emergencyBtnOnClick"
-            android:text="@string/emergency_btn_text" />
-    </RelativeLayout>
+    <include
+        android:id="@+id/fm_banner"
+        layout="@layout/blank_activity" />
 
     <RelativeLayout
         android:id="@+id/fm_news_detail_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fm_news_detail_banner"
+        android:layout_below="@+id/fm_banner"
         android:background="#FF000000" >
 
         <TextView
@@ -45,11 +25,10 @@
             android:id="@+id/cameraDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/default_img_describer"
             android:layout_below="@+id/cameraDescription"
             android:layout_margin="0dp"
+            android:contentDescription="@string/default_img_describer"
             android:src="@drawable/ic_launcher" />
-
     </RelativeLayout>
 
 </RelativeLayout>

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
+
+    <include
+        android:id="@+id/fm_banner"
+        layout="@layout/blank_activity" />
 
     <RelativeLayout
         android:id="@+id/news_detail_share_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fm_banner" >
 
         <ImageButton
             android:id="@+id/uploadImgBtn"
@@ -38,8 +43,8 @@
             android:id="@+id/newsDetailsShareBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:text="@string/news_details_share_btn_name" />
 
         <ImageView
@@ -54,6 +59,7 @@
         android:id="@+id/news_detail_normal_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/fm_banner"
         android:background="#FF000000" >
 
         <TextView

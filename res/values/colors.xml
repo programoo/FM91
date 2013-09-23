@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- predefine color name -->
-    <color name="grey">#ffe5e5e5</color>
 
+    <!-- predefine color name -->
+    <color name="grey">#463738</color>
+    <color name="kak">#ff333333</color>
     <color name="news_badge">#0000FF</color>
     <color name="transparent">#000000</color>
 

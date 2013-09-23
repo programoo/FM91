@@ -12,12 +12,10 @@ import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Window;
 
 public class CameraDetailsActivity extends SherlockFragmentActivity {
 	private String tag = getClass().getSimpleName();
@@ -36,9 +34,7 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		setContentView(R.layout.camera_fragment_detail);
 
 		Log.d(tag, "onCreate");

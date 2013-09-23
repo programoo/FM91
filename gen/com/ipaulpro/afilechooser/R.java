@@ -17,13 +17,13 @@ public final class R {
 		public static final int ic_folder = 0x7f020095;
 	}
 	public static final class id {
-		public static final int explorer_fragment = 0x7f08004d;
-		public static final int file_icon = 0x7f08004e;
-		public static final int file_name = 0x7f08004f;
+		public static final int explorer_fragment = 0x7f080051;
+		public static final int file_icon = 0x7f080052;
+		public static final int file_name = 0x7f080053;
 	}
 	public static final class layout {
-		public static final int chooser = 0x7f03001d;
-		public static final int file = 0x7f03001e;
+		public static final int chooser = 0x7f03001e;
+		public static final int file = 0x7f03001f;
 	}
 	public static final class string {
 		public static final int choose_file = 0x7f060002;
