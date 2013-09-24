@@ -59,5 +59,6 @@
     <!-- more tabbar -->
     <string name="more_tabbar_text">อื่นๆ</string>
     <string name="title_activity_insert_profile">InsertProfileActivity</string>
+    <string name="title_activity_infom_map_selector">InfomMapSelectorActivity</string>
 
 </resources>

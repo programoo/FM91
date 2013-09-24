@@ -79,6 +79,10 @@
             android:name="com.mimotech.testgmapapi.InsertProfileActivity"
             android:label="@string/title_activity_insert_profile" >
         </activity>
+        <activity
+            android:name="com.mimotech.testgmapapi.InformMapSelectorActivity"
+            android:label="@string/title_activity_infom_map_selector" >
+        </activity>
     </application>
 
 </manifest>
