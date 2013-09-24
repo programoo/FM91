@@ -23,7 +23,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.androidquery.AQuery;
 import com.androidquery.util.XmlDom;
@@ -39,26 +49,89 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class InformMapSelectorActivity extends FragmentActivity implements
-		OnMarkerClickListener, OnInfoWindowClickListener, OnMapClickListener
+		OnMarkerClickListener, OnInfoWindowClickListener, OnMapClickListener, TextWatcher
 {
 	private String TAG = this.getClass().getSimpleName();
 	private AQuery aq;
 	private Context context;
 	private ArrayList<Nearby> nearbyList;
+	private ArrayList<Nearby> nearbyTemPlateList;
+
 	private GoogleMap mMap;
+	private ListView lv;
+	private RelativeLayout mapViewLayout;
+	private RelativeLayout listViewLayout;
+	boolean showMapView = true;
+	private EditText filterEdt;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		nearbyList = new ArrayList<Nearby>();
-		setContentView(R.layout.activity_infom_map_selector);
+		nearbyTemPlateList = new ArrayList<Nearby>();
+		setContentView(R.layout.activity_infom_mapview_selector);
+		mapViewLayout = (RelativeLayout) findViewById(R.id.mapSelectorMapView);
+		listViewLayout = (RelativeLayout) findViewById(R.id.mapSelectorListView);
+		filterEdt = (EditText) findViewById(R.id.mapFilterEdt);
+		filterEdt.addTextChangedListener(this);
+		
+		
+		lv = (ListView) findViewById(R.id.insertPositionListView);
+		lv.setOnItemClickListener(new OnItemClickListener()
+		{
+			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
+					long arg3)
+			{
+				
+				Log.d(TAG, "arg2: " + arg2 + "," + "arg3: " + arg3);
+				Nearby nearby = (Nearby) lv.getItemAtPosition(arg2);
+				Log.i(TAG, "list select: " + nearby.title + "," + nearby.lat
+						+ "," + nearby.lng);
+				String result = nearby.lat + "," + nearby.lng;
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra("result", result);
+				setResult(Info.RESULT_OK, returnIntent);
+				finish();
+				
+			}
+		});
+		ImageButton imageDialog = (ImageButton) findViewById(R.id.imageDialog);
+		imageDialog.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				if (showMapView)
+				{
+					mapViewLayout.setVisibility(View.GONE);
+					listViewLayout.setVisibility(View.VISIBLE);
+					showMapView = false;
+				} else
+				{
+					mapViewLayout.setVisibility(View.VISIBLE);
+					listViewLayout.setVisibility(View.GONE);
+					showMapView = true;
+				}
+				reloadView();
+			}
+		});
+		
+	}
+	
+	public void reloadView()
+	{
+		InformMapSelectorListViewAdapter ardap = new InformMapSelectorListViewAdapter(
+				InformMapSelectorActivity.this, this.nearbyList);
+		lv.setAdapter(ardap);
+		
 	}
 	
 	@Override
 	protected void onStart()
 	{
 		super.onStart();
+		this.mapViewLayout.setVisibility(View.VISIBLE);
+		this.listViewLayout.setVisibility(View.GONE);
 		new RetreiveFeedTask().execute("defined in doInBackground");
 	}
 	
@@ -68,6 +141,11 @@ public class InformMapSelectorActivity extends FragmentActivity implements
 		Log.i(TAG, "set up map marker");
 		
 		// re-draw marker again
+		
+		if (mMap != null){
+			mMap.clear();
+		}
+
 		for (int i = 0; i < this.nearbyList.size(); i++)
 		{
 			myMarker(this.nearbyList.get(i).lat, this.nearbyList.get(i).lng,
@@ -188,6 +266,10 @@ public class InformMapSelectorActivity extends FragmentActivity implements
 			{
 				XmlDom xmlJa = new XmlDom(inputStreamAsString);
 				nearByParsingToObj(xmlJa);
+				//copy to template nearby;
+				for(int i=0;i<nearbyList.size();i++){
+					nearbyTemPlateList.add(nearbyList.get(i).clone());
+				}
 				// after get nearby obj then draw to gMap
 				markAll();
 				
@@ -286,14 +368,18 @@ public class InformMapSelectorActivity extends FragmentActivity implements
 	{
 		String result = "undefined";
 		
-		if(marker.getTitle().equalsIgnoreCase(getString(R.string.you_here_msg))){
-			result = Info.lat+","+Info.lng;
-		}else{
-			result = getNearbyFromTitle(marker.getTitle()).lat+","+getNearbyFromTitle(marker.getTitle()).lng;
+		if (marker.getTitle()
+				.equalsIgnoreCase(getString(R.string.you_here_msg)))
+		{
+			result = Info.lat + "," + Info.lng;
+		} else
+		{
+			result = getNearbyFromTitle(marker.getTitle()).lat + ","
+					+ getNearbyFromTitle(marker.getTitle()).lng;
 		}
 		
 		Intent returnIntent = new Intent();
-		returnIntent.putExtra("result", result );
+		returnIntent.putExtra("result", result);
 		setResult(Info.RESULT_OK, returnIntent);
 		finish();
 	}
@@ -301,19 +387,52 @@ public class InformMapSelectorActivity extends FragmentActivity implements
 	@Override
 	public void onMapClick(LatLng point)
 	{
-		String result = point.latitude+","+point.longitude;
+		String result = point.latitude + "," + point.longitude;
 		Intent returnIntent = new Intent();
 		returnIntent.putExtra("result", result);
 		setResult(Info.RESULT_OK, returnIntent);
 		finish();
 	}
-	public Nearby getNearbyFromTitle(String title){
-		for(int i=0;i<this.nearbyList.size();i++){
-			if(this.nearbyList.get(i).title.equalsIgnoreCase(title)){
+	
+	public Nearby getNearbyFromTitle(String title)
+	{
+		for (int i = 0; i < this.nearbyList.size(); i++)
+		{
+			if (this.nearbyList.get(i).title.equalsIgnoreCase(title))
+			{
 				return this.nearbyList.get(i);
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public void afterTextChanged(Editable s)
+	{
+		
+		nearbyList = new ArrayList<Nearby>();
+		
+		for(int i=0;i<this.nearbyTemPlateList.size();i++){
+			if(this.nearbyTemPlateList.get(i).title.indexOf(this.filterEdt.getText().toString()) != -1){
+				//found add it
+				nearbyList.add(this.nearbyTemPlateList.get(i));
+			}
+		}
+		
+		
+		this.reloadView();
+		this.markAll();
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after)
+	{
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count)
+	{
 	}
 	
 }

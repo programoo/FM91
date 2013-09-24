@@ -22,9 +22,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,11 +36,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.androidquery.util.XmlDom;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,6 +55,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class InformFragment extends Fragment implements OnClickListener,
 		OnMarkerClickListener, OnInfoWindowClickListener, OnMapClickListener
@@ -63,6 +70,9 @@ public class InformFragment extends Fragment implements OnClickListener,
 	private ArrayList<Nearby> nearbyList;
 	private GoogleMap mMap;
 	private Dialog dialog;
+	private ImageButton addImgImgBtn ;
+	private ImageButton addPlaceImgBtn ;
+	private Button sendBtn;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -82,13 +92,50 @@ public class InformFragment extends Fragment implements OnClickListener,
 		mainLayout = (RelativeLayout) v.findViewById(R.id.informMainLayout);
 		detailLayout = (RelativeLayout) v.findViewById(R.id.informDetailLayout);
 		
+		sendBtn = (Button) v.findViewById(R.id.sendBtn);
+		sendBtn.setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				String url = "http://203.185.131.171/CrimeMap/Json/inform.php?tel=xxxx&title=xxxx&name=xxxx&description&Lat=xxxx&Lng=xxxx&image=xxxx";
+
+				aq.ajax(url, String.class, new AjaxCallback<String>() {
+
+				        @Override
+				        public void callback(String url, String html, AjaxStatus status) {
+				                Log.i(TAG,"traffy post data result: "+html);
+				        }
+				        
+				});
+				
+			}
+		});
+		
 		tv = (TextView) v.findViewById(R.id.typeOfInformTv);
 		
 		ImageButton imgBtn = (ImageButton) v.findViewById(R.id.trafficImgBtn);
 		imgBtn.setOnClickListener(this);
 		imgBtn.setTag("traffic");
 		
-		ImageButton addPlaceImgBtn = (ImageButton) v
+		
+		addImgImgBtn = (ImageButton) v
+				.findViewById(R.id.addImgInformImgBtn);
+		addImgImgBtn.setOnClickListener(new OnClickListener()
+		{
+			public void onClick(View view)
+			{
+				
+				showChooser();
+			}
+			
+		});
+		
+		
+		
+		
+		
+		addPlaceImgBtn = (ImageButton) v
 				.findViewById(R.id.addPlaceInformImgBtn);
 		addPlaceImgBtn.setOnClickListener(new OnClickListener()
 		{
@@ -97,26 +144,7 @@ public class InformFragment extends Fragment implements OnClickListener,
 				
 				Intent i = new Intent(getActivity(),
 						InformMapSelectorActivity.class);
-				startActivityForResult(i, 1);
-				
-				/*
-				 * try { // prevent when already have map attach to this
-				 * activity dialog = new Dialog(getActivity());
-				 * dialog.getWindow();
-				 * dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				 * dialog.setContentView(R.layout.mapview_dialog);
-				 * dialog.setCancelable(true); dialog.show(); String url =
-				 * "defined in do in background"; new
-				 * RetreiveFeedTask().execute(url); Log.i(TAG,
-				 * "Requesting nearby api"); } catch (InflateException e) {
-				 * SupportMapFragment mMap = (SupportMapFragment) getActivity()
-				 * .getSupportFragmentManager().findFragmentById(
-				 * R.id.insertPositionMap); if (mMap != null)
-				 * getActivity().getSupportFragmentManager()
-				 * .beginTransaction().remove(mMap).commit();
-				 * e.printStackTrace(); }
-				 */
-				
+				startActivityForResult(i, Info.RESULT_SELECTED_POSITION);
 			}
 			
 		});
@@ -199,11 +227,8 @@ public class InformFragment extends Fragment implements OnClickListener,
 			Marker marker = mMap.addMarker(new MarkerOptions()
 					.position(accidentLatLng).title(title)
 					.snippet(titileDetail));
-			// kept it for remove later
-			// markerList.add(marker);
 			
 			mMap.getUiSettings().setZoomControlsEnabled(true);
-			// marker.showInfoWindow();
 			// when load complete mark our position
 			Marker myMarker = mMap.addMarker(new MarkerOptions()
 					.position(new LatLng(Info.lat, Info.lng))
@@ -429,21 +454,67 @@ public class InformFragment extends Fragment implements OnClickListener,
 		
 	}
 	
+	private void showChooser()
+	{
+		// Use the GET_CONTENT intent from the utility class
+		Intent target = FileUtils.createGetContentIntent();
+		// Create the chooser Intent
+		Intent intent = Intent.createChooser(target,
+				getString(R.string.chooser_label));
+		try
+		{
+			startActivityForResult(intent, Info.RESULT_SELECTED_IMAGE);
+		} catch (ActivityNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		
-		if (requestCode == 1)
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == Info.RESULT_SELECTED_POSITION)
 		{
 			
 			if (resultCode == Info.RESULT_OK)
 			{
 				String result = data.getStringExtra("result");
+				addPlaceImgBtn.setImageResource(R.drawable.map_selected);
+
 				Log.i(TAG,"result from selector"+result);
 			}
 			if (resultCode == Info.RESULT_CANCELED)
 			{
 				// Write your code if there's no result
+				Log.e(TAG,"result onActivityResult error");
 			}
+		}
+		else if(requestCode == Info.RESULT_SELECTED_IMAGE){
+			//RESULT_OK == -1
+			if (resultCode == -1)
+			{
+				if (data != null)
+				{
+					// Get the URI of the selected file
+					final Uri uri = data.getData();
+					
+					try
+					{
+						// Create a file instance from the URI
+						File file = FileUtils.getFile(uri);
+						Log.i(TAG, "path: " + file.getAbsolutePath());
+						String pathImgSelected = file.getAbsolutePath();
+						Bitmap bitmapSelected = Info.decodeFile(file,128);
+						addImgImgBtn.setImageBitmap(bitmapSelected);
+					} catch (Exception e)
+					{
+						Log.e("FileSelectorTestActivity",
+								"File select error", e);
+					}
+				}
+			}
+			
 		}
 	}// onActivityResult
 	

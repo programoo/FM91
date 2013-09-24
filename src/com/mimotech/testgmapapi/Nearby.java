@@ -13,6 +13,18 @@ public class Nearby {
 		this.lat = lat;
 		this.lng = lng;
 	}
+	
+	public Nearby clone(){
+		return new Nearby(this.title,this.lat,this.lng);
+	}
+	
+	public String howFar(){
+		double howFar = (int) (new Info().distance(Double.parseDouble(lat),
+				Double.parseDouble(lng), Info.lat, Info.lng, "K") * 100) / 100.0;
+		
+		return howFar+" km";
+		
+	}
 
 	
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,7 +34,6 @@ public class CameraPositionMapActivity extends FragmentActivity implements
 		camList = Info.camList;
 		camListFilter = Info.camList;// new ArrayList<Camera>();
 		markerList = new ArrayList<Marker>();
-
 		Log.d(TAG, "onCreate");
 
 	}
@@ -126,17 +126,11 @@ public class CameraPositionMapActivity extends FragmentActivity implements
 			Marker marker = mMap.addMarker(new MarkerOptions()
 					.position(accidentLatLng)
 					.title(id + ":" + title)
-					.snippet(titileDetail)
-					.icon(BitmapDescriptorFactory
-							.fromResource(R.drawable.camera_gmap_icon)));
+					.snippet(titileDetail));
 			// kept it for remove later
 			markerList.add(marker);
 
 			mMap.getUiSettings().setZoomControlsEnabled(true);
-			// marker.showInfoWindow();
-
-			//
-
 			// when load complete mark our position
 
 			Marker myMarker = mMap.addMarker(new MarkerOptions()

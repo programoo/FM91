@@ -20,6 +20,7 @@
     <string name="default_img_describer">default_img_describer</string>
 
     <!-- thai translate text -->
+    <string name="find_here_text">ค้นหาที่นี่</string>
     <string name="what_about_text">เกี่ยวกับอะไร</string>
     <string name="save_text">บันทึก</string>
     <string name="name_text">ชื่อ</string>
