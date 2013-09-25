@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:text="@string/radius_settings_text" />
+        android:text="@string/rewind_settings_dialog_text" />
 
     <RelativeLayout
         android:id="@+id/oneKiloLayout"
@@ -25,11 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="@string/one_kilo_text" >
+            android:text="@string/one_day_text" >
         </TextView>
 
         <RadioButton
-            android:id="@+id/oneKilometerRadio"
+            android:id="@+id/oneDayRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" />
@@ -47,11 +47,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="@string/three_kilo_text" >
+            android:text="@string/three_day_text" >
         </TextView>
 
         <RadioButton
-            android:id="@+id/threeKilometerRadio"
+            android:id="@+id/threeDayRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" />
@@ -69,11 +69,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="@string/five_kilo_text" >
+            android:text="@string/seven_day_text" >
         </TextView>
 
         <RadioButton
-            android:id="@+id/fiveKilometerRadio"
+            android:id="@+id/sevenDayRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" />

@@ -40,7 +40,7 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_insert_profile);
+		setContentView(R.layout.profile_insert_activity);
 		this.userName=""; 
 		this.userPhoneNumber="";
 		usernameEdt = (EditText) findViewById(R.id.userNameEdt);

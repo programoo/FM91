@@ -19,6 +19,13 @@ public class Info {
 	public static final int RESULT_SELECTED_IMAGE = 502;
 	public static final int RESULT_SELECTED_POSITION = 503;
 
+	public static boolean crimTick = false;
+	public static boolean accidentTick = false;
+	public static boolean otherTick = false;
+	public static String latLnConfig;
+	public static String radius;
+	public static String rewind;
+
 
 	public Info(){
 		

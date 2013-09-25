@@ -23,9 +23,7 @@ public class InformMapSelectorListViewAdapter extends BaseAdapter {
 		this.nearbyList = newsList;
 		inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 		Log.d(tag, "NewsListViewAdapter");
-
 	}
 
 	@Override

@@ -19,7 +19,16 @@
     <string name="news_reporter_text">longdoo (twitter)</string>
     <string name="default_img_describer">default_img_describer</string>
 
+    <!-- eng translate text -->
+    <string name="profile_settings_text">Profile</string>
+
     <!-- thai translate text -->
+    <string name="day_text">วัน</string>
+    <string name="seven_day_text">7 วัน</string>
+    <string name="three_day_text">3 วัน</string>
+    <string name="one_day_text">1 วัน</string>
+    <string name="rewind_settings_dialog_text">การตั้งค่ารับข่าวย้อนหลัง</string>
+    <string name="kilometer_text">กิโลเมตร</string>
     <string name="radius_settings_text">การตั้งค่ารัศมี</string>
     <string name="five_kilo_text">5 กิโลเมตร</string>
     <string name="three_kilo_text">3 กิโลเมตร</string>

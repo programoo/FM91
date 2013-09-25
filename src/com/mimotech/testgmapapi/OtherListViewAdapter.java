@@ -16,7 +16,9 @@ public class OtherListViewAdapter extends BaseAdapter
 	private ArrayList<String> strList;
 	private LayoutInflater inflater;
 	private int selectedLayout;
-	public OtherListViewAdapter(Context context, ArrayList<String> strList,int selectedLayout)
+	
+	public OtherListViewAdapter(Context context, ArrayList<String> strList,
+			int selectedLayout)
 	{
 		Log.d(TAG, "OtherListViewAdapter");
 		this.strList = strList;
@@ -33,8 +35,16 @@ public class OtherListViewAdapter extends BaseAdapter
 		if (convertView == null)
 			convertView = inflater.inflate(selectedLayout,
 					parent, false);
-		TextView otherTv = (TextView) convertView.findViewById(R.id.otherTv);
-		otherTv.setText(this.strList.get(position));
+		try{
+			TextView otherTv = (TextView) convertView.findViewById(R.id.otherTv);
+			otherTv.setText(this.strList.get(position).split(",")[0]);
+
+			TextView otherSelectedDataTv = (TextView) convertView.findViewById(R.id.otherSelectedDataTv);
+			otherSelectedDataTv.setText(this.strList.get(position).split(",")[1]);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return convertView;
 		
 	}
