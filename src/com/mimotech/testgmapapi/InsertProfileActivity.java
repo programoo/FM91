@@ -51,6 +51,10 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 		
 		Button saveProfileBtn = (Button) findViewById(R.id.saveProfileBtn);
 		saveProfileBtn.setOnClickListener(this);
+		
+		
+		//read profile if can
+		
 	}
 	
 	@Override

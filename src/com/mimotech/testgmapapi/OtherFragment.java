@@ -93,7 +93,15 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 	{
 		String dialogName = (String) this.lv.getItemAtPosition(arg2);
-		if (dialogName.equalsIgnoreCase("setting"))
+		Log.i(TAG,"dialogName: "+dialogName);
+		if (dialogName.equalsIgnoreCase("profile"))
+		{
+			Intent it = new Intent(getActivity(),
+					InsertProfileActivity.class);
+			startActivity(it);
+		}
+		
+		else if (dialogName.equalsIgnoreCase("setting"))
 		{
 			final Dialog settingDialog = new Dialog(getActivity(),
 					android.R.style.Theme_Light_NoTitleBar);
@@ -118,7 +126,7 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 				this.rewind = settingCsv.split(",")[5];
 			}
 			
-			final ListView lv = (ListView) settingDialog
+			final ListView lvSettingDialog = (ListView) settingDialog
 					.findViewById(R.id.settingDialogLv);
 			
 			ArrayList<String> strSettingList = new ArrayList<String>();
@@ -132,7 +140,7 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 			OtherListViewAdapter settingsAdapter = new OtherListViewAdapter(
 					getActivity(), strSettingList,
 					R.layout.other_fragment_settings_listview);
-			lv.setAdapter(settingsAdapter);
+			lvSettingDialog.setAdapter(settingsAdapter);
 			
 			final ToggleButton crimTg = (ToggleButton) settingDialog
 					.findViewById(R.id.crimeTgBtn);
