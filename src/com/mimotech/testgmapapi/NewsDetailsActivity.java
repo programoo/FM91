@@ -263,11 +263,6 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 			
 			// after connected complete redirect to share page
 			Log.d(tag, "emergencyBtnOnClick");
-			/*
-			 * Intent shareBtn = new Intent(NewsDetailsActivity.this,
-			 * ShareButtonActivity.class); startActivity(shareBtn);
-			 */
-			
 			// adapter.updateStatus(description, new MessageListener(), false);
 			
 		}

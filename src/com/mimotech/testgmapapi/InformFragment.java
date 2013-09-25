@@ -141,7 +141,6 @@ public class InformFragment extends Fragment implements OnClickListener,
 		{
 			public void onClick(View view)
 			{
-				
 				Intent i = new Intent(getActivity(),
 						InformMapSelectorActivity.class);
 				startActivityForResult(i, Info.RESULT_SELECTED_POSITION);

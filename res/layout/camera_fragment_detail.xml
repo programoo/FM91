@@ -12,8 +12,7 @@
         android:id="@+id/fm_news_detail_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fm_banner"
-        android:background="#FF000000" >
+        android:layout_below="@+id/fm_banner" >
 
         <TextView
             android:id="@+id/cameraDescription"

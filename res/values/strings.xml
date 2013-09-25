@@ -20,6 +20,12 @@
     <string name="default_img_describer">default_img_describer</string>
 
     <!-- thai translate text -->
+    <string name="radius_settings_text">การตั้งค่ารัศมี</string>
+    <string name="five_kilo_text">5 กิโลเมตร</string>
+    <string name="three_kilo_text">3 กิโลเมตร</string>
+    <string name="one_kilo_text">1 กิโลเมตร</string>
+    <string name="undefined_text">ยังไม่ได้กำหนด</string>
+    <string name="other_tabbar_text">อื่นๆ</string>
     <string name="find_here_text">ค้นหาที่นี่</string>
     <string name="what_about_text">เกี่ยวกับอะไร</string>
     <string name="save_text">บันทึก</string>
@@ -58,8 +64,18 @@
     <string name="inform_tabbar_text">แจ้งเหตุ</string>
 
     <!-- more tabbar -->
+    <string name="other_dialog_text">อื่นๆ</string>
+    <string name="accident_dialog_text">อุบัติเหตุจราจร</string>
+    <string name="crime_dialog_text">อาชญากร</string>
+    <string name="setting_dialog_text">Setting</string>
+    <string name="rewind_setting_text">ย้อนหลัง</string>
+    <string name="radious_setting_text">รัศมี</string>
+    <string name="newstype_setting_text">ข่าวสารที่ต้องการ</string>
+    <string name="place_setting_text">สถานที่รับข่าวสาร</string>
+    <string name="setting_dialog_setting_receivenews_text">ตั้งค่าการรับข่าวสาร</string>
     <string name="more_tabbar_text">อื่นๆ</string>
     <string name="title_activity_insert_profile">InsertProfileActivity</string>
     <string name="title_activity_infom_map_selector">InfomMapSelectorActivity</string>
+    <string name="title_activity_other">OtherActivity</string>
 
 </resources>

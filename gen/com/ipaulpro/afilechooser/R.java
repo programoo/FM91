@@ -12,9 +12,9 @@ public final class R {
 		public static final int list_padding = 0x7f050000;
 	}
 	public static final class drawable {
-		public static final int ic_chooser = 0x7f020093;
-		public static final int ic_file = 0x7f020094;
-		public static final int ic_folder = 0x7f020095;
+		public static final int ic_chooser = 0x7f020095;
+		public static final int ic_file = 0x7f020096;
+		public static final int ic_folder = 0x7f020097;
 	}
 	public static final class id {
 		public static final int explorer_fragment = 0x7f080057;

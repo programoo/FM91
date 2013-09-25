@@ -59,8 +59,7 @@
         android:id="@+id/news_detail_normal_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fm_banner"
-        android:background="#FF000000" >
+        android:layout_below="@+id/fm_banner" >
 
         <TextView
             android:id="@+id/newsTextDetail"

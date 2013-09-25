@@ -2,7 +2,6 @@ package com.mimotech.testgmapapi;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -11,9 +10,10 @@ import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.androidquery.util.AQUtility;
 
-public class FM91MainActivity extends FragmentActivity
+public class FM91MainActivity extends SherlockFragmentActivity
 {
 	String tag = getClass().getSimpleName();
 	private ViewPager mViewPager;
@@ -24,7 +24,7 @@ public class FM91MainActivity extends FragmentActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 		
 		Log.d(tag, "onCreate");
@@ -69,14 +69,12 @@ public class FM91MainActivity extends FragmentActivity
 				InformFragment.class, tabArgs,
 				getString(R.string.inform_tabbar_text));
 		
-		/*
-		 * tabArgs = new Bundle(); tabArgs.putString("collection", "tab_more");
-		 * tabArgs.putInt("id", 4);
-		 * mTabsAdapter.addTab(mTabHost.newTabSpec("tab_more"), getResources()
-		 * .getDrawable(R.drawable.more_tabbar_img), MoreFragment.class,
-		 * tabArgs, getString(R.string.more_tabbar_text));
-		 */
-		
+		tabArgs = new Bundle();
+		tabArgs.putString("collection", "tab_other");
+		tabArgs.putInt("id", 5);
+		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_other"), getResources()
+				.getDrawable(R.drawable.menu_tabbar_img), OtherFragment.class,
+				tabArgs, getString(R.string.other_tabbar_text));
 	}
 	
 	@Override
