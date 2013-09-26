@@ -1,9 +1,11 @@
 package com.mimotech.testgmapapi;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.androidquery.AQuery;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class InsertProfileActivity extends Activity implements OnClickListener
@@ -33,16 +36,18 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 	private String userName;
 	private String userPhoneNumber;
 	private Bitmap bitmapSelected;
-	private ImageButton imgBtn ;
+	private ImageButton imgBtn;
 	private EditText usernameEdt;
 	private EditText userPhoneNumberEdt;
+	private AQuery aq;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile_insert_activity);
-		this.userName=""; 
-		this.userPhoneNumber="";
+		this.userName = "";
+		this.userPhoneNumber = "";
 		usernameEdt = (EditText) findViewById(R.id.userNameEdt);
 		userPhoneNumberEdt = (EditText) findViewById(R.id.userPhoneNumberEdt);
 		
@@ -51,10 +56,6 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 		
 		Button saveProfileBtn = (Button) findViewById(R.id.saveProfileBtn);
 		saveProfileBtn.setOnClickListener(this);
-		
-		
-		//read profile if can
-		
 	}
 	
 	@Override
@@ -62,6 +63,24 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 	{
 		getMenuInflater().inflate(R.menu.insert_profile, menu);
 		return true;
+	}
+	
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		// read profile if can for showing only
+		String temProfile = readProfiles();
+		if (!temProfile.equalsIgnoreCase("undefined"))
+		{
+			Log.i(TAG, temProfile);
+			aq = new AQuery(this);
+			
+			aq.id(imgBtn).image(temProfile.split(",")[0], true, true, 200, 0);
+			
+			usernameEdt.setText(temProfile.split(",")[1]);
+			userPhoneNumberEdt.setText(temProfile.split(",")[2]);
+		}
 	}
 	
 	public void writeProfile(String imgUrl, String name, String phoneNumber)
@@ -162,26 +181,63 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v)
 	{
-		switch (v.getId()) {
-            case R.id.insertImgProfileBtn:
-        		this.showChooser();
-                break;
-            case R.id.saveProfileBtn:
-            	this.userName = usernameEdt.getText().toString();
-            	this.userPhoneNumber = userPhoneNumberEdt.getText().toString();
-            	if(this.userName.equals("") || this.userPhoneNumber.equals("") ){
-                	Toast.makeText(this, "cannot update profie with blank username or phone number", Toast.LENGTH_LONG).show();
-            	}
-            	else{
-                	Toast.makeText(this, "update profile complete", Toast.LENGTH_LONG).show();
-                	this.writeProfile(pathImgSelected, this.userName, this.userPhoneNumber);
-            	}
-                break;
-            case View.NO_ID:
-            default:
-            	Log.e(TAG,"Error here");
-            	break;
-        }
+		switch (v.getId())
+		{
+			case R.id.insertImgProfileBtn:
+				this.showChooser();
+				break;
+			case R.id.saveProfileBtn:
+				this.userName = usernameEdt.getText().toString();
+				this.userPhoneNumber = userPhoneNumberEdt.getText().toString();
+				if (this.userName.equals("") || this.userPhoneNumber.equals(""))
+				{
+					Toast.makeText(
+							this,
+							"cannot update profie with blank username or phone number",
+							Toast.LENGTH_LONG).show();
+				} else
+				{
+					Toast.makeText(this, "update profile complete",
+							Toast.LENGTH_LONG).show();
+					this.writeProfile(pathImgSelected, this.userName,
+							this.userPhoneNumber);
+				}
+				break;
+			case View.NO_ID:
+			default:
+				Log.e(TAG, "Error here");
+				break;
+		}
+		
+	}
+	
+	public String readProfiles()
+	{
+		BufferedReader bufferedReader;
+		String read = "undefined";
+		
+		try
+		{
+			bufferedReader = new BufferedReader(new FileReader(new File(
+					getFilesDir() + File.separator + "profile.csv")));
+			String temp = "undefined";
+			
+			while ((temp = bufferedReader.readLine()) != null)
+			{
+				read = temp;
+				Log.i(TAG, "read from read: " + read);
+				
+			}
+			bufferedReader.close();
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			return "undefined";
+			
+		}
+		
+		return read;
 		
 	}
 }

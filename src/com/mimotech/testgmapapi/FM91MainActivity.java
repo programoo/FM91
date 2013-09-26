@@ -104,7 +104,7 @@ public class FM91MainActivity extends SherlockFragmentActivity
 	{
 		Log.d(tag, "emergencyBtnOnClick");
 		Intent shareBtn = new Intent(FM91MainActivity.this,
-				ShareButtonActivity.class);
+				EmergencyCallActivity.class);
 		startActivity(shareBtn);
 		
 	}

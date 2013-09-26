@@ -65,7 +65,6 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 		setContentView(R.layout.news_fragment_detail_activity);
 		
 		Log.d(tag, "onCreate1");
-		
 		newsDetailNormalLayout = (RelativeLayout) findViewById(R.id.news_detail_normal_layout);
 		newsDetailShareLayout = (RelativeLayout) findViewById(R.id.news_detail_share_layout);
 		
@@ -119,9 +118,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 	@Override
 	protected void onPause()
 	{
-		// TODO Auto-generated method stub
 		super.onPause();
-		
 	}
 	
 	public void myMarker(String sLat, String sLng, String title)
@@ -403,4 +400,12 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 		
 	}
 	
+	
+	public void emergencyBtnOnClick(View view)
+	{
+		Log.d(tag, "emergencyBtnOnClick");
+		Intent shareBtn = new Intent(NewsDetailsActivity.this,
+				EmergencyCallActivity.class);
+		startActivity(shareBtn);
+	}
 }

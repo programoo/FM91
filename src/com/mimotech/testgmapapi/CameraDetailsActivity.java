@@ -137,5 +137,12 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 		}
 
 	}
+	public void emergencyBtnOnClick(View view)
+	{
+		Log.d(tag, "emergencyBtnOnClick");
+		Intent shareBtn = new Intent(CameraDetailsActivity.this,
+				EmergencyCallActivity.class);
+		startActivity(shareBtn);
+	}
 
 }

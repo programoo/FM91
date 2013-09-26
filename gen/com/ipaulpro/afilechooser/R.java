@@ -18,12 +18,12 @@ public final class R {
 	}
 	public static final class id {
 		public static final int explorer_fragment = 0x7f080053;
-		public static final int file_icon = 0x7f080054;
-		public static final int file_name = 0x7f080055;
+		public static final int file_icon = 0x7f080059;
+		public static final int file_name = 0x7f08005a;
 	}
 	public static final class layout {
 		public static final int chooser = 0x7f03001e;
-		public static final int file = 0x7f03001f;
+		public static final int file = 0x7f030021;
 	}
 	public static final class string {
 		public static final int choose_file = 0x7f060002;
