@@ -92,6 +92,7 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 	{
+		//LEVEL 1 settings
 		String dialogName = (String) this.lv.getItemAtPosition(arg2);
 		Log.i(TAG,"dialogName: "+dialogName);
 		if (dialogName.equalsIgnoreCase("profile"))
@@ -188,8 +189,8 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 					writeSettings(writeStrCsv);
 				}
 			});
-			
-			lv.setOnItemClickListener(new OnItemClickListener()
+			// LEVEL 2 LISTVEIW
+			lvSettingDialog.setOnItemClickListener(new OnItemClickListener()
 			{
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
@@ -197,7 +198,7 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 				{
 					// show select view
 					viewSelected = view;
-					String setType = ((String) lv.getItemAtPosition(position))
+					String setType = ((String) lvSettingDialog.getItemAtPosition(position))
 							.split(",")[0];
 					
 					if (setType
@@ -393,6 +394,9 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 						});
 						
 					}
+					else{
+						Log.e(TAG,"invalid listvew name: "+setType);
+					}
 					
 				}
 			});
@@ -411,11 +415,11 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 				Log.i(TAG, "result from selector" + result);
 				latLnConfig = result;
 				
-				latLnConfig.replaceAll(","," ");
+				latLnConfig = latLnConfig.replaceAll(","," ");
 				
 				TextView tv = (TextView) this.viewSelected
 						.findViewById(R.id.otherSelectedDataTv);
-				tv.setText(result);
+				tv.setText(latLnConfig);
 			}
 			if (resultCode == Info.RESULT_CANCELED)
 			{

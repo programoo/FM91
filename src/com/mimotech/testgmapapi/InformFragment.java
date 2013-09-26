@@ -1,7 +1,9 @@
 package com.mimotech.testgmapapi;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +11,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +41,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -70,9 +76,19 @@ public class InformFragment extends Fragment implements OnClickListener,
 	private ArrayList<Nearby> nearbyList;
 	private GoogleMap mMap;
 	private Dialog dialog;
-	private ImageButton addImgImgBtn ;
-	private ImageButton addPlaceImgBtn ;
+	private ImageButton addImgImgBtn;
+	private ImageButton addPlaceImgBtn;
 	private Button sendBtn;
+	
+	// data for sending to server
+	private String pathImgSelected;
+	private String imgName;
+	private String latLngSelected;
+	private String titleTraffy;
+	private String userImgUrl;
+	private String userName;
+	private String phoneNum;
+	private EditText descriptionEdt;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -80,7 +96,12 @@ public class InformFragment extends Fragment implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		aq = new AQuery(getActivity());
 		nearbyList = new ArrayList<Nearby>();
-		
+		pathImgSelected = "";
+		latLngSelected = "0,0";
+		titleTraffy = "undefined";
+		userImgUrl = "undefined";
+		userName = "undefined";
+		phoneNum = "undefined";
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,15 +119,34 @@ public class InformFragment extends Fragment implements OnClickListener,
 			@Override
 			public void onClick(View v)
 			{
-				String url = "http://203.185.131.171/CrimeMap/Json/inform.php?tel=xxxx&title=xxxx&name=xxxx&description&Lat=xxxx&Lng=xxxx&image=xxxx";
-
-				aq.ajax(url, String.class, new AjaxCallback<String>() {
-
-				        @Override
-				        public void callback(String url, String html, AjaxStatus status) {
-				                Log.i(TAG,"traffy post data result: "+html);
-				        }
-				        
+				//post image
+				String params[] = new String[2];
+				params[0] = "http://203.185.131.171/CrimeMap/Json/upload.php";
+				params[1] = pathImgSelected;
+				new UploadImage().execute(params);
+				
+				//post data
+				String url = "http://203.185.131.171/CrimeMap/Json/inform.php?tel="
+						+ phoneNum
+						+ "&title="
+						+ titleTraffy
+						+ "&name="
+						+ userName
+						+ "&description="+descriptionEdt.getText().toString()
+						+ "&Lat="+latLngSelected.split(",")[0]
+						+"&Lng="+latLngSelected.split(",")[1]
+						+ "&image="+imgName;
+				Log.i(TAG,"sedding data: "+url);
+				aq.ajax(url, String.class, new AjaxCallback<String>()
+				{
+					
+					@Override
+					public void callback(String url, String html,
+							AjaxStatus status)
+					{
+						Log.i(TAG, "traffy post data result: " + html);
+					}
+					
 				});
 				
 			}
@@ -118,9 +158,9 @@ public class InformFragment extends Fragment implements OnClickListener,
 		imgBtn.setOnClickListener(this);
 		imgBtn.setTag("traffic");
 		
+		descriptionEdt = (EditText) v.findViewById(R.id.informDetailEdt);
 		
-		addImgImgBtn = (ImageButton) v
-				.findViewById(R.id.addImgInformImgBtn);
+		addImgImgBtn = (ImageButton) v.findViewById(R.id.addImgInformImgBtn);
 		addImgImgBtn.setOnClickListener(new OnClickListener()
 		{
 			public void onClick(View view)
@@ -130,10 +170,6 @@ public class InformFragment extends Fragment implements OnClickListener,
 			}
 			
 		});
-		
-		
-		
-		
 		
 		addPlaceImgBtn = (ImageButton) v
 				.findViewById(R.id.addPlaceInformImgBtn);
@@ -330,11 +366,7 @@ public class InformFragment extends Fragment implements OnClickListener,
 	
 	public void nearByParsingToObj(XmlDom xml)
 	{
-		
 		List<XmlDom> entries;
-		// tempList = new ArrayList<News>();
-		// List<String> titles = new ArrayList<String>();
-		
 		try
 		{
 			entries = xml.tags("result");
@@ -410,15 +442,21 @@ public class InformFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onClick(View v)
 	{
-		
-		if (!this.readProfiles().equalsIgnoreCase("undefined"))
+		String userProfileSetting = this.readProfiles();
+		if (!userProfileSetting.equalsIgnoreCase("undefined"))
 		{
-			// have user profile
+			// have user profile read it and share to
 			this.mainLayout.setVisibility(View.GONE);
 			this.detailLayout.setVisibility(View.VISIBLE);
-			tv.setText(v.getTag().toString());
+			titleTraffy = v.getTag().toString();
+			userImgUrl = userProfileSetting.split(",")[0];
+			userName = userProfileSetting.split(",")[1];
+			phoneNum = userProfileSetting.split(",")[2];
 			
-			Log.i(TAG, v.getTag().toString());
+			tv.setText(v.getTag().toString());
+			Log.i(TAG, "inform type: " + v.getTag().toString());
+			Log.i(TAG, "user settings data: " + userProfileSetting);
+			
 		} else
 		{
 			// redirect to user profile page
@@ -472,7 +510,7 @@ public class InformFragment extends Fragment implements OnClickListener,
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-
+		
 		if (requestCode == Info.RESULT_SELECTED_POSITION)
 		{
 			
@@ -480,36 +518,37 @@ public class InformFragment extends Fragment implements OnClickListener,
 			{
 				String result = data.getStringExtra("result");
 				addPlaceImgBtn.setImageResource(R.drawable.map_selected);
-
-				Log.i(TAG,"result from selector"+result);
+				Log.i(TAG, "result from selector" + result);
+				latLngSelected = result;
 			}
 			if (resultCode == Info.RESULT_CANCELED)
 			{
 				// Write your code if there's no result
-				Log.e(TAG,"result onActivityResult error");
+				Log.e(TAG, "result onActivityResult error");
 			}
-		}
-		else if(requestCode == Info.RESULT_SELECTED_IMAGE){
-			//RESULT_OK == -1
+		} else if (requestCode == Info.RESULT_SELECTED_IMAGE)
+		{
 			if (resultCode == -1)
 			{
 				if (data != null)
 				{
-					// Get the URI of the selected file
 					final Uri uri = data.getData();
-					
 					try
 					{
 						// Create a file instance from the URI
 						File file = FileUtils.getFile(uri);
+						
 						Log.i(TAG, "path: " + file.getAbsolutePath());
-						String pathImgSelected = file.getAbsolutePath();
-						Bitmap bitmapSelected = Info.decodeFile(file,128);
+						Log.i(TAG, "name: " + file.getName());
+						pathImgSelected = file.getAbsolutePath();
+						imgName = file.getName();
+						
+						Bitmap bitmapSelected = Info.decodeFile(file, 128);
 						addImgImgBtn.setImageBitmap(bitmapSelected);
 					} catch (Exception e)
 					{
-						Log.e("FileSelectorTestActivity",
-								"File select error", e);
+						Log.e("FileSelectorTestActivity", "File select error",
+								e);
 					}
 				}
 			}
@@ -536,6 +575,105 @@ public class InformFragment extends Fragment implements OnClickListener,
 		Log.i(TAG, "Select: " + point.toString());
 		mMap.animateCamera(CameraUpdateFactory.newLatLng(point));
 		dialog.dismiss();
+	}
+	
+	private class UploadImage extends AsyncTask<String, String, String>
+	{
+		
+		@Override
+		protected String doInBackground(String... uri)
+		{
+			Log.i(TAG, "start upload image");
+			
+			HttpURLConnection connection = null;
+			DataOutputStream outputStream = null;
+			
+			String urlServer = uri[0];// "http://203.185.131.171/CrimeMap/Json/upload.php";
+			String pathToOurFile = uri[1];// selectedPath;
+			
+			String lineEnd = "\r\n";
+			String twoHyphens = "--";
+			String boundary = "*****";
+			
+			int bytesRead, bytesAvailable, bufferSize;
+			byte[] buffer;
+			int maxBufferSize = 1 * 1024 * 1024;
+			String responseString = "";
+			try
+			{
+				FileInputStream fileInputStream = new FileInputStream(new File(
+						pathToOurFile));
+				
+				URL url = new URL(urlServer);
+				connection = (HttpURLConnection) url.openConnection();
+				
+				connection.setDoInput(true);
+				connection.setDoOutput(true);
+				connection.setUseCaches(false);
+				
+				connection.setRequestMethod("POST");
+				
+				connection.setRequestProperty("Connection", "Keep-Alive");
+				connection.setRequestProperty("Content-Type",
+						"multipart/form-data;boundary=" + boundary);
+				
+				outputStream = new DataOutputStream(
+						connection.getOutputStream());
+				outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+				outputStream
+						.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\""
+								+ pathToOurFile + "\"" + lineEnd);
+				outputStream.writeBytes(lineEnd);
+				
+				bytesAvailable = fileInputStream.available();
+				bufferSize = Math.min(bytesAvailable, maxBufferSize);
+				buffer = new byte[bufferSize];
+				
+				bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+				
+				while (bytesRead > 0)
+				{
+					outputStream.write(buffer, 0, bufferSize);
+					bytesAvailable = fileInputStream.available();
+					bufferSize = Math.min(bytesAvailable, maxBufferSize);
+					bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+				}
+				
+				outputStream.writeBytes(lineEnd);
+				outputStream.writeBytes(twoHyphens + boundary + twoHyphens
+						+ lineEnd);
+				
+				int serverResponseCode = connection.getResponseCode();
+				String serverResponseMessage = connection.getResponseMessage();
+				
+				responseString = serverResponseCode + "";
+				Log.i(TAG, "serverResponseCode: " + serverResponseCode);
+				Log.i(TAG, "serverResponseMessage: " + serverResponseMessage);
+				
+				fileInputStream.close();
+				outputStream.flush();
+				outputStream.close();
+				
+			} catch (Exception ex)
+			{
+				Log.e(TAG, "error here!");
+				ex.printStackTrace();
+			}
+			
+			return responseString;
+		}
+		
+		@Override
+		protected void onPostExecute(String result)
+		{
+			super.onPostExecute(result);
+			// Do anything with response..
+			Log.i(TAG, "start upload image finish");
+			Log.i(TAG, "Post string response : " + result);
+			Toast.makeText(getActivity(), "sending data complete",
+					Toast.LENGTH_LONG).show();
+			
+		}
 	}
 	
 }
