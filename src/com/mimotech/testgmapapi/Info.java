@@ -1,12 +1,19 @@
 package com.mimotech.testgmapapi;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 public class Info {
 	//Bangkok as default
@@ -25,12 +32,16 @@ public class Info {
 	public static String latLnConfig;
 	public static String radius;
 	public static String rewind;
-
-
-	public Info(){
-		
-	}
-	
+	//singleton pattern
+	private static Info instance = null;
+    private Info() {}
+ 
+    public static Info getInstance() {
+        if (instance == null) {
+            instance = new Info();
+        }
+        return instance;
+    }
 	public double distance(double lat1, double lon1, double lat2, double lon2,
 			String unit) {
 		double theta = lon1 - lon2;
@@ -100,6 +111,52 @@ public class Info {
 		}
 		return null;
 	}
+	
+	public void writeProfile(Context ctx,String fileName,String data)
+	{
+		BufferedWriter bufferedWriter;
+		try
+		{
+			bufferedWriter = new BufferedWriter(new FileWriter(new File(
+					ctx.getFilesDir() + File.separator + fileName)));
+			bufferedWriter.write(data);
+			bufferedWriter.close();
+			
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public String readProfiles(Context ctx,String fileName)
+	{
+		BufferedReader bufferedReader;
+		String read = "undefined";
+		
+		try
+		{
+			bufferedReader = new BufferedReader(new FileReader(new File(
+					ctx.getFilesDir() + File.separator
+							+ fileName)));
+			String temp = "undefined";
+			while ((temp = bufferedReader.readLine()) != null)
+			{
+				read = temp;
+				Log.i("Info", "read from read: " + read);
+			}
+			bufferedReader.close();
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			return "undefined";
+			
+		}
+		return read;
+		
+	}
+	
 	
 	
 	

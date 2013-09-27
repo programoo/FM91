@@ -153,7 +153,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 			Log.i(tag, "Map not null");
 			
 			// calculate distance between user and event
-			double howFar = (int) (new Info().distance(accidentLatLng.latitude,
+			double howFar = (int) (Info.getInstance().distance(accidentLatLng.latitude,
 					accidentLatLng.longitude, Info.lat, Info.lng, "K") * 100) / 100.0;
 			
 			if (accidentLatLng.latitude == 0 || accidentLatLng.longitude == 0)

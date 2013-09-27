@@ -458,9 +458,9 @@ public class NewsFragment extends Fragment implements OnItemClickListener,
 				String dateStart = dateFormat.format(date) + "%2000:00:01";
 				String dateEnd = dateFormat.format(date) + "%2023:59:59";
 				
-				System.out.println(dateStart);
+				// System.out.println(dateStart);
 				
-				System.out.println(dateEnd);
+				// System.out.println(dateEnd);
 				
 				String traffy_request_url = "http://api.traffy.in.th/apis/apitraffy.php?api=getIncident&key="
 						+ passKey
@@ -492,7 +492,6 @@ public class NewsFragment extends Fragment implements OnItemClickListener,
 												// continue with delete
 											}
 										}).show();
-						
 					} else
 					{
 						

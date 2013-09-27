@@ -149,9 +149,6 @@ public class CameraFragment extends Fragment implements TextWatcher {
 						getActivity().getApplicationContext(), camListFilter);
 
 				gv.setAdapter(ardap);
-
-				gv.setAdapter(ardap);
-
 			}
 		});
 

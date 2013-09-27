@@ -34,7 +34,6 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 	private View v;
 	private ArrayList<String> strList;
 	private ListView lv;
-	
 	// configuration variable
 	private View viewSelected;
 	private boolean crimTick;
@@ -43,6 +42,17 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 	private String latLnConfig;
 	private String radius;
 	private String rewind;
+	
+	private ToggleButton crimTg;
+	private ToggleButton accidentTg;
+	private ToggleButton otherTg;
+	private Dialog radiusSettingDialog ;
+	
+	private ListView lvSettingDialog;
+	private RadioButton oneKm;
+	private RadioButton threeKm;
+	private RadioButton fiveKm;
+	private Dialog settingDialog;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -92,19 +102,29 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 	{
-		//LEVEL 1 settings
+		// LEVEL 1 settings
 		String dialogName = (String) this.lv.getItemAtPosition(arg2);
-		Log.i(TAG,"dialogName: "+dialogName);
+		Log.i(TAG, "dialogName: " + dialogName);
 		if (dialogName.equalsIgnoreCase("profile"))
 		{
-			Intent it = new Intent(getActivity(),
-					InsertProfileActivity.class);
+			Intent it = new Intent(getActivity(), InsertProfileActivity.class);
 			startActivity(it);
 		}
-		
+		else if (dialogName.equalsIgnoreCase("facebook"))
+		{
+			Intent it = new Intent(getActivity(), WebViewActivity.class);
+			it.putExtra("provider", "https://www.facebook.com/trafficradiofm91");
+			startActivity(it);
+		}
+		else if (dialogName.equalsIgnoreCase("twitter"))
+		{
+			Intent it = new Intent(getActivity(), WebViewActivity.class);
+			it.putExtra("provider", "https://twitter.com/fm91trafficpro");
+			startActivity(it);
+		}
 		else if (dialogName.equalsIgnoreCase("setting"))
 		{
-			final Dialog settingDialog = new Dialog(getActivity(),
+			settingDialog = new Dialog(getActivity(),
 					android.R.style.Theme_Light_NoTitleBar);
 			settingDialog.getWindow();
 			settingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -123,11 +143,11 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 						.parseBoolean(settingCsv.split(",")[1]);
 				this.otherTick = Boolean.parseBoolean(settingCsv.split(",")[2]);
 				this.latLnConfig = settingCsv.split(",")[3];
-						this.radius = settingCsv.split(",")[4];
+				this.radius = settingCsv.split(",")[4];
 				this.rewind = settingCsv.split(",")[5];
 			}
 			
-			final ListView lvSettingDialog = (ListView) settingDialog
+			lvSettingDialog = (ListView) settingDialog
 					.findViewById(R.id.settingDialogLv);
 			
 			ArrayList<String> strSettingList = new ArrayList<String>();
@@ -143,11 +163,10 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 					R.layout.other_fragment_settings_listview);
 			lvSettingDialog.setAdapter(settingsAdapter);
 			
-			final ToggleButton crimTg = (ToggleButton) settingDialog
-					.findViewById(R.id.crimeTgBtn);
-			final ToggleButton accidentTg = (ToggleButton) settingDialog
+			crimTg = (ToggleButton) settingDialog.findViewById(R.id.crimeTgBtn);
+			accidentTg = (ToggleButton) settingDialog
 					.findViewById(R.id.accidentTgBtn);
-			final ToggleButton otherTg = (ToggleButton) settingDialog
+			otherTg = (ToggleButton) settingDialog
 					.findViewById(R.id.otherTgBtn);
 			
 			crimTg.setChecked(this.crimTick);
@@ -175,8 +194,7 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 					String writeStrCsv = "";
 					writeStrCsv = crimTg.isChecked() + ","
 							+ accidentTg.isChecked() + ","
-							+ otherTg.isChecked() + "," 
-							+ latLnConfig + ","
+							+ otherTg.isChecked() + "," + latLnConfig + ","
 							+ radius + "," + rewind;
 					// attatch this to global variable
 					Info.crimTick = crimTg.isChecked();
@@ -198,8 +216,8 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 				{
 					// show select view
 					viewSelected = view;
-					String setType = ((String) lvSettingDialog.getItemAtPosition(position))
-							.split(",")[0];
+					String setType = ((String) lvSettingDialog
+							.getItemAtPosition(position)).split(",")[0];
 					
 					if (setType
 							.equalsIgnoreCase(getString(R.string.place_setting_text)))
@@ -212,7 +230,7 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 					{
 						Log.i(TAG, "rewind text setting click");
 						
-						final Dialog radiusSettingDialog = new Dialog(
+						radiusSettingDialog = new Dialog(
 								getActivity());
 						radiusSettingDialog.getWindow();
 						radiusSettingDialog
@@ -222,11 +240,11 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 						radiusSettingDialog.setCancelable(true);
 						radiusSettingDialog.show();
 						
-						final RadioButton oneKm = (RadioButton) radiusSettingDialog
+						oneKm = (RadioButton) radiusSettingDialog
 								.findViewById(R.id.oneDayRadio);
-						final RadioButton threeKm = (RadioButton) radiusSettingDialog
+						threeKm = (RadioButton) radiusSettingDialog
 								.findViewById(R.id.threeDayRadio);
-						final RadioButton fiveKm = (RadioButton) radiusSettingDialog
+						fiveKm = (RadioButton) radiusSettingDialog
 								.findViewById(R.id.sevenDayRadio);
 						
 						Button okRadiusBtn = (Button) radiusSettingDialog
@@ -305,7 +323,7 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 					{
 						Log.i(TAG, "radius text setting click");
 						
-						final Dialog radiusSettingDialog = new Dialog(
+						radiusSettingDialog = new Dialog(
 								getActivity());
 						radiusSettingDialog.getWindow();
 						radiusSettingDialog
@@ -315,11 +333,11 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 						radiusSettingDialog.setCancelable(true);
 						radiusSettingDialog.show();
 						
-						final RadioButton oneKm = (RadioButton) radiusSettingDialog
+						oneKm = (RadioButton) radiusSettingDialog
 								.findViewById(R.id.oneKilometerRadio);
-						final RadioButton threeKm = (RadioButton) radiusSettingDialog
+						threeKm = (RadioButton) radiusSettingDialog
 								.findViewById(R.id.threeKilometerRadio);
-						final RadioButton fiveKm = (RadioButton) radiusSettingDialog
+						fiveKm = (RadioButton) radiusSettingDialog
 								.findViewById(R.id.fiveKilometerRadio);
 						
 						Button okRadiusBtn = (Button) radiusSettingDialog
@@ -393,9 +411,9 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 							}
 						});
 						
-					}
-					else{
-						Log.e(TAG,"invalid listvew name: "+setType);
+					} else
+					{
+						Log.e(TAG, "invalid listvew name: " + setType);
 					}
 					
 				}
@@ -415,7 +433,7 @@ public class OtherFragment extends Fragment implements OnItemClickListener
 				Log.i(TAG, "result from selector" + result);
 				latLnConfig = result;
 				
-				latLnConfig = latLnConfig.replaceAll(","," ");
+				latLnConfig = latLnConfig.replaceAll(",", " ");
 				
 				TextView tv = (TextView) this.viewSelected
 						.findViewById(R.id.otherSelectedDataTv);

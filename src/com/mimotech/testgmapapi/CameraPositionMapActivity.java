@@ -32,7 +32,7 @@ public class CameraPositionMapActivity extends FragmentActivity implements
 		setContentView(R.layout.camera_position_activity);
 
 		camList = Info.camList;
-		camListFilter = Info.camList;// new ArrayList<Camera>();
+		camListFilter = Info.getInstance().camList;// new ArrayList<Camera>();
 		markerList = new ArrayList<Marker>();
 		Log.d(TAG, "onCreate");
 
@@ -117,7 +117,7 @@ public class CameraPositionMapActivity extends FragmentActivity implements
 		if (mMap != null) {
 
 			// calculate distance between user and event
-			double howFar = (int) (new Info().distance(accidentLatLng.latitude,
+			double howFar = (int) (Info.getInstance().distance(accidentLatLng.latitude,
 					accidentLatLng.longitude, Info.lat, Info.lng, "K") * 100) / 100.0;
 			// news marker
 			String titileDetail = getString(R.string.farfromyou_msg) + ": "

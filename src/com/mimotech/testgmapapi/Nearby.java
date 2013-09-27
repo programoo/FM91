@@ -19,7 +19,7 @@ public class Nearby {
 	}
 	
 	public String howFar(){
-		double howFar = (int) (new Info().distance(Double.parseDouble(lat),
+		double howFar = (int) (Info.getInstance().distance(Double.parseDouble(lat),
 				Double.parseDouble(lng), Info.lat, Info.lng, "K") * 100) / 100.0;
 		
 		return howFar+" km";

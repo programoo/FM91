@@ -1,5 +1,8 @@
 package com.mimotech.testgmapapi;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -12,22 +15,25 @@ import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class CameraDetailsActivity extends SherlockFragmentActivity {
-	private String tag = getClass().getSimpleName();
+	private String TAG = getClass().getSimpleName();
 	private ArrayList<Bitmap> bitMapList;
 	ImageView iv;
 	TextView tv;
 	private boolean run = true;
-
+	private ToggleButton bookMarkImgBtn;
+	
+	
 	@Override
 	public void onAttachFragment(Fragment fragment) {
 		super.onAttachFragment(fragment);
-		Log.d(tag, "onAttachFragment");
 
 	}
 
@@ -37,7 +43,6 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 		
 		setContentView(R.layout.camera_fragment_detail);
 
-		Log.d(tag, "onCreate");
 		bitMapList = new ArrayList<Bitmap>();
 
 		Intent intent = getIntent();
@@ -46,27 +51,34 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 			new ImageLoader().downloadBitmapToList(imgList[i], bitMapList);
 			bitMapList.add(null);
 		}
-		Log.i(tag, "loading complete");
 		String description = intent.getStringExtra("description");
 		iv = (ImageView) findViewById(R.id.cameraDetail);
 
 		tv = (TextView) findViewById(R.id.cameraDescription);
 		tv.setText(description);
-
+		
+		bookMarkImgBtn = (ToggleButton) findViewById(R.id.bookmarkBookMarkImgBtn);
+		bookMarkImgBtn.setOnClickListener(new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				Log.i(TAG,"booked it"+bookMarkImgBtn.isChecked());
+			}
+		});
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.d(tag, "onPause");
-
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		Log.d(tag, "onStop");
-		Log.i(tag, "arr size: " + bitMapList.size());
+		Log.d(TAG, "onStop");
+		Log.i(TAG, "arr size: " + bitMapList.size());
 		run = false;
 
 	}
@@ -74,21 +86,21 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.d(tag, "onResume");
+		Log.d(TAG, "onResume");
 
 	}
 
 	@Override
 	public void onAttachedToWindow() {
 		super.onAttachedToWindow();
-		Log.d(tag, "onAttachedToWindow");
+		Log.d(TAG, "onAttachedToWindow");
 
 	}
 
 	@Override
 	public View onCreateView(View parent, String name, Context context,
 			AttributeSet attrs) {
-		Log.d(tag, "onCreateView");
+		Log.d(TAG, "onCreateView");
 
 		return super.onCreateView(parent, name, context, attrs);
 	}
@@ -96,7 +108,7 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		Log.d(tag, "onStart");
+		Log.d(TAG, "onStart");
 
 		new Thread(new HelloRunnable()).start();
 
@@ -139,10 +151,41 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 	}
 	public void emergencyBtnOnClick(View view)
 	{
-		Log.d(tag, "emergencyBtnOnClick");
+		Log.d(TAG, "emergencyBtnOnClick");
 		Intent shareBtn = new Intent(CameraDetailsActivity.this,
 				EmergencyCallActivity.class);
 		startActivity(shareBtn);
 	}
+	
+	public String readProfiles()
+	{
+		BufferedReader bufferedReader;
+		String read = "undefined";
+		
+		try
+		{
+			bufferedReader = new BufferedReader(new FileReader(new File(
+					getFilesDir() + File.separator
+							+ "camera.csv")));
+			String temp = "undefined";
+			
+			while ((temp = bufferedReader.readLine()) != null)
+			{
+				read = temp;
+				Log.i(TAG, "read from read: " + read);
+				
+			}
+			bufferedReader.close();
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			return "undefined";
+			
+		}
+		return read;
+		
+	}
+	
 
 }

@@ -64,6 +64,9 @@
             android:name="com.mimotech.testgmapapi.CameraPositionMapActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.mimotech.testgmapapi.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.ipaulpro.afilechooser.FileChooserActivity"
             android:icon="@drawable/ic_chooser"
             android:label="@string/chooser_label" >

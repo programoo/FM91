@@ -22,7 +22,9 @@
     <!-- eng translate text -->
     <string name="profile_settings_text">Profile</string>
     <string name="search_emergency_text">Search</string>
+
     <!-- thai translate text -->
+    <string name="report_picture_text">ภาพรายงาน</string>
     <string name="day_text">วัน</string>
     <string name="seven_day_text">7 วัน</string>
     <string name="three_day_text">3 วัน</string>

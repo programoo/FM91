@@ -21,7 +21,7 @@ public class CameraGridViewAdapter extends BaseAdapter {
 	private LayoutInflater lf;
 
 	public CameraGridViewAdapter(Context context, ArrayList<Camera> camList) {
-		Log.d(tag, "GridViewAdapte");
+		Log.d(tag, "GridViewAdapter");
 		mainContext = context;
 		this.camList = camList;
 		aq = new AQuery(this.mainContext);
@@ -52,7 +52,6 @@ public class CameraGridViewAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null)
 			convertView = lf.inflate(R.layout.camera_fragment_gridview, null);
-		
 		
 		TextView tv = (TextView) convertView.findViewById(R.id.cameraTextView1);
 		ImageView iv = (ImageView) convertView

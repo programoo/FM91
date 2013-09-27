@@ -46,7 +46,10 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:textOff=""
-            android:textOn="" />
+            android:textOn="" >
+        </ToggleButton>
+    
+    
     </RelativeLayout>
 
     <RelativeLayout

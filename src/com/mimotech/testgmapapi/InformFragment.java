@@ -282,7 +282,7 @@ public class InformFragment extends Fragment implements OnClickListener,
 		{
 			mMap.clear();
 			// calculate distance between user and event
-			double howFar = (int) (new Info().distance(accidentLatLng.latitude,
+			double howFar = (int) (Info.getInstance().distance(accidentLatLng.latitude,
 					accidentLatLng.longitude, Info.lat, Info.lng, "K") * 100) / 100.0;
 			// news marker
 			String titileDetail = getString(R.string.farfromyou_msg) + ": "
