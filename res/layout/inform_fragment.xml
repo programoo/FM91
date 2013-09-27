@@ -9,16 +9,94 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <ImageButton
-            android:id="@+id/trafficImgBtn"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/row1DashboardInform"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageButton
+                android:id="@+id/trafficImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/traffic_img" />
+
+            <ImageButton
+                android:id="@+id/accidentImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/trafficImgBtn"
+                android:background="@null"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/accident_img" />
+
+            <ImageButton
+                android:id="@+id/crimeImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/accidentImgBtn"
+                android:background="@null"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/crime_img" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/row2DashboardInform"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="28dp"
-            android:layout_marginTop="66dp"
-            android:contentDescription="@string/hello_world"
-            android:src="@drawable/ic_launcher" />
+            android:layout_below="@+id/row1DashboardInform" >
+
+            <ImageButton
+                android:id="@+id/transportImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/transport_img" />
+
+            <ImageButton
+                android:id="@+id/powerShutdownImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/transportImgBtn"
+                android:background="@null"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/powershutdow_img" />
+
+            <ImageButton
+                android:id="@+id/hydrantImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/powerShutdownImgBtn"
+                android:background="@null"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/hydrant_img" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/row3DashboardInform"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/row2DashboardInform" >
+
+            <ImageButton
+                android:id="@+id/firealarmImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/firealarm_img" />
+
+            <ImageButton
+                android:id="@+id/otherImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/firealarmImgBtn"
+                android:background="@null"
+                android:contentDescription="@string/hello_world"
+                android:src="@drawable/other_img" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -50,9 +128,10 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@+id/informDetailEdt"
+            android:background="@null"
             android:contentDescription="@string/hello_world"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/add_image" />
 
         <ImageButton
             android:id="@+id/addPlaceInformImgBtn"
@@ -60,9 +139,10 @@
             android:layout_height="100dp"
             android:layout_below="@+id/informDetailEdt"
             android:layout_toRightOf="@+id/addImgInformImgBtn"
+            android:background="@null"
             android:contentDescription="@string/hello_world"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/add_location" />
 
         <Button
             android:id="@+id/clearBtn"

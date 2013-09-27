@@ -154,9 +154,38 @@ public class InformFragment extends Fragment implements OnClickListener,
 		
 		tv = (TextView) v.findViewById(R.id.typeOfInformTv);
 		
-		ImageButton imgBtn = (ImageButton) v.findViewById(R.id.trafficImgBtn);
-		imgBtn.setOnClickListener(this);
-		imgBtn.setTag("traffic");
+		ImageButton traffBtn = (ImageButton) v.findViewById(R.id.trafficImgBtn);
+		traffBtn.setOnClickListener(this);
+		traffBtn.setTag(getString(R.string.traffic_text));
+		
+		ImageButton accidentImgBtn = (ImageButton) v.findViewById(R.id.accidentImgBtn);
+		accidentImgBtn.setOnClickListener(this);
+		accidentImgBtn.setTag(getString(R.string.accident_text));
+		
+		ImageButton crimeImgBtn = (ImageButton) v.findViewById(R.id.crimeImgBtn);
+		crimeImgBtn.setOnClickListener(this);
+		crimeImgBtn.setTag(getString(R.string.crime_text));
+		
+		ImageButton transportImgBtn = (ImageButton) v.findViewById(R.id.transportImgBtn);
+		transportImgBtn.setOnClickListener(this);
+		transportImgBtn.setTag(getString(R.string.transport_text));
+		
+		ImageButton powerShutdownImgBtn = (ImageButton) v.findViewById(R.id.powerShutdownImgBtn);
+		powerShutdownImgBtn.setOnClickListener(this);
+		powerShutdownImgBtn.setTag(getString(R.string.powershutdown_text));
+		
+		ImageButton hydrantImgBtn = (ImageButton) v.findViewById(R.id.hydrantImgBtn);
+		hydrantImgBtn.setOnClickListener(this);
+		hydrantImgBtn.setTag(getString(R.string.hydrant_text));
+		
+		ImageButton firealarmImgBtn = (ImageButton) v.findViewById(R.id.firealarmImgBtn);
+		firealarmImgBtn.setOnClickListener(this);
+		firealarmImgBtn.setTag(getString(R.string.firealarm_text));
+		
+		ImageButton otherImgBtn = (ImageButton) v.findViewById(R.id.otherImgBtn);
+		otherImgBtn.setOnClickListener(this);
+		otherImgBtn.setTag(getString(R.string.other_text));
+		
 		
 		descriptionEdt = (EditText) v.findViewById(R.id.informDetailEdt);
 		

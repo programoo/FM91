@@ -73,10 +73,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/newsTextDetail"
-            android:background="@drawable/sharebutton_icon"
             android:contentDescription="@string/default_img_describer"
-            android:src="@drawable/sharebutton_icon"
-            android:text="@string/share_btn_name" />
+            android:background="@drawable/share_active"
+             />
 
         <fragment
             android:id="@+id/newsMap"

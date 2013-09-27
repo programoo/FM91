@@ -73,7 +73,7 @@ public class FM91MainActivity extends SherlockFragmentActivity
 		tabArgs.putString("collection", "tab_other");
 		tabArgs.putInt("id", 5);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("tab_other"), getResources()
-				.getDrawable(R.drawable.menu_tabbar_img), OtherFragment.class,
+				.getDrawable(R.drawable.more_tabbar_img), OtherFragment.class,
 				tabArgs, getString(R.string.other_tabbar_text));
 	}
 	

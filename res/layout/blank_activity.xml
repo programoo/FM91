@@ -24,14 +24,14 @@
         android:textSize="@dimen/fm_banner_size"
         android:textStyle="bold" />
 
-    <Button
+    <ImageButton
         android:id="@+id/emergency_btn"
-        android:layout_width="@dimen/header_btn_width"
-        android:layout_height="@dimen/header_btn_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:contentDescription="@string/hello_world"
         android:layout_alignParentRight="true"
-        android:background="@drawable/round_btn_bg"
-        android:onClick="emergencyBtnOnClick"
-        android:text="@string/emergency_btn_text"
-        android:textSize="@dimen/header_btn_text_size" />
+        android:src="@drawable/emergency_btn_img"
+        android:onClick="emergencyBtnOnClick" />
 
 </RelativeLayout>
