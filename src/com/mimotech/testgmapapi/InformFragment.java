@@ -26,7 +26,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,7 +60,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class InformFragment extends Fragment implements OnClickListener,
 		OnMarkerClickListener, OnInfoWindowClickListener, OnMapClickListener
@@ -119,24 +117,26 @@ public class InformFragment extends Fragment implements OnClickListener,
 			@Override
 			public void onClick(View v)
 			{
-				//post image
+				// post image
 				String params[] = new String[2];
 				params[0] = "http://203.185.131.171/CrimeMap/Json/upload.php";
 				params[1] = pathImgSelected;
 				new UploadImage().execute(params);
 				
-				//post data
+				// post data
 				String url = "http://203.185.131.171/CrimeMap/Json/inform.php?tel="
 						+ phoneNum
 						+ "&title="
 						+ titleTraffy
 						+ "&name="
 						+ userName
-						+ "&description="+descriptionEdt.getText().toString()
-						+ "&Lat="+latLngSelected.split(",")[0]
-						+"&Lng="+latLngSelected.split(",")[1]
-						+ "&image="+imgName;
-				Log.i(TAG,"sedding data: "+url);
+						+ "&description="
+						+ descriptionEdt.getText().toString()
+						+ "&Lat="
+						+ latLngSelected.split(",")[0]
+						+ "&Lng="
+						+ latLngSelected.split(",")[1] + "&image=" + imgName;
+				Log.i(TAG, "sedding data: " + url);
 				aq.ajax(url, String.class, new AjaxCallback<String>()
 				{
 					
@@ -158,34 +158,40 @@ public class InformFragment extends Fragment implements OnClickListener,
 		traffBtn.setOnClickListener(this);
 		traffBtn.setTag(getString(R.string.traffic_text));
 		
-		ImageButton accidentImgBtn = (ImageButton) v.findViewById(R.id.accidentImgBtn);
+		ImageButton accidentImgBtn = (ImageButton) v
+				.findViewById(R.id.accidentImgBtn);
 		accidentImgBtn.setOnClickListener(this);
 		accidentImgBtn.setTag(getString(R.string.accident_text));
 		
-		ImageButton crimeImgBtn = (ImageButton) v.findViewById(R.id.crimeImgBtn);
+		ImageButton crimeImgBtn = (ImageButton) v
+				.findViewById(R.id.crimeImgBtn);
 		crimeImgBtn.setOnClickListener(this);
 		crimeImgBtn.setTag(getString(R.string.crime_text));
 		
-		ImageButton transportImgBtn = (ImageButton) v.findViewById(R.id.transportImgBtn);
+		ImageButton transportImgBtn = (ImageButton) v
+				.findViewById(R.id.transportImgBtn);
 		transportImgBtn.setOnClickListener(this);
 		transportImgBtn.setTag(getString(R.string.transport_text));
 		
-		ImageButton powerShutdownImgBtn = (ImageButton) v.findViewById(R.id.powerShutdownImgBtn);
+		ImageButton powerShutdownImgBtn = (ImageButton) v
+				.findViewById(R.id.powerShutdownImgBtn);
 		powerShutdownImgBtn.setOnClickListener(this);
 		powerShutdownImgBtn.setTag(getString(R.string.powershutdown_text));
 		
-		ImageButton hydrantImgBtn = (ImageButton) v.findViewById(R.id.hydrantImgBtn);
+		ImageButton hydrantImgBtn = (ImageButton) v
+				.findViewById(R.id.hydrantImgBtn);
 		hydrantImgBtn.setOnClickListener(this);
 		hydrantImgBtn.setTag(getString(R.string.hydrant_text));
 		
-		ImageButton firealarmImgBtn = (ImageButton) v.findViewById(R.id.firealarmImgBtn);
+		ImageButton firealarmImgBtn = (ImageButton) v
+				.findViewById(R.id.firealarmImgBtn);
 		firealarmImgBtn.setOnClickListener(this);
 		firealarmImgBtn.setTag(getString(R.string.firealarm_text));
 		
-		ImageButton otherImgBtn = (ImageButton) v.findViewById(R.id.otherImgBtn);
+		ImageButton otherImgBtn = (ImageButton) v
+				.findViewById(R.id.otherImgBtn);
 		otherImgBtn.setOnClickListener(this);
 		otherImgBtn.setTag(getString(R.string.other_text));
-		
 		
 		descriptionEdt = (EditText) v.findViewById(R.id.informDetailEdt);
 		
@@ -282,8 +288,9 @@ public class InformFragment extends Fragment implements OnClickListener,
 		{
 			mMap.clear();
 			// calculate distance between user and event
-			double howFar = (int) (Info.getInstance().distance(accidentLatLng.latitude,
-					accidentLatLng.longitude, Info.lat, Info.lng, "K") * 100) / 100.0;
+			double howFar = (int) (Info.getInstance().distance(
+					accidentLatLng.latitude, accidentLatLng.longitude,
+					Info.lat, Info.lng, "K") * 100) / 100.0;
 			// news marker
 			String titileDetail = getString(R.string.farfromyou_msg) + ": "
 					+ howFar + " km";
@@ -523,17 +530,16 @@ public class InformFragment extends Fragment implements OnClickListener,
 	private void showChooser()
 	{
 		// Use the GET_CONTENT intent from the utility class
-		Intent target = FileUtils.createGetContentIntent();
+		/*Intent target = FileUtils.createGetContentIntent();
 		// Create the chooser Intent
 		Intent intent = Intent.createChooser(target,
 				getString(R.string.chooser_label));
-		try
-		{
-			startActivityForResult(intent, Info.RESULT_SELECTED_IMAGE);
-		} catch (ActivityNotFoundException e)
-		{
-			e.printStackTrace();
-		}
+		*/
+		
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, Info.RESULT_SELECTED_IMAGE);
 	}
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -561,15 +567,14 @@ public class InformFragment extends Fragment implements OnClickListener,
 			{
 				if (data != null)
 				{
-					final Uri uri = data.getData();
+					Uri uri = data.getData();
 					try
 					{
 						// Create a file instance from the URI
-						File file = FileUtils.getFile(uri);
-						
-						Log.i(TAG, "path: " + file.getAbsolutePath());
-						Log.i(TAG, "name: " + file.getName());
-						pathImgSelected = file.getAbsolutePath();
+						String url = Info.getInstance().getRealPathFromURI(getActivity(), uri);
+						File file = new File(url);
+						Log.i(TAG, "path: " + url);
+						pathImgSelected = url;
 						imgName = file.getName();
 						
 						Bitmap bitmapSelected = Info.decodeFile(file, 128);

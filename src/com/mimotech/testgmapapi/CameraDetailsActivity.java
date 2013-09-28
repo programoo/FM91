@@ -22,7 +22,8 @@ import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class CameraDetailsActivity extends SherlockFragmentActivity {
+public class CameraDetailsActivity extends SherlockFragmentActivity
+{
 	private String TAG = getClass().getSimpleName();
 	private ArrayList<Bitmap> bitMapList;
 	ImageView iv;
@@ -30,30 +31,32 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 	private boolean run = true;
 	private ToggleButton bookMarkImgBtn;
 	
+	@Override
+	public void onAttachFragment(Fragment fragment)
+	{
+		super.onAttachFragment(fragment);
+		
+	}
 	
 	@Override
-	public void onAttachFragment(Fragment fragment) {
-		super.onAttachFragment(fragment);
-
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.camera_fragment_detail);
-
+		
 		bitMapList = new ArrayList<Bitmap>();
-
+		
 		Intent intent = getIntent();
 		String[] imgList = intent.getStringExtra("imgList").split(",");
-		for (int i = 0; i < imgList.length; i++) {
+		for (int i = 0; i < imgList.length; i++)
+		{
 			new ImageLoader().downloadBitmapToList(imgList[i], bitMapList);
 			bitMapList.add(null);
 		}
 		String description = intent.getStringExtra("description");
 		iv = (ImageView) findViewById(R.id.cameraDetail);
-
+		
 		tv = (TextView) findViewById(R.id.cameraDescription);
 		tv.setText(description);
 		
@@ -64,91 +67,98 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 			@Override
 			public void onClick(View v)
 			{
-				Log.i(TAG,"booked it"+bookMarkImgBtn.isChecked());
+				Log.i(TAG, "booked it" + bookMarkImgBtn.isChecked());
 			}
 		});
 	}
-
+	
 	@Override
-	protected void onPause() {
+	protected void onPause()
+	{
 		super.onPause();
 	}
-
+	
 	@Override
-	protected void onStop() {
+	protected void onStop()
+	{
 		super.onStop();
 		Log.d(TAG, "onStop");
 		Log.i(TAG, "arr size: " + bitMapList.size());
 		run = false;
-
+		
 	}
-
+	
 	@Override
-	protected void onResume() {
+	protected void onResume()
+	{
 		super.onResume();
 		Log.d(TAG, "onResume");
-
+		
 	}
-
+	
 	@Override
-	public void onAttachedToWindow() {
+	public void onAttachedToWindow()
+	{
 		super.onAttachedToWindow();
 		Log.d(TAG, "onAttachedToWindow");
-
+		
 	}
-
+	
 	@Override
-	public View onCreateView(View parent, String name, Context context,
-			AttributeSet attrs) {
-		Log.d(TAG, "onCreateView");
-
-		return super.onCreateView(parent, name, context, attrs);
-	}
-
-	@Override
-	protected void onStart() {
+	protected void onStart()
+	{
 		super.onStart();
 		Log.d(TAG, "onStart");
-
+		
 		new Thread(new HelloRunnable()).start();
-
+		
 	}
-
-	Handler mHandler = new Handler() {
+	
+	Handler mHandler = new Handler()
+	{
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(Message msg)
+		{
 			String text = (String) msg.obj;
 			int index = Integer.parseInt(text) % 5;
-
-			if (bitMapList.size() >index && bitMapList.get(index) != null ) {
+			
+			if (bitMapList.size() > index && bitMapList.get(index) != null)
+			{
 				iv.setImageBitmap(bitMapList.get(index));
 			}
 		}
 	};
-
-	public void updateUIThread(String msgStr) {
+	
+	public void updateUIThread(String msgStr)
+	{
 		Message msg = new Message();
 		String textTochange = msgStr;
 		msg.obj = textTochange;
 		mHandler.sendMessage(msg);
 	}
-
-	private class HelloRunnable implements Runnable {
-
-		public void run() {
+	
+	private class HelloRunnable implements Runnable
+	{
+		
+		public void run()
+		{
 			int i = 1;
-			while (run) {
-				try {
+			while (run)
+			{
+				try
+				{
 					Thread.sleep(1000);
-				} catch (InterruptedException e) {
+				} catch (InterruptedException e)
+				{
 					e.printStackTrace();
 				}
 				updateUIThread(i + "");
 				i++;
 			}
 		}
-
+		
 	}
+	
 	public void emergencyBtnOnClick(View view)
 	{
 		Log.d(TAG, "emergencyBtnOnClick");
@@ -165,8 +175,7 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 		try
 		{
 			bufferedReader = new BufferedReader(new FileReader(new File(
-					getFilesDir() + File.separator
-							+ "camera.csv")));
+					getFilesDir() + File.separator + "camera.csv")));
 			String temp = "undefined";
 			
 			while ((temp = bufferedReader.readLine()) != null)
@@ -187,5 +196,4 @@ public class CameraDetailsActivity extends SherlockFragmentActivity {
 		
 	}
 	
-
 }

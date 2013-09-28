@@ -10,7 +10,6 @@ import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
 import org.brickred.socialauth.android.SocialAuthError;
 import org.brickred.socialauth.android.SocialAuthListener;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,7 +36,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class NewsDetailsActivity extends SherlockFragmentActivity implements
 		OnClickListener
@@ -61,7 +59,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.news_fragment_detail_activity);
 		
 		Log.d(tag, "onCreate1");
@@ -153,8 +151,9 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 			Log.i(tag, "Map not null");
 			
 			// calculate distance between user and event
-			double howFar = (int) (Info.getInstance().distance(accidentLatLng.latitude,
-					accidentLatLng.longitude, Info.lat, Info.lng, "K") * 100) / 100.0;
+			double howFar = (int) (Info.getInstance().distance(
+					accidentLatLng.latitude, accidentLatLng.longitude,
+					Info.lat, Info.lng, "K") * 100) / 100.0;
 			
 			if (accidentLatLng.latitude == 0 || accidentLatLng.longitude == 0)
 			{
@@ -192,18 +191,10 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 	
 	private void showChooser()
 	{
-		// Use the GET_CONTENT intent from the utility class
-		Intent target = FileUtils.createGetContentIntent();
-		// Create the chooser Intent
-		Intent intent = Intent.createChooser(target,
-				getString(R.string.chooser_label));
-		try
-		{
-			startActivityForResult(intent, REQUEST_CODE);
-		} catch (ActivityNotFoundException e)
-		{
-			e.printStackTrace();
-		}
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, REQUEST_CODE);
 	}
 	
 	@Override
@@ -217,15 +208,13 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 				{
 					if (data != null)
 					{
-						// Get the URI of the selected file
-						final Uri uri = data.getData();
-						
+						Uri uri = data.getData();
 						try
 						{
-							// Create a file instance from the URI
-							File file = FileUtils.getFile(uri);
+							File file = new File(uri.toString());
 							Log.i(tag, "path: " + file.getAbsolutePath());
-							pathImgSelected = file.getAbsolutePath();
+							pathImgSelected = Info.getInstance()
+									.getRealPathFromURI(this, uri);
 							bitmapSelected = decodeFile(file);
 							uploadIv.setImageBitmap(bitmapSelected);
 						} catch (Exception e)
@@ -399,7 +388,6 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements
 		}
 		
 	}
-	
 	
 	public void emergencyBtnOnClick(View view)
 	{

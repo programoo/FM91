@@ -26,7 +26,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
-import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class InsertProfileActivity extends Activity implements OnClickListener
 {
@@ -56,23 +55,13 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 		
 		Button saveProfileBtn = (Button) findViewById(R.id.saveProfileBtn);
 		saveProfileBtn.setOnClickListener(this);
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		getMenuInflater().inflate(R.menu.insert_profile, menu);
-		return true;
-	}
-	
-	@Override
-	protected void onStart()
-	{
-		super.onStart();
+		
+		// read old image
 		// read profile if can for showing only
 		String temProfile = readProfiles();
 		if (!temProfile.equalsIgnoreCase("undefined"))
 		{
+			Log.i(TAG, "on start");
 			Log.i(TAG, temProfile);
 			aq = new AQuery(this);
 			
@@ -81,6 +70,14 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 			usernameEdt.setText(temProfile.split(",")[1]);
 			userPhoneNumberEdt.setText(temProfile.split(",")[2]);
 		}
+		
+	}
+	
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		
 	}
 	
 	public void writeProfile(String imgUrl, String name, String phoneNumber)
@@ -102,18 +99,11 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 	
 	private void showChooser()
 	{
-		// Use the GET_CONTENT intent from the utility class
-		Intent target = FileUtils.createGetContentIntent();
-		// Create the chooser Intent
-		Intent intent = Intent.createChooser(target,
-				getString(R.string.chooser_label));
-		try
-		{
-			startActivityForResult(intent, REQUEST_CODE);
-		} catch (ActivityNotFoundException e)
-		{
-			e.printStackTrace();
-		}
+		
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, REQUEST_CODE);
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -127,16 +117,19 @@ public class InsertProfileActivity extends Activity implements OnClickListener
 					if (data != null)
 					{
 						// Get the URI of the selected file
-						final Uri uri = data.getData();
+						Uri uri = data.getData();
 						
 						try
 						{
 							// Create a file instance from the URI
-							File file = FileUtils.getFile(uri);
+							File file = new File(Info.getInstance()
+									.getRealPathFromURI(this, uri));
 							Log.i(TAG, "path: " + file.getAbsolutePath());
 							pathImgSelected = file.getAbsolutePath();
 							bitmapSelected = decodeFile(file);
 							imgBtn.setImageBitmap(bitmapSelected);
+							// select file complete
+							Log.i(TAG, "image selected");
 						} catch (Exception e)
 						{
 							Log.e("FileSelectorTestActivity",
