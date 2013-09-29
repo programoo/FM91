@@ -32,7 +32,7 @@
             android:id="@+id/bookmarkBookMarkImgBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/shareCctvImgBtn"
             android:background="@null"
             android:button="@drawable/toggle_bookmark_btn"
             android:focusable="false"
@@ -52,16 +52,40 @@
             android:id="@+id/cameraDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@+id/news_headline_text" />
+            android:text="@string/news_headline_text" />
+
+        <TextView
+            android:id="@+id/supporterCameraTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cameraDescription"
+            android:text="@string/hello_world" />
+
+        <TextView
+            android:id="@+id/timeCameraTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/supporterCameraTv"
+            android:text="@string/hello_world" />
 
         <ImageView
             android:id="@+id/cameraDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cameraDescription"
+            android:layout_below="@+id/timeCameraTv"
             android:layout_centerHorizontal="true"
             android:layout_margin="0dp"
             android:contentDescription="@string/default_img_describer" />
+        <Button
+            android:id="@+id/closeCameraBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/cameraDetail"
+            android:text="@string/close_text"></Button>
+        
+        
     </RelativeLayout>
 
 </RelativeLayout>

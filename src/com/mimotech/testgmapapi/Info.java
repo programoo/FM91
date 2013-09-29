@@ -23,7 +23,7 @@ public class Info {
 	public static double lat = 13.724714;
 	public static double lng = 100.633111;
 	public static String reverseGpsName="";
-	public static ArrayList<Camera> camList;
+	public ArrayList<Camera> camList;
 	public static final int RESULT_OK = 500;
 	public static final int RESULT_CANCELED = 501;
 	public static final int RESULT_SELECTED_IMAGE = 502;
@@ -62,30 +62,23 @@ public class Info {
 		return (dist);
 	}
 
-	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
-	/* :: This function converts decimal degrees to radians : */
-	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
 	private double deg2rad(double deg) {
 		return (deg * Math.PI / 180.0);
 	}
 
-	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
-	/* :: This function converts radians to decimal degrees : */
-	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
 	private double rad2deg(double rad) {
 		return (rad * 180.0 / Math.PI);
 	}
 
-	public static Camera getCamById(String id) {
-		for (int i = 0; i < Info.camList.size(); i++) {
-			if (Info.camList.get(i).id.equalsIgnoreCase(id)) {
-				return Info.camList.get(i);
+	public Camera getCamById(String id) {
+		for (int i = 0; i < Info.getInstance().camList.size(); i++) {
+			if (Info.getInstance().camList.get(i).id.equalsIgnoreCase(id)) {
+				return Info.getInstance().camList.get(i);
 			}
 		}
 		return null;
 	}
 
-	
 	public static Bitmap decodeFile(File f,int requireSize)
 	{
 		try
@@ -129,7 +122,6 @@ public class Info {
 		{
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public String readProfiles(Context ctx,String fileName)
@@ -171,8 +163,14 @@ public class Info {
 		cursor.moveToFirst();
 		return cursor.getString(column_index);
 	}
-	
-	
-	
+
+	public void sortCamByBookmark(){
+		//bubble sort
+		for(int i=0;i<Info.getInstance().camList.size();i++){
+			
+			
+		}
+		
+	}
 	
 }

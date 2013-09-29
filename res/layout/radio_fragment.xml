@@ -4,56 +4,53 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyleLarge"
+    <ImageView
+        android:id="@+id/radioBannerIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="104dp" />
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/radio_banner_img" />
+
+    <ToggleButton
+        android:id="@+id/playRadioTg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radioBannerIv"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:button="@drawable/toggle_playradio_btn"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textOff=""
+        android:textOn="" >
+    </ToggleButton>
 
     <SeekBar
         android:id="@+id/seekBar1"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/progressBar1"
-        android:layout_below="@+id/progressBar1"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="35dp" />
+        android:layout_below="@+id/playRadioTg"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
-        android:id="@+id/imageButton1"
+        android:id="@+id/minSoundImgBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/seekBar1"
-        android:layout_marginLeft="30dp"
-        android:layout_toRightOf="@+id/progressBar1"/>
+        android:layout_below="@+id/playRadioTg"
+        android:layout_toLeftOf="@+id/seekBar1"
+        android:background="@null"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/min_sound_img" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/maxSoundImgBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/seekBar1"
-        android:layout_marginRight="14dp"
-        android:layout_toLeftOf="@+id/seekBar1"/>
-
-    <Button
-        android:id="@+id/buttonStopPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButton1"
-        android:layout_marginTop="14dp"
-        android:layout_toRightOf="@+id/buttonPlay"
-        android:text="stop" />
-
-    <Button
-        android:id="@+id/buttonPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonStopPlay"
-        android:layout_alignBottom="@+id/buttonStopPlay"
-        android:layout_toLeftOf="@+id/imageButton1"
-        android:text="play" />
+        android:layout_below="@+id/playRadioTg"
+        android:layout_toRightOf="@+id/seekBar1"
+        android:background="@null"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/max_sound_img" />
 
 </RelativeLayout>

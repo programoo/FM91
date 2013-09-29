@@ -16,6 +16,7 @@ public class Camera {
 	public String imgList;
 	// handle graphic logic
 	public Bitmap imgBmp;
+	public boolean isBookmark=false;
 
 	public Camera(String id, String englishName, String thaiName, String lat,
 			String lng, String updateStatus, String imgUrl, String lastUpdate,
@@ -31,7 +32,6 @@ public class Camera {
 		this.description = describe;
 		this.source = source;
 		this.imgList = imgList;
-
 		this.imgBmp = null;
 	}
 

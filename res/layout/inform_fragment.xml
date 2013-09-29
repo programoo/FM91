@@ -2,17 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/informMainLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" >
 
         <RelativeLayout
             android:id="@+id/row1DashboardInform"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" >
 
             <ImageButton
                 android:id="@+id/trafficImgBtn"

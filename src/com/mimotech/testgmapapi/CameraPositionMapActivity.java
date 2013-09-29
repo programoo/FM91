@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,7 +30,7 @@ public class CameraPositionMapActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.camera_position_activity);
 
-		camList = Info.camList;
+		camList = Info.getInstance().camList;
 		camListFilter = Info.getInstance().camList;// new ArrayList<Camera>();
 		markerList = new ArrayList<Marker>();
 		Log.d(TAG, "onCreate");
@@ -159,14 +158,14 @@ public class CameraPositionMapActivity extends FragmentActivity implements
 	public void onInfoWindowClick(Marker marker) {
 		// TODO Auto-generated method stub
 		Log.i(TAG, marker.getTitle() + marker.getSnippet());
-		Camera cam = Info.getCamById(marker.getTitle().split("[:]")[0]);
+		Camera cam = Info.getInstance().getCamById(marker.getTitle().split("[:]")[0]);
 		Intent cameraDetail = new Intent(CameraPositionMapActivity.this,
 				CameraDetailsActivity.class);
 		// in case of user point
 		try {
 			cameraDetail.putExtra("description", cam.thaiName + ","
 					+ cam.englishName);
-			cameraDetail.putExtra("cameraId", cam.id);
+			cameraDetail.putExtra("id", cam.id);
 			cameraDetail.putExtra("imgList", cam.imgList);
 			startActivity(cameraDetail);
 		} catch (NullPointerException e) {
