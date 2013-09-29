@@ -28,8 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/seekBar1"
         android:layout_marginLeft="30dp"
-        android:layout_toRightOf="@+id/progressBar1"
-        android:src="@drawable/common_signin_btn_icon_dark" />
+        android:layout_toRightOf="@+id/progressBar1"/>
 
     <ImageButton
         android:id="@+id/imageButton2"
@@ -37,8 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/seekBar1"
         android:layout_marginRight="14dp"
-        android:layout_toLeftOf="@+id/seekBar1"
-        android:src="@drawable/abs__ic_clear" />
+        android:layout_toLeftOf="@+id/seekBar1"/>
 
     <Button
         android:id="@+id/buttonStopPlay"

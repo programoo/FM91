@@ -5,14 +5,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.AttributeSet;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,9 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
-public class CameraDetailsActivity extends SherlockFragmentActivity
+public class CameraDetailsActivity extends FragmentActivity
 {
 	private String TAG = getClass().getSimpleName();
 	private ArrayList<Bitmap> bitMapList;

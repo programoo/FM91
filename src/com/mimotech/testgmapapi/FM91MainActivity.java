@@ -2,6 +2,7 @@ package com.mimotech.testgmapapi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -10,16 +11,14 @@ import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.androidquery.util.AQUtility;
-
-public class FM91MainActivity extends SherlockFragmentActivity
+public class FM91MainActivity extends FragmentActivity
 {
 	String tag = getClass().getSimpleName();
 	private ViewPager mViewPager;
 	private TabHost mTabHost;
 	private int badgeCount = 0;
-	
+	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -36,7 +35,7 @@ public class FM91MainActivity extends SherlockFragmentActivity
 		
 		TabsAdapter mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
 		mTabHost.clearAllTabs();
-		
+							
 		Bundle tabArgs = null;
 		
 		tabArgs = new Bundle();
